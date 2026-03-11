@@ -11,7 +11,7 @@
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
-        <h2 style="color: #ff8c00;">PS STORE</h2>
+        <h2 style="color: #ff8c00; font-size: 2rem;">PS STORE</h2>
         <ul>
             <li onclick="scrollToCat('vetements')">Vêtements</li>
             <li onclick="scrollToCat('sous-vetements')">Sous-vêtements</li>
@@ -22,33 +22,37 @@
 
     <nav>
         <div class="nav-left">
-            <button class="menu-toggle" onclick="toggleMenu()"><i data-lucide="menu"></i></button>
-            <h1 class="logo">PS STORE <span style="font-size: 0.8rem; color: #555;">ONLINE</span></h1>
+            <!-- BOUTON MENU AGRANDI -->
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i data-lucide="menu" style="width: 35px; height: 35px;"></i>
+            </button>
+            <h1 class="logo">PS STORE <span class="sub-logo">ONLINE</span></h1>
         </div>
 
         <div class="search-container">
             <i data-lucide="search" class="search-icon"></i>
-            <input type="text" placeholder="Rechercher dans PS Store..." id="searchInput">
+            <input type="text" placeholder="Rechercher un article..." id="searchInput">
         </div>
 
-        <div class="cart-container" onclick="window.location.href='panier.html'">
-            <i data-lucide="shopping-bag"></i>
-            <span id="cart-badge">0</span>
+        <!-- BOUTON PANIER BIEN VISIBLE -->
+        <div class="cart-wrapper" onclick="window.location.href='panier.html'">
+            <div class="cart-icon-box">
+                <i data-lucide="shopping-cart" style="width: 30px; height: 30px;"></i>
+                <span id="cart-badge">0</span>
+            </div>
+            <span class="cart-text">Mon Panier</span>
         </div>
     </nav>
 
-    <div id="shop-content">
-        <!-- Les 150 espaces par catégorie seront générés ici -->
-    </div>
+    <div id="shop-content"></div>
 
     <script>
-        // --- CONFIGURATION DES PRIX ET PRODUITS ---
-        // Tu peux modifier les prix ici. Les IDs 1 à 150 = Vêtements, 151 à 300 = Sous-vêtements, etc.
+        // CONFIGURATION PRIX (Exemple pour les premiers articles)
         const configProduits = [
-            { id: 1, name: "Article Vêtement 1", price: "45.000", cat: "vetements", catLabel: "Vêtements" },
-            { id: 151, name: "Article Sous-vêtement 1", price: "15.000", cat: "sous-vetements", catLabel: "Sous-vêtements" },
-            { id: 301, name: "Article Chaussure 1", price: "85.000", cat: "chaussures", catLabel: "Chaussures" },
-            { id: 451, name: "Article Électronique 1", price: "1.200.000", cat: "electronique", catLabel: "Appareils Électroniques" }
+            { id: 1, name: "Chemise Luxe", price: "75.000" },
+            { id: 151, name: "Boxer Premium", price: "25.000" },
+            { id: 301, name: "Baskets Sport", price: "150.000" },
+            { id: 451, name: "Smart TV 4K", price: "4.500.000" }
         ];
 
         let panier = JSON.parse(localStorage.getItem('panier')) || [];
@@ -78,36 +82,26 @@
                 section.className = 'category-row';
                 section.id = cat.id;
 
-                let html = `
-                    <div class="row-header">
-                        <h2>${cat.label}</h2>
-                        <button class="btn-view-all">Voir les 150 articles</button>
-                    </div>
-                    <div class="product-scroll">`;
+                let html = `<div class="row-header"><h2>${cat.label}</h2><button class="btn-view-all">Voir les 150 articles</button></div><div class="product-scroll">`;
 
-                // Génération des 150 espaces
                 for(let i = 0; i < 150; i++) {
                     let currentId = cat.start + i;
-                    // Cherche si on a un prix spécifique, sinon prix par défaut
-                    let info = configProduits.find(p => p.id === currentId) || { name: `Produit #${currentId}`, price: "0" };
+                    let info = configProduits.find(p => p.id === currentId) || { name: `Article #${currentId}`, price: "0" };
                     
                     html += `
                         <div class="card">
-                            <div class="img-placeholder">
-                                <span style="font-size:10px; color:#aaa;">ESPACE IMAGE #${currentId}</span>
-                            </div>
+                            <div class="img-placeholder">ESPACE IMAGE #${currentId}</div>
                             <div class="info">
                                 <h3>${info.name}</h3>
                                 <p class="price">${info.price} GNF</p>
                                 <div class="btn-grid">
-                                    <button class="btn-secondary">Afficher</button>
-                                    <button class="btn-secondary">Couleur</button>
-                                    <button class="btn-main" onclick="ajouterAuPanier('${info.name}', '${info.price}')">Ajouter</button>
+                                    <button class="btn-secondary">Détails</button>
+                                    <button class="btn-secondary">Couleurs</button>
+                                    <button class="btn-main" onclick="ajouterAuPanier('${info.name}', '${info.price}')">Ajouter au panier</button>
                                 </div>
                             </div>
                         </div>`;
                 }
-
                 html += `</div>`;
                 section.innerHTML = html;
                 container.appendChild(section);
@@ -120,7 +114,9 @@
             panier.push({ name: nom, price: prix });
             localStorage.setItem('panier', JSON.stringify(panier));
             updateBadge();
-            alert(nom + " ajouté au panier !");
+            const b = document.getElementById('cart-badge');
+            b.style.transform = "scale(1.5)";
+            setTimeout(() => b.style.transform = "scale(1)", 300);
         }
 
         function updateBadge() {
