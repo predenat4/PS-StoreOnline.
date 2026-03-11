@@ -348,6 +348,32 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      scroll-behavior: smooth;
+      position: relative;
+    }
+    
+    /* Custom Scrollbar for Modal */
+    .modal-content::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    .modal-content::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    
+    .modal-content::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent-orange) 0%, var(--accent-purple) 100%);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, var(--accent-orange) 0%, var(--accent-blue) 100%);
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
     }
     
     .modal-overlay.active .modal-content {
@@ -614,6 +640,51 @@
       border-color: var(--danger-red);
     }
     
+    /* Category Section */
+    .category-section {
+      margin-bottom: 60px;
+    }
+    
+    .category-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    
+    .horizontal-scroll {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .horizontal-scroll::-webkit-scrollbar-thumb {
+      background: var(--accent-orange);
+      border-radius: 3px;
+    }
+    
+    .horizontal-scroll > .product-card {
+      flex: 0 0 260px;
+      scroll-snap-align: start;
+      min-width: 260px;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .category-btn {
@@ -693,9 +764,8 @@
     </div>
    </header><!-- Main Content -->
    <main class="max-w-7xl mx-auto px-4 py-8">
-    <!-- Products Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid">
-     <!-- Products will be rendered here -->
+    <div id="categories-container">
+     <!-- Category sections will be rendered here -->
     </div><!-- Empty State -->
     <div class="empty-state hidden" id="empty-state">
      <div class="text-6xl mb-4">
@@ -760,7 +830,7 @@
         emoji: '📱',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#4a4a5a', '#ffd700'],
-        stock: 15,
+        stock: 20,
         description: 'Le smartphone le plus avancé avec puce A17 Pro, appareil photo 48MP et design en titane premium.'
       },
       {
@@ -770,7 +840,7 @@
         emoji: '💻',
         category: 'electronics',
         colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
-        stock: 8,
+        stock: 20,
         description: 'Ultraportable puissant avec puce M3, écran Liquid Retina 13.6" et jusqu\'à 18h d\'autonomie.'
       },
       {
@@ -780,7 +850,7 @@
         emoji: '🎧',
         category: 'electronics',
         colors: ['#f5f5f7'],
-        stock: 25,
+        stock: 20,
         description: 'Audio spatial personnalisé, réduction active du bruit et mode Transparence adaptative.'
       },
       {
@@ -790,7 +860,7 @@
         emoji: '👟',
         category: 'fashion',
         colors: ['#ffffff', '#000000', '#ff0000', '#00ff00'],
-        stock: 42,
+        stock: 20,
         description: 'Confort ultime avec la technologie Air Max visible. Style urbain iconique.'
       },
       {
@@ -800,7 +870,7 @@
         emoji: '⌚',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
-        stock: 18,
+        stock: 20,
         description: 'Suivi santé avancé, GPS intégré, écran AMOLED et résistance à l\'eau 50m.'
       },
       {
@@ -810,7 +880,7 @@
         emoji: '🎒',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#4a5568'],
-        stock: 35,
+        stock: 20,
         description: 'Design ergonomique avec compartiment laptop 15", ports USB et matériaux imperméables.'
       },
       {
@@ -820,7 +890,7 @@
         emoji: '💡',
         category: 'home',
         colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
-        stock: 50,
+        stock: 20,
         description: 'Éclairage intelligent avec contrôle tactile, 3 modes de luminosité et design minimaliste.'
       },
       {
@@ -830,7 +900,7 @@
         emoji: '⚽',
         category: 'sports',
         colors: ['#ffffff', '#ff6b35', '#1a1a2e'],
-        stock: 60,
+        stock: 20,
         description: 'Ballon officiel taille 5, couture thermosoudée et revêtement anti-abrasion.'
       },
       {
@@ -840,7 +910,7 @@
         emoji: '🌸',
         category: 'beauty',
         colors: ['#ffc0cb', '#ff69b4', '#daa520'],
-        stock: 28,
+        stock: 20,
         description: 'Fragrance florale-boisée longue durée. Notes de rose, jasmin et bois de santal.'
       },
       {
@@ -850,7 +920,7 @@
         emoji: '🧘',
         category: 'sports',
         colors: ['#7c3aed', '#22c55e', '#3b82f6', '#ec4899'],
-        stock: 45,
+        stock: 20,
         description: 'Mousse haute densité 6mm, surface antidérapante et sangle de transport incluse.'
       },
       {
@@ -860,7 +930,7 @@
         emoji: '🔊',
         category: 'electronics',
         colors: ['#1a1a2e', '#ff6b35', '#3b82f6'],
-        stock: 32,
+        stock: 20,
         description: 'Son 360° puissant, 20h d\'autonomie, étanche IPX7 et appairage stéréo.'
       },
       {
@@ -870,7 +940,7 @@
         emoji: '🕶️',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#daa520'],
-        stock: 22,
+        stock: 20,
         description: 'Protection UV400, verres polarisés et monture légère en acétate italien.'
       }
     ];
@@ -942,31 +1012,93 @@
       return `${price.toLocaleString('fr-FR')} ${currency}`;
     }
     
-    function getFilteredProducts() {
-      return products.filter(product => {
-        const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
-        const matchesSearch = searchQuery === '' || 
-          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          product.description.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-      });
-    }
-    
     function renderProducts() {
-      const grid = document.getElementById('products-grid');
+      const container = document.getElementById('categories-container');
       const emptyState = document.getElementById('empty-state');
-      const filtered = getFilteredProducts();
       
-      if (filtered.length === 0) {
-        grid.classList.add('hidden');
-        emptyState.classList.remove('hidden');
+      // Get all unique categories (excluding 'all')
+      const uniqueCategories = ['electronics', 'fashion', 'home', 'sports', 'beauty'];
+      
+      // Filter products based on search query
+      const getFilteredBySearch = (prods) => {
+        if (searchQuery === '') return prods;
+        return prods.filter(p => 
+          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      };
+      
+      // If searching, show only matching products in a single section
+      if (searchQuery !== '') {
+        const filtered = getFilteredBySearch(products);
+        
+        if (filtered.length === 0) {
+          container.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+        }
+        
+        emptyState.classList.add('hidden');
+        container.innerHTML = `
+          <div class="category-section">
+            <h2 class="category-title">Résultats de recherche (${filtered.length})</h2>
+            <div class="horizontal-scroll">
+              ${filtered.map(product => createProductCardHTML(product)).join('')}
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
         return;
       }
       
-      grid.classList.remove('hidden');
+      // If category selected, show only that category
+      if (currentCategory !== 'all') {
+        const filtered = products.filter(p => p.category === currentCategory);
+        
+        if (filtered.length === 0) {
+          container.innerHTML = '';
+          emptyState.classList.remove('hidden');
+          return;
+        }
+        
+        emptyState.classList.add('hidden');
+        const categoryLabel = getCategoryLabel(currentCategory);
+        container.innerHTML = `
+          <div class="category-section">
+            <h2 class="category-title">${categoryLabel}</h2>
+            <div class="horizontal-scroll">
+              ${filtered.map(product => createProductCardHTML(product)).join('')}
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+      
+      // Normal view: show all categories with horizontal scroll
       emptyState.classList.add('hidden');
       
-      grid.innerHTML = filtered.map(product => `
+      container.innerHTML = uniqueCategories.map(category => {
+        const categoryProducts = products.filter(p => p.category === category);
+        if (categoryProducts.length === 0) return '';
+        
+        const categoryLabel = getCategoryLabel(category);
+        
+        return `
+          <div class="category-section">
+            <h2 class="category-title">${categoryLabel}</h2>
+            <div class="horizontal-scroll">
+              ${categoryProducts.map(product => createProductCardHTML(product)).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      lucide.createIcons();
+    }
+    
+    function createProductCardHTML(product) {
+      return `
         <div class="product-card" data-id="${product.id}">
           <div class="product-image">
             <span class="product-emoji">${product.emoji}</span>
@@ -990,9 +1122,18 @@
             </div>
           </div>
         </div>
-      `).join('');
-      
-      lucide.createIcons();
+      `;
+    }
+    
+    function getCategoryLabel(category) {
+      const labels = {
+        'electronics': '📱 Électronique',
+        'fashion': '👗 Mode',
+        'home': '🏠 Maison',
+        'sports': '⚽ Sports',
+        'beauty': '💄 Beauté'
+      };
+      return labels[category] || category;
     }
     
     function renderCart() {
@@ -1183,12 +1324,24 @@
       
       const color = product.colors[0];
       
+      // Verify stock is available
+      if (product.stock < 1) {
+        showToast('Stock insuffisant', 'error');
+        return;
+      }
+      
       // Check if item already exists in cart
       const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
       
       if (existingItem) {
-        // Increment quantity
-        existingItem.quantity += 1;
+        // Check if we can add more
+        if (product.stock > 0) {
+          existingItem.quantity += 1;
+          product.stock -= 1;
+        } else {
+          showToast('Stock insuffisant pour cette quantité', 'error');
+          return;
+        }
       } else {
         // Add new item
         cartItems.push({
@@ -1200,8 +1353,10 @@
           added_at: new Date().toISOString(),
           __backendId: 'local-' + Date.now() + Math.random()
         });
+        product.stock -= 1;
       }
       
+      renderProducts();
       renderCart();
       updateCartBadge();
       showToast('Produit ajouté au panier!', 'success');
@@ -1220,6 +1375,12 @@
       const color = selectedColor ? selectedColor.dataset.color : product.colors[0];
       const qty = parseInt(document.getElementById('modal-qty').textContent);
       
+      // Check if stock is available for requested quantity
+      if (product.stock < qty) {
+        showToast(`Stock insuffisant! ${product.stock} article(s) disponible(s)`, 'error');
+        return;
+      }
+      
       const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
       
       if (existingItem) {
@@ -1236,6 +1397,10 @@
         });
       }
       
+      // Update stock
+      product.stock -= qty;
+      
+      renderProducts();
       renderCart();
       updateCartBadge();
       showToast(`${qty}x ${product.name} ajouté!`, 'success');
@@ -1243,7 +1408,17 @@
     }
     
     async function removeFromCart(backendId) {
+      const item = cartItems.find(i => i.__backendId === backendId);
+      if (!item) return;
+      
+      const product = products.find(p => p.id === item.product_id);
+      if (product) {
+        // Return stock to inventory
+        product.stock += item.quantity;
+      }
+      
       cartItems = cartItems.filter(i => i.__backendId !== backendId);
+      renderProducts();
       renderCart();
       updateCartBadge();
       showToast('Article retiré du panier', 'success');
@@ -1253,8 +1428,14 @@
       const item = cartItems.find(i => i.__backendId === backendId);
       if (!item) return;
       
+      const product = products.find(p => p.id === item.product_id);
+      
       if (item.quantity > 1) {
         item.quantity -= 1;
+        if (product) {
+          product.stock += 1;
+        }
+        renderProducts();
         renderCart();
         updateCartBadge();
         showToast('Quantité mise à jour', 'success');
@@ -1266,7 +1447,16 @@
     async function clearCart() {
       if (cartItems.length === 0) return;
       
+      // Return all items to stock
+      cartItems.forEach(item => {
+        const product = products.find(p => p.id === item.product_id);
+        if (product) {
+          product.stock += item.quantity;
+        }
+      });
+      
       cartItems = [];
+      renderProducts();
       renderCart();
       updateCartBadge();
       showToast('Panier vidé avec succès', 'success');
@@ -1461,5 +1651,5 @@
     // Start the app
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dab8ebbf64e5eab',t:'MTc3MzI0MjU3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dac5435f0235c71',t:'MTc3MzI1MDY2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
