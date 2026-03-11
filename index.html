@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS Store Online - Boutique Officielle</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com"></script>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <h2 style="color: #ff8c00;">PS STORE</h2>
+        <ul>
+            <li onclick="scrollToCat('vetements')">Vêtements</li>
+            <li onclick="scrollToCat('sous-vetements')">Sous-vêtements</li>
+            <li onclick="scrollToCat('chaussures')">Chaussures</li>
+            <li onclick="scrollToCat('electronique')">Appareils Électroniques</li>
+        </ul>
+    </div>
+
+    <nav>
+        <div class="nav-left">
+            <button class="menu-toggle" onclick="toggleMenu()"><i data-lucide="menu"></i></button>
+            <h1 class="logo">PS STORE <span style="font-size: 0.8rem; color: #555;">ONLINE</span></h1>
+        </div>
+
+        <div class="search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" placeholder="Rechercher dans PS Store..." id="searchInput">
+        </div>
+
+        <div class="cart-container" onclick="window.location.href='panier.html'">
+            <i data-lucide="shopping-bag"></i>
+            <span id="cart-badge">0</span>
+        </div>
+    </nav>
+
+    <div id="shop-content">
+        <!-- Les 150 espaces par catégorie seront générés ici -->
+    </div>
+
+    <script>
+        // --- CONFIGURATION DES PRIX ET PRODUITS ---
+        // Tu peux modifier les prix ici. Les IDs 1 à 150 = Vêtements, 151 à 300 = Sous-vêtements, etc.
+        const configProduits = [
+            { id: 1, name: "Article Vêtement 1", price: "45.000", cat: "vetements", catLabel: "Vêtements" },
+            { id: 151, name: "Article Sous-vêtement 1", price: "15.000", cat: "sous-vetements", catLabel: "Sous-vêtements" },
+            { id: 301, name: "Article Chaussure 1", price: "85.000", cat: "chaussures", catLabel: "Chaussures" },
+            { id: 451, name: "Article Électronique 1", price: "1.200.000", cat: "electronique", catLabel: "Appareils Électroniques" }
+        ];
+
+        let panier = JSON.parse(localStorage.getItem('panier')) || [];
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function scrollToCat(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            toggleMenu();
+        }
+
+        function initShop() {
+            const categories = [
+                { id: "vetements", label: "Vêtements", start: 1 },
+                { id: "sous-vetements", label: "Sous-vêtements", start: 151 },
+                { id: "chaussures", label: "Chaussures", start: 301 },
+                { id: "electronique", label: "Appareils Électroniques", start: 451 }
+            ];
+
+            const container = document.getElementById('shop-content');
+            
+            categories.forEach(cat => {
+                let section = document.createElement('section');
+                section.className = 'category-row';
+                section.id = cat.id;
+
+                let html = `
+                    <div class="row-header">
+                        <h2>${cat.label}</h2>
+                        <button class="btn-view-all">Voir les 150 articles</button>
+                    </div>
+                    <div class="product-scroll">`;
+
+                // Génération des 150 espaces
+                for(let i = 0; i < 150; i++) {
+                    let currentId = cat.start + i;
+                    // Cherche si on a un prix spécifique, sinon prix par défaut
+                    let info = configProduits.find(p => p.id === currentId) || { name: `Produit #${currentId}`, price: "0" };
+                    
+                    html += `
+                        <div class="card">
+                            <div class="img-placeholder">
+                                <span style="font-size:10px; color:#aaa;">ESPACE IMAGE #${currentId}</span>
+                            </div>
+                            <div class="info">
+                                <h3>${info.name}</h3>
+                                <p class="price">${info.price} GNF</p>
+                                <div class="btn-grid">
+                                    <button class="btn-secondary">Afficher</button>
+                                    <button class="btn-secondary">Couleur</button>
+                                    <button class="btn-main" onclick="ajouterAuPanier('${info.name}', '${info.price}')">Ajouter</button>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+
+                html += `</div>`;
+                section.innerHTML = html;
+                container.appendChild(section);
+            });
+            lucide.createIcons();
+            updateBadge();
+        }
+
+        function ajouterAuPanier(nom, prix) {
+            panier.push({ name: nom, price: prix });
+            localStorage.setItem('panier', JSON.stringify(panier));
+            updateBadge();
+            alert(nom + " ajouté au panier !");
+        }
+
+        function updateBadge() {
+            document.getElementById('cart-badge').innerText = panier.length;
+        }
+
+        window.onload = initShop;
+    </script>
+</body>
+</html>

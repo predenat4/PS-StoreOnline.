@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Panier - PS Store Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 50px 5%; max-width: 700px; margin: auto;">
+        <h1 style="color: var(--primary);">Mon Panier PS Store</h1>
+        <div id="cart-list"></div>
+        
+        <div id="total-section" style="display:none; margin-top:40px; text-align:right;">
+            <h2 style="font-size: 2rem;">Total : <span id="total-price">0</span> GNF</h2>
+            <button class="btn-main" onclick="envoyerCommande()" style="width: 100%; padding: 20px; font-size: 1.2rem; margin-top:20px;">
+                CONFIRMER LA COMMANDE SUR WHATSAPP
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let panier = JSON.parse(localStorage.getItem('panier')) || [];
+        
+        function displayCart() {
+            const list = document.getElementById('cart-list');
+            let total = 0;
+            list.innerHTML = "";
+
+            if(panier.length > 0) {
+                document.getElementById('total-section').style.display = "block";
+                panier.forEach((item, i) => {
+                    total += parseInt(item.price.replace(".", ""));
+                    list.innerHTML += `
+                        <div style="display:flex; justify-content:space-between; padding:20px; background:#fff9f2; border-radius:20px; margin-bottom:15px;">
+                            <span>${item.name}</span>
+                            <strong>${item.price} GNF</strong>
+                            <button onclick="remove(${i})" style="color:red; background:none; border:none; cursor:pointer;">X</button>
+                        </div>`;
+                });
+                document.getElementById('total-price').innerText = total.toLocaleString();
+            }
+        }
+
+        function remove(i) {
+            panier.splice(i, 1);
+            localStorage.setItem('panier', JSON.stringify(panier));
+            displayCart();
+        }
+
+        function envoyerCommande() {
+            const num = "224XXXXXXXXX"; // TON NUMÉRO ICI
+            let msg = "*COMMANDE PS STORE ONLINE*%0A%0A";
+            panier.forEach(p => msg += `- ${p.name} : ${p.price} GNF%0A`);
+            msg += `%0A*TOTAL : ${document.getElementById('total-price').innerText} GNF*`;
+            window.open(`https://wa.me{num}?text=${msg}`, '_blank');
+        }
+
+        displayCart();
+    </script>
+</body>
+</html>
