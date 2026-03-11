@@ -7,7 +7,6 @@
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
     
@@ -648,41 +647,55 @@
     }
   </style>
   <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
-  <div class="app-wrapper"><!-- Header -->
+  <div class="app-wrapper">
+   <!-- Header -->
    <header class="header-fixed">
-    <div class="max-w-7xl mx-auto px-4 py-4"><!-- Top Row: Logo -->
+    <div class="max-w-7xl mx-auto px-4 py-4">
+     <!-- Top Row: Logo -->
      <div class="flex items-center justify-between mb-4">
       <h1 class="logo-text text-2xl md:text-3xl" id="store-name">PS Store Online</h1><!-- Cart Button --> <button class="cart-btn" id="cart-toggle"> <i data-lucide="shopping-cart" class="w-5 h-5"></i> <span>Mon Panier</span>
        <div class="cart-badge" id="cart-badge" style="display: none;">
         0
        </div></button>
      </div><!-- Bottom Row: Category & Search -->
-     <div class="flex flex-col sm:flex-row gap-3"><!-- Category Button -->
-      <div class="relative"><button class="category-btn" id="category-btn"> <i data-lucide="layout-grid" class="w-5 h-5"></i> CATÉGORIE <i data-lucide="chevron-down" class="w-4 h-4"></i> </button> <!-- Category Dropdown -->
+     <div class="flex flex-col sm:flex-row gap-3">
+      <!-- Category Button -->
+      <div class="relative">
+       <button class="category-btn" id="category-btn"> <i data-lucide="layout-grid" class="w-5 h-5"></i> CATÉGORIE <i data-lucide="chevron-down" class="w-4 h-4"></i> </button> <!-- Category Dropdown -->
        <div class="category-dropdown" id="category-dropdown">
-        <div class="category-item active" data-category="all"><i data-lucide="sparkles" class="w-4 h-4"></i> Tous les Produits
+        <div class="category-item active" data-category="all">
+         <i data-lucide="sparkles" class="w-4 h-4"></i> Tous les Produits
         </div>
-        <div class="category-item" data-category="electronics"><i data-lucide="smartphone" class="w-4 h-4"></i> Électronique
+        <div class="category-item" data-category="electronics">
+         <i data-lucide="smartphone" class="w-4 h-4"></i> Électronique
         </div>
-        <div class="category-item" data-category="fashion"><i data-lucide="shirt" class="w-4 h-4"></i> Mode
+        <div class="category-item" data-category="fashion">
+         <i data-lucide="shirt" class="w-4 h-4"></i> Mode
         </div>
-        <div class="category-item" data-category="home"><i data-lucide="home" class="w-4 h-4"></i> Maison
+        <div class="category-item" data-category="home">
+         <i data-lucide="home" class="w-4 h-4"></i> Maison
         </div>
-        <div class="category-item" data-category="sports"><i data-lucide="dumbbell" class="w-4 h-4"></i> Sports
+        <div class="category-item" data-category="sports">
+         <i data-lucide="dumbbell" class="w-4 h-4"></i> Sports
         </div>
-        <div class="category-item" data-category="beauty"><i data-lucide="sparkle" class="w-4 h-4"></i> Beauté
+        <div class="category-item" data-category="beauty">
+         <i data-lucide="sparkle" class="w-4 h-4"></i> Beauté
         </div>
        </div>
       </div><!-- Search Bar -->
-      <div class="search-container flex-1 flex items-center"><i data-lucide="search" class="w-5 h-5 ml-4 text-gray-400"></i> <input type="text" class="search-input" placeholder="Rechercher un produit..." id="search-input">
+      <div class="search-container flex-1 flex items-center">
+       <i data-lucide="search" class="w-5 h-5 ml-4 text-gray-400"></i> <input type="text" class="search-input" placeholder="Rechercher un produit..." id="search-input">
       </div>
      </div>
     </div>
    </header><!-- Main Content -->
-   <main class="max-w-7xl mx-auto px-4 py-8"><!-- Products Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid"><!-- Products will be rendered here -->
+   <main class="max-w-7xl mx-auto px-4 py-8">
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid">
+     <!-- Products will be rendered here -->
     </div><!-- Empty State -->
     <div class="empty-state hidden" id="empty-state">
      <div class="text-6xl mb-4">
@@ -693,8 +706,10 @@
     </div>
    </main><!-- Product Detail Modal -->
    <div class="modal-overlay" id="product-modal">
-    <div class="modal-content relative"><button class="modal-close" id="modal-close"> <i data-lucide="x" class="w-5 h-5"></i> </button>
-     <div id="modal-body"><!-- Modal content rendered dynamically -->
+    <div class="modal-content relative">
+     <button class="modal-close" id="modal-close"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+     <div id="modal-body">
+      <!-- Modal content rendered dynamically -->
      </div>
     </div>
    </div><!-- Cart Overlay -->
@@ -705,14 +720,17 @@
       <h2 class="text-xl font-bold">Mon Panier</h2><button class="modal-close" id="cart-close" style="position: static;"> <i data-lucide="x" class="w-5 h-5"></i> </button>
      </div>
     </div>
-    <div class="flex-1 overflow-y-auto p-6" id="cart-items"><!-- Cart items rendered here -->
+    <div class="flex-1 overflow-y-auto p-6" id="cart-items">
+     <!-- Cart items rendered here -->
     </div>
     <div class="p-6 border-t border-white/10 bg-black/20">
-     <div class="flex justify-between items-center mb-4"><span class="text-gray-400">Total</span> <span class="text-2xl font-bold price-tag" id="cart-total">0 HTG</span>
+     <div class="flex justify-between items-center mb-4">
+      <span class="text-gray-400">Total</span> <span class="text-2xl font-bold price-tag" id="cart-total">0 HTG</span>
      </div><button class="whatsapp-btn w-full" id="whatsapp-order" disabled> <i data-lucide="message-circle" class="w-5 h-5"></i> Commander via WhatsApp </button> <button class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300" id="clear-cart-btn" style="display: none;"> <i data-lucide="trash-2" class="w-4 h-4 inline mr-2"></i> Vider le Panier </button>
     </div>
    </div><!-- Toast Notification -->
-   <div class="toast" id="toast"><i data-lucide="check-circle" class="w-5 h-5 text-green-500" id="toast-icon"></i> <span id="toast-message">Produit ajouté au panier</span>
+   <div class="toast" id="toast">
+    <i data-lucide="check-circle" class="w-5 h-5 text-green-500" id="toast-icon"></i> <span id="toast-message">Produit ajouté au panier</span>
    </div>
   </div>
   <script>
@@ -857,14 +875,7 @@
       }
     ];
     
-    // ==================== DATA SDK INTEGRATION ====================
-    const dataHandler = {
-      onDataChanged(data) {
-        cartItems = data;
-        renderCart();
-        updateCartBadge();
-      }
-    };
+
     
     // ==================== ELEMENT SDK ====================
     async function initElementSdk() {
@@ -1170,27 +1181,30 @@
       const product = products.find(p => p.id === productId);
       if (!product || product.stock === 0) return;
       
-      if (cartItems.length >= 999) {
-        showToast('Limite du panier atteinte (999 articles)', 'error');
-        return;
-      }
-      
       const color = product.colors[0];
       
-      const result = await window.dataSdk.create({
-        product_id: productId,
-        product_name: product.name,
-        quantity: 1,
-        price: product.price,
-        color: color,
-        added_at: new Date().toISOString()
-      });
+      // Check if item already exists in cart
+      const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
       
-      if (result.isOk) {
-        showToast('Produit ajouté au panier!', 'success');
+      if (existingItem) {
+        // Increment quantity
+        existingItem.quantity += 1;
       } else {
-        showToast('Erreur lors de l\'ajout', 'error');
+        // Add new item
+        cartItems.push({
+          product_id: productId,
+          product_name: product.name,
+          quantity: 1,
+          price: product.price,
+          color: color,
+          added_at: new Date().toISOString(),
+          __backendId: 'local-' + Date.now() + Math.random()
+        });
       }
+      
+      renderCart();
+      updateCartBadge();
+      showToast('Produit ajouté au panier!', 'success');
     }
     
     async function addFromModal(productId) {
@@ -1206,34 +1220,33 @@
       const color = selectedColor ? selectedColor.dataset.color : product.colors[0];
       const qty = parseInt(document.getElementById('modal-qty').textContent);
       
-      const result = await window.dataSdk.create({
-        product_id: productId,
-        product_name: product.name,
-        quantity: qty,
-        price: product.price,
-        color: color,
-        added_at: new Date().toISOString()
-      });
+      const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
       
-      if (result.isOk) {
-        showToast(`${qty}x ${product.name} ajouté!`, 'success');
-        closeProductModal();
+      if (existingItem) {
+        existingItem.quantity += qty;
       } else {
-        showToast('Erreur lors de l\'ajout', 'error');
+        cartItems.push({
+          product_id: productId,
+          product_name: product.name,
+          quantity: qty,
+          price: product.price,
+          color: color,
+          added_at: new Date().toISOString(),
+          __backendId: 'local-' + Date.now() + Math.random()
+        });
       }
+      
+      renderCart();
+      updateCartBadge();
+      showToast(`${qty}x ${product.name} ajouté!`, 'success');
+      closeProductModal();
     }
     
     async function removeFromCart(backendId) {
-      const item = cartItems.find(i => i.__backendId === backendId);
-      if (!item) return;
-      
-      const result = await window.dataSdk.delete(item);
-      
-      if (result.isOk) {
-        showToast('Article retiré du panier', 'success');
-      } else {
-        showToast('Erreur lors de la suppression', 'error');
-      }
+      cartItems = cartItems.filter(i => i.__backendId !== backendId);
+      renderCart();
+      updateCartBadge();
+      showToast('Article retiré du panier', 'success');
     }
     
     async function decrementItem(backendId) {
@@ -1241,17 +1254,11 @@
       if (!item) return;
       
       if (item.quantity > 1) {
-        // Diminuer la quantité
-        const updatedItem = { ...item, quantity: item.quantity - 1 };
-        const result = await window.dataSdk.update(updatedItem);
-        
-        if (result.isOk) {
-          showToast('Quantité mise à jour', 'success');
-        } else {
-          showToast('Erreur lors de la mise à jour', 'error');
-        }
+        item.quantity -= 1;
+        renderCart();
+        updateCartBadge();
+        showToast('Quantité mise à jour', 'success');
       } else {
-        // Si quantité = 1, supprimer l'article
         removeFromCart(backendId);
       }
     }
@@ -1259,10 +1266,9 @@
     async function clearCart() {
       if (cartItems.length === 0) return;
       
-      for (const item of cartItems) {
-        await window.dataSdk.delete(item);
-      }
-      
+      cartItems = [];
+      renderCart();
+      updateCartBadge();
       showToast('Panier vidé avec succès', 'success');
     }
     
@@ -1439,14 +1445,6 @@
       // Initialize Element SDK
       await initElementSdk();
       
-      // Initialize Data SDK
-      if (window.dataSdk) {
-        const result = await window.dataSdk.init(dataHandler);
-        if (!result.isOk) {
-          console.error('Failed to initialize Data SDK');
-        }
-      }
-      
       // Apply initial config
       applyConfig();
       
@@ -1463,5 +1461,5 @@
     // Start the app
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dab86a521e2171c',t:'MTc3MzI0MjI0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dab8ebbf64e5eab',t:'MTc3MzI0MjU3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
