@@ -223,16 +223,28 @@
       inset: 0;
       background: linear-gradient(45deg, transparent 40%, rgba(255, 107, 53, 0.1) 50%, transparent 60%);
       animation: shimmer 3s infinite;
+      z-index: 2;
+    }
+    
+    /* Style pour les images produits (remplace les emojis) */
+    .product-image-content {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 12px;
     }
     
     @keyframes shimmer {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
-    }
-    
-    .product-emoji {
-      font-size: 80px;
-      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
     }
     
     .stock-badge {
@@ -245,6 +257,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
+      z-index: 3;
     }
     
     .stock-high {
@@ -395,6 +408,7 @@
       cursor: pointer;
       color: white;
       transition: all 0.3s ease;
+      z-index: 4;
     }
     
     .modal-close:hover {
@@ -699,10 +713,6 @@
       .product-image {
         height: 160px;
       }
-      
-      .product-emoji {
-        font-size: 60px;
-      }
     }
     
     @media (max-width: 480px) {
@@ -837,7 +847,7 @@
         id: 'prod-002',
         name: 'MacBook Air M3',
         price: 185000,
-        emoji: '💻',
+        image: 'macbook-air-m3.jpg',
         category: 'electronics',
         colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
         stock: 20,
@@ -847,7 +857,7 @@
         id: 'prod-003',
         name: 'AirPods Pro 2',
         price: 35000,
-        emoji: '🎧',
+        image: 'airpods-pro-2.jpg',
         category: 'electronics',
         colors: ['#f5f5f7'],
         stock: 20,
@@ -857,7 +867,7 @@
         id: 'prod-004',
         name: 'Sneakers Nike Air Max',
         price: 18500,
-        emoji: '👟',
+        image: 'nike-air-max.jpg',
         category: 'fashion',
         colors: ['#ffffff', '#000000', '#ff0000', '#00ff00'],
         stock: 20,
@@ -867,7 +877,7 @@
         id: 'prod-005',
         name: 'Montre Connectée Pro',
         price: 45000,
-        emoji: '⌚',
+        image: 'montre-connectee.jpg',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
         stock: 20,
@@ -877,7 +887,7 @@
         id: 'prod-006',
         name: 'Sac à Dos Premium',
         price: 8500,
-        emoji: '🎒',
+        image: 'sac-a-dos.jpg',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#4a5568'],
         stock: 20,
@@ -887,7 +897,7 @@
         id: 'prod-007',
         name: 'Lampe LED Design',
         price: 4500,
-        emoji: '💡',
+        image: 'lampe-led.jpg',
         category: 'home',
         colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
         stock: 20,
@@ -897,7 +907,7 @@
         id: 'prod-008',
         name: 'Ballon de Foot Pro',
         price: 5500,
-        emoji: '⚽',
+        image: 'ballon-foot.jpg',
         category: 'sports',
         colors: ['#ffffff', '#ff6b35', '#1a1a2e'],
         stock: 20,
@@ -907,7 +917,7 @@
         id: 'prod-009',
         name: 'Parfum Élégance',
         price: 12000,
-        emoji: '🌸',
+        image: 'parfum.jpg',
         category: 'beauty',
         colors: ['#ffc0cb', '#ff69b4', '#daa520'],
         stock: 20,
@@ -917,7 +927,7 @@
         id: 'prod-010',
         name: 'Tapis de Yoga Premium',
         price: 3500,
-        emoji: '🧘',
+        image: 'tapis-yoga.jpg',
         category: 'sports',
         colors: ['#7c3aed', '#22c55e', '#3b82f6', '#ec4899'],
         stock: 20,
@@ -927,7 +937,7 @@
         id: 'prod-011',
         name: 'Enceinte Bluetooth',
         price: 7500,
-        emoji: '🔊',
+        image: 'enceinte-bluetooth.jpg',
         category: 'electronics',
         colors: ['#1a1a2e', '#ff6b35', '#3b82f6'],
         stock: 20,
@@ -937,7 +947,7 @@
         id: 'prod-012',
         name: 'Lunettes Soleil Design',
         price: 6500,
-        emoji: '🕶️',
+        image: 'lunettes-soleil.jpg',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#daa520'],
         stock: 20,
@@ -1101,7 +1111,7 @@
       return `
         <div class="product-card" data-id="${product.id}">
           <div class="product-image">
-            <span class="product-emoji">${product.emoji}</span>
+            <img src="${product.image}" alt="${product.name}" class="product-image-content">
             <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
               ${product.stock > 10 ? 'En Stock' : `${product.stock} restants`}
             </span>
@@ -1167,7 +1177,7 @@
         
         return `
           <div class="cart-item mb-4">
-            <div class="text-4xl">${product.emoji}</div>
+            <img src="${product.image}" alt="${product.name}" class="cart-item-image">
             <div class="flex-1 min-w-0">
               <h4 class="font-semibold truncate">${product.name}</h4>
               <p class="text-sm text-gray-400">
@@ -1220,7 +1230,7 @@
       
       modalBody.innerHTML = `
         <div class="product-image" style="border-radius: 30px 30px 0 0;">
-          <span class="product-emoji">${product.emoji}</span>
+          <img src="${product.image}" alt="${product.name}" class="product-image-content">
           <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
             ${product.stock} en stock
           </span>
