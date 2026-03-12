@@ -48,7 +48,6 @@
       background: var(--primary-bg);
     }
     
-    /* Scrollbar Styling */
     .app-wrapper::-webkit-scrollbar {
       width: 8px;
     }
@@ -62,7 +61,6 @@
       border-radius: 4px;
     }
     
-    /* Header Styles */
     .header-fixed {
       position: sticky;
       top: 0;
@@ -81,7 +79,6 @@
       letter-spacing: -1px;
     }
     
-    /* Category Button - Extra Visible */
     .category-btn {
       background: var(--gradient-1);
       padding: 14px 28px;
@@ -119,7 +116,6 @@
       }
     }
     
-    /* Search Bar */
     .search-container {
       background: var(--secondary-bg);
       border-radius: 30px;
@@ -147,7 +143,6 @@
       color: var(--text-secondary);
     }
     
-    /* Cart Button */
     .cart-btn {
       background: var(--card-bg);
       padding: 12px 24px;
@@ -191,7 +186,6 @@
       100% { transform: scale(1); }
     }
     
-    /* Product Cards */
     .product-card {
       background: var(--gradient-3);
       border-radius: 30px;
@@ -226,7 +220,6 @@
       z-index: 2;
     }
     
-    /* Style pour les images produits (remplace les emojis) */
     .product-image-content {
       width: 100%;
       height: 100%;
@@ -272,7 +265,6 @@
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
     
-    /* Primary Add Button */
     .add-btn {
       background: var(--gradient-1);
       border: none;
@@ -304,7 +296,6 @@
       transform: none;
     }
     
-    /* Secondary Explore Button */
     .explore-btn {
       background: transparent;
       border: 2px solid rgba(255, 255, 255, 0.2);
@@ -329,7 +320,6 @@
       background: rgba(124, 58, 237, 0.1);
     }
     
-    /* Modal Styles */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -365,7 +355,6 @@
       position: relative;
     }
     
-    /* Custom Scrollbar for Modal */
     .modal-content::-webkit-scrollbar {
       width: 10px;
     }
@@ -416,7 +405,6 @@
       transform: rotate(90deg);
     }
     
-    /* Color Options */
     .color-option {
       width: 36px;
       height: 36px;
@@ -436,7 +424,6 @@
       box-shadow: 0 0 0 3px var(--accent-orange);
     }
     
-    /* Quantity Selector */
     .qty-btn {
       background: var(--secondary-bg);
       border: none;
@@ -455,7 +442,6 @@
       background: var(--accent-orange);
     }
     
-    /* Cart Sidebar */
     .cart-sidebar {
       position: fixed;
       top: 0;
@@ -518,7 +504,6 @@
       color: white;
     }
     
-    /* WhatsApp Order Button */
     .whatsapp-btn {
       background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
       border: none;
@@ -548,7 +533,6 @@
       transform: none;
     }
     
-    /* Category Dropdown */
     .category-dropdown {
       position: absolute;
       top: 100%;
@@ -593,7 +577,6 @@
       color: white;
     }
     
-    /* Loading Spinner */
     .spinner {
       width: 20px;
       height: 20px;
@@ -607,13 +590,11 @@
       to { transform: rotate(360deg); }
     }
     
-    /* Empty State */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
     }
     
-    /* Price Tag */
     .price-tag {
       background: var(--gradient-2);
       -webkit-background-clip: text;
@@ -622,7 +603,6 @@
       font-weight: 800;
     }
     
-    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -654,7 +634,6 @@
       border-color: var(--danger-red);
     }
     
-    /* Category Section */
     .category-section {
       margin-bottom: 60px;
     }
@@ -699,7 +678,6 @@
       min-width: 260px;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .category-btn {
         padding: 12px 20px;
@@ -732,20 +710,16 @@
  </head>
  <body class="h-full">
   <div class="app-wrapper">
-   <!-- Header -->
    <header class="header-fixed">
     <div class="max-w-7xl mx-auto px-4 py-4">
-     <!-- Top Row: Logo -->
      <div class="flex items-center justify-between mb-4">
-      <h1 class="logo-text text-2xl md:text-3xl" id="store-name">PS Store Online</h1><!-- Cart Button --> <button class="cart-btn" id="cart-toggle"> <i data-lucide="shopping-cart" class="w-5 h-5"></i> <span>Mon Panier</span>
-       <div class="cart-badge" id="cart-badge" style="display: none;">
-        0
-       </div></button>
-     </div><!-- Bottom Row: Category & Search -->
+      <h1 class="logo-text text-2xl md:text-3xl" id="store-name">PS Store Online</h1>
+      <button class="cart-btn" id="cart-toggle"> <i data-lucide="shopping-cart" class="w-5 h-5"></i> <span>Mon Panier</span>
+       <div class="cart-badge" id="cart-badge" style="display: none;">0</div></button>
+     </div>
      <div class="flex flex-col sm:flex-row gap-3">
-      <!-- Category Button -->
       <div class="relative">
-       <button class="category-btn" id="category-btn"> <i data-lucide="layout-grid" class="w-5 h-5"></i> CATÉGORIE <i data-lucide="chevron-down" class="w-4 h-4"></i> </button> <!-- Category Dropdown -->
+       <button class="category-btn" id="category-btn"> <i data-lucide="layout-grid" class="w-5 h-5"></i> CATÉGORIE <i data-lucide="chevron-down" class="w-4 h-4"></i> </button>
        <div class="category-dropdown" id="category-dropdown">
         <div class="category-item active" data-category="all">
          <i data-lucide="sparkles" class="w-4 h-4"></i> Tous les Produits
@@ -766,55 +740,46 @@
          <i data-lucide="sparkle" class="w-4 h-4"></i> Beauté
         </div>
        </div>
-      </div><!-- Search Bar -->
+      </div>
       <div class="search-container flex-1 flex items-center">
        <i data-lucide="search" class="w-5 h-5 ml-4 text-gray-400"></i> <input type="text" class="search-input" placeholder="Rechercher un produit..." id="search-input">
       </div>
      </div>
     </div>
-   </header><!-- Main Content -->
+   </header>
    <main class="max-w-7xl mx-auto px-4 py-8">
-    <div id="categories-container">
-     <!-- Category sections will be rendered here -->
-    </div><!-- Empty State -->
+    <div id="categories-container"></div>
     <div class="empty-state hidden" id="empty-state">
-     <div class="text-6xl mb-4">
-      🔍
-     </div>
+     <div class="text-6xl mb-4">🔍</div>
      <h3 class="text-xl font-semibold mb-2">Aucun produit trouvé</h3>
      <p class="text-gray-400">Essayez une autre recherche ou catégorie</p>
     </div>
-   </main><!-- Product Detail Modal -->
+   </main>
    <div class="modal-overlay" id="product-modal">
     <div class="modal-content relative">
      <button class="modal-close" id="modal-close"> <i data-lucide="x" class="w-5 h-5"></i> </button>
-     <div id="modal-body">
-      <!-- Modal content rendered dynamically -->
-     </div>
+     <div id="modal-body"></div>
     </div>
-   </div><!-- Cart Overlay -->
-   <div class="cart-overlay" id="cart-overlay"></div><!-- Cart Sidebar -->
+   </div>
+   <div class="cart-overlay" id="cart-overlay"></div>
    <div class="cart-sidebar" id="cart-sidebar">
     <div class="p-6 border-b border-white/10">
      <div class="flex items-center justify-between">
       <h2 class="text-xl font-bold">Mon Panier</h2><button class="modal-close" id="cart-close" style="position: static;"> <i data-lucide="x" class="w-5 h-5"></i> </button>
      </div>
     </div>
-    <div class="flex-1 overflow-y-auto p-6" id="cart-items">
-     <!-- Cart items rendered here -->
-    </div>
+    <div class="flex-1 overflow-y-auto p-6" id="cart-items"></div>
     <div class="p-6 border-t border-white/10 bg-black/20">
      <div class="flex justify-between items-center mb-4">
       <span class="text-gray-400">Total</span> <span class="text-2xl font-bold price-tag" id="cart-total">0 HTG</span>
      </div><button class="whatsapp-btn w-full" id="whatsapp-order" disabled> <i data-lucide="message-circle" class="w-5 h-5"></i> Commander via WhatsApp </button> <button class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300" id="clear-cart-btn" style="display: none;"> <i data-lucide="trash-2" class="w-4 h-4 inline mr-2"></i> Vider le Panier </button>
     </div>
-   </div><!-- Toast Notification -->
+   </div>
    <div class="toast" id="toast">
     <i data-lucide="check-circle" class="w-5 h-5 text-green-500" id="toast-icon"></i> <span id="toast-message">Produit ajouté au panier</span>
    </div>
   </div>
   <script>
-    // ==================== CONFIG & STATE ====================
     const defaultConfig = {
       store_name: 'PS Store Online',
       whatsapp_number: '+228 71610313',
@@ -831,125 +796,104 @@
     let currentCategory = 'all';
     let searchQuery = '';
     
-    // ==================== PRODUCT CATALOG ====================
+    // 92 emplacements de produits, prêts à être remplis
     const products = [
-      {
-        id: 'prod-001',
-        name: 'JBL Bass',
-        price: 25o $,
-        image:'image/JBL Bass.jpeg',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7', '#4a4a5a', '#ffd700'],
-        stock: 20,
-        description: '100% Autonomie.'
-      },
-      {
-        id: 'prod-002',
-        name: 'Airpods',
-        price: 150 $,
-        image: 'image/Airpods.jpeg',
-        category: 'electronics',
-        colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
-        stock: 20,
-        description: 'tres bon qualité.'
-      },
-      {
-        id: 'prod-003',
-        name: 'BARON-555',
-        price: 350 $,
-        image: 'image/BARON-555,mode.jpeg',
-        category: 'fashion',
-        stock: 20,
-        description: 'Tissus de tres bonne Qualité.'
-      },
-      {
-        id: 'prod-004',
-        name: 'BH80438',
-        price: 80 $ Douzaine,
-        image: 'image/BH80438,maison.jpeg',
-        category: 'home',
-        stock: 20,
-        description: 'Confort ultime .'
-      },
-      {
-        id: 'prod-005',
-        name: 'Cuillere',
-        price: 80 $ Douzaine,
-        image: 'image/BH80453,maison.jpeg',
-        category: 'home',
-        stock: 20,
-        description: 'Suivi santé avancé.'
-      },
-      {
-        id: 'prod-006',
-        name: 'Chaise',
-        price: 1000 $,
-        image: 'image/Chaise,maison.jpeg',
-        category: 'home',
-        stock: 20,
-        description: 'Tres Resistant.'
-      },
-      {
-        id: 'prod-007',
-        name: 'Chargeur Longueur 1 Metre',
-        price: 60 $,
-        image: 'image/Chargeur Longueur 1 metre.jpeg',
-        category: 'electroniques',
-        colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
-        stock: 20,
-        description: 'Tres bonne Qualité avec une capacité de charge élevé.'
-      },
-      {
-        id: 'prod-008',
-        name: 'CLG-ZHTD',
-        price: 400 $,
-        image: 'image/CLG-ZHTD,maison.jpeg',
-        category: 'home'
-        stock: 20,
-        description: 'Tres Resistant.'
-      },
-      {
-        id: 'prod-009',
-        name: 'EJ-S10',
-        price: 50 $,
-        image: 'image/EJ-S10.jpeg',
-        category: 'beauty',
-        stock: 20,
-        description: 'Tres bonne qualité.'
-      },
-      {
-        id: 'Prod-010',
-        name: 'HD-099',
-        price: 2450 $,
-        image: 'image/HD-099,maison.jpeg',
-        category: 'home',
-        stock: 20,
-        description: 'Tres resistant et bonne qualité.'
-      },
-      {
-        id: 'prod-011',
-        name: 'Miroir',
-        price: 1500 $,
-        image: 'image/HD-147,maison.jpeg',
-        category: 'home',
-        stock: 20,
-        description: 'tres bonne Qualité, decorer vos maison avec des mirois geants.'
-      },
-      {
-        id: 'prod-012',
-        name: 'Lunettes Soleil Design',
-        price: 6500,
-        image: 'lunettes-soleil.jpg',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513', '#daa520'],
-        stock: 20,
-        description: 'Protection UV400, verres polarisés et monture légère en acétate italien.'
-      }
+      // Tes 12 premiers produits
+      {id:'prod-001',name:'JBL Bass',price:300$,image:'image/JBL Bass.jpeg',category:'electronics',colors:['#1a1a2e','#f5f5f7','#4a4a5a','#ffd700'],stock:20,description:'Le smartphone le plus avancé avec puce A17 Pro, appareil photo 48MP et design en titane premium.'},
+      {id:'prod-002',name:'MacBook Air M3',price:185000,image:'macbook-air-m3.jpg',category:'electronics',colors:['#c0c0c0','#2e2e2e','#ffd700'],stock:20,description:'Ultraportable puissant avec puce M3, écran Liquid Retina 13.6" et jusqu\'à 18h d\'autonomie.'},
+      {id:'prod-003',name:'AirPods Pro 2',price:35000,image:'airpods-pro-2.jpg',category:'electronics',colors:['#f5f5f7'],stock:20,description:'Audio spatial personnalisé, réduction active du bruit et mode Transparence adaptative.'},
+      {id:'prod-004',name:'Sneakers Nike Air Max',price:18500,image:'nike-air-max.jpg',category:'fashion',colors:['#ffffff','#000000','#ff0000','#00ff00'],stock:20,description:'Confort ultime avec la technologie Air Max visible. Style urbain iconique.'},
+      {id:'prod-005',name:'Montre Connectée Pro',price:45000,image:'montre-connectee.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7','#ff6b35'],stock:20,description:'Suivi santé avancé, GPS intégré, écran AMOLED et résistance à l\'eau 50m.'},
+      {id:'prod-006',name:'Sac à Dos Premium',price:8500,image:'sac-a-dos.jpg',category:'fashion',colors:['#1a1a2e','#8b4513','#4a5568'],stock:20,description:'Design ergonomique avec compartiment laptop 15", ports USB et matériaux imperméables.'},
+      {id:'prod-007',name:'Lampe LED Design',price:4500,image:'lampe-led.jpg',category:'home',colors:['#f5f5f7','#1a1a2e','#ffd700'],stock:20,description:'Éclairage intelligent avec contrôle tactile, 3 modes de luminosité et design minimaliste.'},
+      {id:'prod-008',name:'Ballon de Foot Pro',price:5500,image:'ballon-foot.jpg',category:'sports',colors:['#ffffff','#ff6b35','#1a1a2e'],stock:20,description:'Ballon officiel taille 5, couture thermosoudée et revêtement anti-abrasion.'},
+      {id:'prod-009',name:'Parfum Élégance',price:12000,image:'parfum.jpg',category:'beauty',colors:['#ffc0cb','#ff69b4','#daa520'],stock:20,description:'Fragrance florale-boisée longue durée. Notes de rose, jasmin et bois de santal.'},
+      {id:'prod-010',name:'Tapis de Yoga Premium',price:3500,image:'tapis-yoga.jpg',category:'sports',colors:['#7c3aed','#22c55e','#3b82f6','#ec4899'],stock:20,description:'Mousse haute densité 6mm, surface antidérapante et sangle de transport incluse.'},
+      {id:'prod-011',name:'Enceinte Bluetooth',price:7500,image:'enceinte-bluetooth.jpg',category:'electronics',colors:['#1a1a2e','#ff6b35','#3b82f6'],stock:20,description:'Son 360° puissant, 20h d\'autonomie, étanche IPX7 et appairage stéréo.'},
+      {id:'prod-012',name:'Lunettes Soleil Design',price:6500,image:'lunettes-soleil.jpg',category:'fashion',colors:['#1a1a2e','#8b4513','#daa520'],stock:20,description:'Protection UV400, verres polarisés et monture légère en acétate italien.'},
+      // 80 produits supplémentaires vides à remplir
+      {id:'prod-013',name:'Nom du produit 13',price:0,image:'chemin/vers/image13.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 13'},
+      {id:'prod-014',name:'Nom du produit 14',price:0,image:'chemin/vers/image14.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 14'},
+      {id:'prod-015',name:'Nom du produit 15',price:0,image:'chemin/vers/image15.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 15'},
+      {id:'prod-016',name:'Nom du produit 16',price:0,image:'chemin/vers/image16.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 16'},
+      {id:'prod-017',name:'Nom du produit 17',price:0,image:'chemin/vers/image17.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 17'},
+      {id:'prod-018',name:'Nom du produit 18',price:0,image:'chemin/vers/image18.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 18'},
+      {id:'prod-019',name:'Nom du produit 19',price:0,image:'chemin/vers/image19.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 19'},
+      {id:'prod-020',name:'Nom du produit 20',price:0,image:'chemin/vers/image20.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 20'},
+      {id:'prod-021',name:'Nom du produit 21',price:0,image:'chemin/vers/image21.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 21'},
+      {id:'prod-022',name:'Nom du produit 22',price:0,image:'chemin/vers/image22.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 22'},
+      {id:'prod-023',name:'Nom du produit 23',price:0,image:'chemin/vers/image23.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 23'},
+      {id:'prod-024',name:'Nom du produit 24',price:0,image:'chemin/vers/image24.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 24'},
+      {id:'prod-025',name:'Nom du produit 25',price:0,image:'chemin/vers/image25.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 25'},
+      {id:'prod-026',name:'Nom du produit 26',price:0,image:'chemin/vers/image26.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 26'},
+      {id:'prod-027',name:'Nom du produit 27',price:0,image:'chemin/vers/image27.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 27'},
+      {id:'prod-028',name:'Nom du produit 28',price:0,image:'chemin/vers/image28.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 28'},
+      {id:'prod-029',name:'Nom du produit 29',price:0,image:'chemin/vers/image29.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 29'},
+      {id:'prod-030',name:'Nom du produit 30',price:0,image:'chemin/vers/image30.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 30'},
+      {id:'prod-031',name:'Nom du produit 31',price:0,image:'chemin/vers/image31.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 31'},
+      {id:'prod-032',name:'Nom du produit 32',price:0,image:'chemin/vers/image32.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 32'},
+      {id:'prod-033',name:'Nom du produit 33',price:0,image:'chemin/vers/image33.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 33'},
+      {id:'prod-034',name:'Nom du produit 34',price:0,image:'chemin/vers/image34.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 34'},
+      {id:'prod-035',name:'Nom du produit 35',price:0,image:'chemin/vers/image35.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 35'},
+      {id:'prod-036',name:'Nom du produit 36',price:0,image:'chemin/vers/image36.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 36'},
+      {id:'prod-037',name:'Nom du produit 37',price:0,image:'chemin/vers/image37.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 37'},
+      {id:'prod-038',name:'Nom du produit 38',price:0,image:'chemin/vers/image38.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 38'},
+      {id:'prod-039',name:'Nom du produit 39',price:0,image:'chemin/vers/image39.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 39'},
+      {id:'prod-040',name:'Nom du produit 40',price:0,image:'chemin/vers/image40.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 40'},
+      {id:'prod-041',name:'Nom du produit 41',price:0,image:'chemin/vers/image41.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 41'},
+      {id:'prod-042',name:'Nom du produit 42',price:0,image:'chemin/vers/image42.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 42'},
+      {id:'prod-043',name:'Nom du produit 43',price:0,image:'chemin/vers/image43.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 43'},
+      {id:'prod-044',name:'Nom du produit 44',price:0,image:'chemin/vers/image44.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 44'},
+      {id:'prod-045',name:'Nom du produit 45',price:0,image:'chemin/vers/image45.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 45'},
+      {id:'prod-046',name:'Nom du produit 46',price:0,image:'chemin/vers/image46.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 46'},
+      {id:'prod-047',name:'Nom du produit 47',price:0,image:'chemin/vers/image47.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 47'},
+      {id:'prod-048',name:'Nom du produit 48',price:0,image:'chemin/vers/image48.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 48'},
+      {id:'prod-049',name:'Nom du produit 49',price:0,image:'chemin/vers/image49.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 49'},
+      {id:'prod-050',name:'Nom du produit 50',price:0,image:'chemin/vers/image50.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 50'},
+      {id:'prod-051',name:'Nom du produit 51',price:0,image:'chemin/vers/image51.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 51'},
+      {id:'prod-052',name:'Nom du produit 52',price:0,image:'chemin/vers/image52.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 52'},
+      {id:'prod-053',name:'Nom du produit 53',price:0,image:'chemin/vers/image53.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 53'},
+      {id:'prod-054',name:'Nom du produit 54',price:0,image:'chemin/vers/image54.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 54'},
+      {id:'prod-055',name:'Nom du produit 55',price:0,image:'chemin/vers/image55.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 55'},
+      {id:'prod-056',name:'Nom du produit 56',price:0,image:'chemin/vers/image56.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 56'},
+      {id:'prod-057',name:'Nom du produit 57',price:0,image:'chemin/vers/image57.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 57'},
+      {id:'prod-058',name:'Nom du produit 58',price:0,image:'chemin/vers/image58.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 58'},
+      {id:'prod-059',name:'Nom du produit 59',price:0,image:'chemin/vers/image59.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 59'},
+      {id:'prod-060',name:'Nom du produit 60',price:0,image:'chemin/vers/image60.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 60'},
+      {id:'prod-061',name:'Nom du produit 61',price:0,image:'chemin/vers/image61.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 61'},
+      {id:'prod-062',name:'Nom du produit 62',price:0,image:'chemin/vers/image62.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 62'},
+      {id:'prod-063',name:'Nom du produit 63',price:0,image:'chemin/vers/image63.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 63'},
+      {id:'prod-064',name:'Nom du produit 64',price:0,image:'chemin/vers/image64.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 64'},
+      {id:'prod-065',name:'Nom du produit 65',price:0,image:'chemin/vers/image65.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 65'},
+      {id:'prod-066',name:'Nom du produit 66',price:0,image:'chemin/vers/image66.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 66'},
+      {id:'prod-067',name:'Nom du produit 67',price:0,image:'chemin/vers/image67.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 67'},
+      {id:'prod-068',name:'Nom du produit 68',price:0,image:'chemin/vers/image68.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 68'},
+      {id:'prod-069',name:'Nom du produit 69',price:0,image:'chemin/vers/image69.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 69'},
+      {id:'prod-070',name:'Nom du produit 70',price:0,image:'chemin/vers/image70.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 70'},
+      {id:'prod-071',name:'Nom du produit 71',price:0,image:'chemin/vers/image71.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 71'},
+      {id:'prod-072',name:'Nom du produit 72',price:0,image:'chemin/vers/image72.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 72'},
+      {id:'prod-073',name:'Nom du produit 73',price:0,image:'chemin/vers/image73.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 73'},
+      {id:'prod-074',name:'Nom du produit 74',price:0,image:'chemin/vers/image74.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 74'},
+      {id:'prod-075',name:'Nom du produit 75',price:0,image:'chemin/vers/image75.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 75'},
+      {id:'prod-076',name:'Nom du produit 76',price:0,image:'chemin/vers/image76.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 76'},
+      {id:'prod-077',name:'Nom du produit 77',price:0,image:'chemin/vers/image77.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 77'},
+      {id:'prod-078',name:'Nom du produit 78',price:0,image:'chemin/vers/image78.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 78'},
+      {id:'prod-079',name:'Nom du produit 79',price:0,image:'chemin/vers/image79.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 79'},
+      {id:'prod-080',name:'Nom du produit 80',price:0,image:'chemin/vers/image80.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 80'},
+      {id:'prod-081',name:'Nom du produit 81',price:0,image:'chemin/vers/image81.jpg',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 81'},
+      {id:'prod-082',name:'Nom du produit 82',price:0,image:'chemin/vers/image82.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 82'},
+      {id:'prod-083',name:'Nom du produit 83',price:0,image:'chemin/vers/image83.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 83'},
+      {id:'prod-084',name:'Nom du produit 84',price:0,image:'chemin/vers/image84.jpg',category:'sports',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 84'},
+      {id:'prod-085',name:'Nom du produit 85',price:0,image:'chemin/vers/image85.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 85'},
+      {id:'prod-086',name:'Nom du produit 86',price:0,image:'chemin/vers/image86.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 86'},
+      {id:'prod-087',name:'Nom du produit 87',price:0,image:'chemin/vers/image87.jpg',category:'beauty',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 87'},
+      {id:'prod-088',name:'Nom du produit 88',price:0,image:'chemin/vers/image88.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 88'},
+      {id:'prod-089',name:'Nom du produit 89',price:0,image:'chemin/vers/image89.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 89'},
+      {id:'prod-090',name:'Nom du produit 90',price:0,image:'chemin/vers/image90.jpg',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 90'},
+      {id:'prod-091',name:'Nom du produit 91',price:0,image:'chemin/vers/image91.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 91'},
+      {id:'prod-092',name:'Nom du produit 92',price:0,image:'chemin/vers/image92.jpg',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:20,description:'Description du produit 92'}
     ];
     
-
-    
-    // ==================== ELEMENT SDK ====================
     async function initElementSdk() {
       if (window.elementSdk) {
         window.elementSdk.init({
@@ -960,26 +904,11 @@
           },
           mapToCapabilities: (cfg) => ({
             recolorables: [
-              {
-                get: () => cfg.background_color || defaultConfig.background_color,
-                set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
-              },
-              {
-                get: () => cfg.card_color || defaultConfig.card_color,
-                set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
-              },
-              {
-                get: () => cfg.text_color || defaultConfig.text_color,
-                set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-              },
-              {
-                get: () => cfg.accent_color || defaultConfig.accent_color,
-                set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
-              },
-              {
-                get: () => cfg.secondary_accent || defaultConfig.secondary_accent,
-                set: (v) => { cfg.secondary_accent = v; window.elementSdk.setConfig({ secondary_accent: v }); }
-              }
+              {get: () => cfg.background_color || defaultConfig.background_color, set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }},
+              {get: () => cfg.card_color || defaultConfig.card_color, set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }},
+              {get: () => cfg.text_color || defaultConfig.text_color, set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }},
+              {get: () => cfg.accent_color || defaultConfig.accent_color, set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }},
+              {get: () => cfg.secondary_accent || defaultConfig.secondary_accent, set: (v) => { cfg.secondary_accent = v; window.elementSdk.setConfig({ secondary_accent: v }); }}
             ],
             borderables: [],
             fontEditable: undefined,
@@ -1008,7 +937,6 @@
       }
     }
     
-    // ==================== RENDER FUNCTIONS ====================
     function formatPrice(price) {
       const currency = config.currency_label || defaultConfig.currency_label;
       return `${price.toLocaleString('fr-FR')} ${currency}`;
@@ -1018,10 +946,8 @@
       const container = document.getElementById('categories-container');
       const emptyState = document.getElementById('empty-state');
       
-      // Get all unique categories (excluding 'all')
       const uniqueCategories = ['electronics', 'fashion', 'home', 'sports', 'beauty'];
       
-      // Filter products based on search query
       const getFilteredBySearch = (prods) => {
         if (searchQuery === '') return prods;
         return prods.filter(p => 
@@ -1030,7 +956,6 @@
         );
       };
       
-      // If searching, show only matching products in a single section
       if (searchQuery !== '') {
         const filtered = getFilteredBySearch(products);
         
@@ -1053,7 +978,6 @@
         return;
       }
       
-      // If category selected, show only that category
       if (currentCategory !== 'all') {
         const filtered = products.filter(p => p.category === currentCategory);
         
@@ -1077,7 +1001,6 @@
         return;
       }
       
-      // Normal view: show all categories with horizontal scroll
       emptyState.classList.add('hidden');
       
       container.innerHTML = uniqueCategories.map(category => {
@@ -1209,7 +1132,6 @@
       }
     }
     
-    // ==================== MODAL FUNCTIONS ====================
     function openProductModal(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
@@ -1231,7 +1153,6 @@
           <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
           <p class="price-tag text-3xl font-bold mb-4">${formatPrice(product.price)}</p>
           
-          <!-- Stock & Availability Info -->
           <div class="mb-6 p-4 rounded-xl" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
             <div class="flex items-center justify-between mb-3">
               <span class="text-gray-400 text-sm">État du Stock</span>
@@ -1274,7 +1195,6 @@
             <p class="text-xs text-gray-500 mt-2">Max. ${product.stock} unités disponibles</p>
           </div>
           
-          <!-- Product Info Details -->
           <div class="mb-6 grid grid-cols-2 gap-3">
             <div class="p-3 rounded-lg" style="background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.2);">
               <p class="text-xs text-gray-400 mb-1">Catégorie</p>
@@ -1319,24 +1239,20 @@
       qtyEl.textContent = qty;
     }
     
-    // ==================== CART FUNCTIONS ====================
     async function addToCart(productId) {
       const product = products.find(p => p.id === productId);
       if (!product || product.stock === 0) return;
       
       const color = product.colors[0];
       
-      // Verify stock is available
       if (product.stock < 1) {
         showToast('Stock insuffisant', 'error');
         return;
       }
       
-      // Check if item already exists in cart
       const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
       
       if (existingItem) {
-        // Check if we can add more
         if (product.stock > 0) {
           existingItem.quantity += 1;
           product.stock -= 1;
@@ -1345,7 +1261,6 @@
           return;
         }
       } else {
-        // Add new item
         cartItems.push({
           product_id: productId,
           product_name: product.name,
@@ -1377,7 +1292,6 @@
       const color = selectedColor ? selectedColor.dataset.color : product.colors[0];
       const qty = parseInt(document.getElementById('modal-qty').textContent);
       
-      // Check if stock is available for requested quantity
       if (product.stock < qty) {
         showToast(`Stock insuffisant! ${product.stock} article(s) disponible(s)`, 'error');
         return;
@@ -1399,7 +1313,6 @@
         });
       }
       
-      // Update stock
       product.stock -= qty;
       
       renderProducts();
@@ -1415,7 +1328,6 @@
       
       const product = products.find(p => p.id === item.product_id);
       if (product) {
-        // Return stock to inventory
         product.stock += item.quantity;
       }
       
@@ -1449,7 +1361,6 @@
     async function clearCart() {
       if (cartItems.length === 0) return;
       
-      // Return all items to stock
       cartItems.forEach(item => {
         const product = products.find(p => p.id === item.product_id);
         if (product) {
@@ -1464,14 +1375,12 @@
       showToast('Panier vidé avec succès', 'success');
     }
     
-    // ==================== WHATSAPP ORDER ====================
     function sendWhatsAppOrder() {
       if (cartItems.length === 0) return;
       
       const storeName = config.store_name || defaultConfig.store_name;
       let whatsappNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/\D/g, '');
       
-      // Assurez-vous que le numéro commence par le code pays
       if (!whatsappNumber.startsWith('+')) {
         whatsappNumber = '+' + whatsappNumber;
       }
@@ -1491,7 +1400,7 @@
           
           const colorName = getColorName(item.color);
           
-          message += `${product.emoji} *${product.name}*%0A`;
+          message += `📦 *${product.name}*%0A`;
           message += `   Quantité: ${item.quantity}%0A`;
           message += `   Couleur: ${colorName} (${item.color})%0A`;
           message += `   Prix unitaire: ${product.price.toLocaleString('fr-FR')} ${currency}%0A`;
@@ -1505,14 +1414,12 @@
       message += `📅 Date: ${new Date().toLocaleDateString('fr-FR')}%0A`;
       message += `⏰ Heure: ${new Date().toLocaleTimeString('fr-FR')}`;
       
-      // Enlever le + pour wa.me
       const numberWithoutPlus = whatsappNumber.replace('+', '');
       const whatsappUrl = `https://wa.me/${numberWithoutPlus}?text=${encodeURIComponent(message)}`;
       
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
     
-    // Helper function to get color name from hex code
     function getColorName(hexColor) {
       const colorMap = {
         '#1a1a2e': 'Noir',
@@ -1540,7 +1447,6 @@
       return colorMap[hexColor] || hexColor;
     }
     
-    // ==================== CART SIDEBAR ====================
     function openCart() {
       document.getElementById('cart-sidebar').classList.add('active');
       document.getElementById('cart-overlay').classList.add('active');
@@ -1551,7 +1457,6 @@
       document.getElementById('cart-overlay').classList.remove('active');
     }
     
-    // ==================== CATEGORY DROPDOWN ====================
     function toggleCategoryDropdown() {
       document.getElementById('category-dropdown').classList.toggle('active');
     }
@@ -1567,7 +1472,6 @@
       renderProducts();
     }
     
-    // ==================== TOAST NOTIFICATION ====================
     function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
@@ -1593,64 +1497,45 @@
       }, 3000);
     }
     
-    // ==================== EVENT LISTENERS ====================
     function initEventListeners() {
-      // Cart toggle
       document.getElementById('cart-toggle').addEventListener('click', openCart);
       document.getElementById('cart-close').addEventListener('click', closeCart);
       document.getElementById('cart-overlay').addEventListener('click', closeCart);
       
-      // Modal close
       document.getElementById('modal-close').addEventListener('click', closeProductModal);
       document.getElementById('product-modal').addEventListener('click', (e) => {
         if (e.target.id === 'product-modal') closeProductModal();
       });
       
-      // Category dropdown
       document.getElementById('category-btn').addEventListener('click', toggleCategoryDropdown);
       document.querySelectorAll('.category-item').forEach(item => {
         item.addEventListener('click', () => selectCategory(item.dataset.category));
       });
       
-      // Close dropdown on outside click
       document.addEventListener('click', (e) => {
         if (!e.target.closest('#category-btn') && !e.target.closest('#category-dropdown')) {
           document.getElementById('category-dropdown').classList.remove('active');
         }
       });
       
-      // Search
       document.getElementById('search-input').addEventListener('input', (e) => {
         searchQuery = e.target.value;
         renderProducts();
       });
       
-      // WhatsApp order
       document.getElementById('whatsapp-order').addEventListener('click', sendWhatsAppOrder);
       
-      // Clear cart
       document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
     }
     
-    // ==================== INITIALIZATION ====================
     async function init() {
-      // Initialize Element SDK
       await initElementSdk();
-      
-      // Apply initial config
       applyConfig();
-      
-      // Render products
       renderProducts();
-      
-      // Initialize event listeners
       initEventListeners();
-      
-      // Initialize Lucide icons
       lucide.createIcons();
     }
     
-    // Start the app
     init();
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db5609445715c71',t:'MTc3MzM0NTU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
