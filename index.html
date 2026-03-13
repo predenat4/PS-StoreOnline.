@@ -1,12 +1,12 @@
+html
 <!doctype html>
 <html lang="fr" class="h-full">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PS Store Online</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="/_sdk/element_sdk.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
     
@@ -40,30 +40,22 @@
       color: var(--text-primary);
     }
     
-    .app-wrapper {
+    .app-container {
       width: 100%;
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
-      background: var(--primary-bg);
     }
-    
-    /* Scrollbar Styling */
-    .app-wrapper::-webkit-scrollbar {
+
+    /* Scrollbar */
+    .app-container::-webkit-scrollbar {
       width: 8px;
     }
-    
-    .app-wrapper::-webkit-scrollbar-track {
-      background: var(--secondary-bg);
-    }
-    
-    .app-wrapper::-webkit-scrollbar-thumb {
-      background: var(--accent-orange);
-      border-radius: 4px;
-    }
-    
-    /* Header Styles */
-    .header-fixed {
+    .app-container::-webkit-scrollbar-track {background: var(--secondary-bg);}
+    .app-container::-webkit-scrollbar-thumb {background: var(--accent-orange); border-radius: 4px;}
+
+    /* Header */
+    .site-header {
       position: sticky;
       top: 0;
       z-index: 100;
@@ -71,18 +63,17 @@
       backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255, 107, 53, 0.2);
     }
-    
-    .logo-text {
+    .brand-text {
       background: var(--gradient-1);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
+      color: transparent;
       font-weight: 800;
       letter-spacing: -1px;
     }
-    
-    /* Category Button - Extra Visible */
-    .category-btn {
+
+    /* Category Button */
+    .category-trigger {
       background: var(--gradient-1);
       padding: 14px 28px;
       border-radius: 30px;
@@ -90,10 +81,9 @@
       font-size: 15px;
       letter-spacing: 2px;
       text-transform: uppercase;
-      box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4),
-                  0 0 0 2px rgba(255, 107, 53, 0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: pulse-glow 2s ease-in-out infinite;
+      box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4), 0 0 0 2px rgba(255, 107, 53, 0.3);
+      transition: all 0.3s ease;
+      animation: glowPulse 2s infinite;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -101,38 +91,24 @@
       color: white;
       cursor: pointer;
     }
-    
-    .category-btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 40px rgba(255, 107, 53, 0.5),
-                  0 0 0 4px rgba(255, 107, 53, 0.4);
+    .category-trigger:hover {transform: translateY(-3px) scale(1.02);}
+    @keyframes glowPulse {
+      0%,100% {box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4), 0 0 0 2px rgba(255, 107, 53, 0.3);}
+      50% {box-shadow: 0 8px 40px rgba(255, 107, 53, 0.6), 0 0 0 4px rgba(255, 107, 53, 0.5);}
     }
-    
-    @keyframes pulse-glow {
-      0%, 100% {
-        box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4),
-                    0 0 0 2px rgba(255, 107, 53, 0.3);
-      }
-      50% {
-        box-shadow: 0 8px 40px rgba(255, 107, 53, 0.6),
-                    0 0 0 4px rgba(255, 107, 53, 0.5);
-      }
-    }
-    
+
     /* Search Bar */
-    .search-container {
+    .search-wrapper {
       background: var(--secondary-bg);
       border-radius: 30px;
       padding: 4px;
       border: 2px solid transparent;
       transition: all 0.3s ease;
+      flex: 1;
+      display: flex;
+      align-items: center;
     }
-    
-    .search-container:focus-within {
-      border-color: var(--accent-orange);
-      box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
-    }
-    
+    .search-wrapper:focus-within {border-color: var(--accent-orange); box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);}
     .search-input {
       background: transparent;
       border: none;
@@ -142,13 +118,10 @@
       width: 100%;
       padding: 10px 16px;
     }
-    
-    .search-input::placeholder {
-      color: var(--text-secondary);
-    }
-    
+    .search-input::placeholder {color: var(--text-secondary);}
+
     /* Cart Button */
-    .cart-btn {
+    .cart-toggle {
       background: var(--card-bg);
       padding: 12px 24px;
       border-radius: 30px;
@@ -162,13 +135,8 @@
       font-weight: 600;
       position: relative;
     }
-    
-    .cart-btn:hover {
-      border-color: var(--accent-orange);
-      transform: translateY(-2px);
-    }
-    
-    .cart-badge {
+    .cart-toggle:hover {border-color: var(--accent-orange); transform: translateY(-2px);}
+    .cart-counter {
       position: absolute;
       top: -8px;
       right: -8px;
@@ -182,41 +150,53 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: badge-pop 0.3s ease;
     }
-    
-    @keyframes badge-pop {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+
+    /* Category Dropdown */
+    .category-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 12px;
+      min-width: 220px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 150;
     }
-    
-    /* Gestion des images produits */
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-      position: relative;
+    .category-menu.open {opacity: 1; visibility: visible; transform: translateY(0);}
+    .category-option {
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-secondary);
     }
-    
-    /* Product Cards */
+    .category-option:hover {background: rgba(255,107,53,0.1); color: var(--accent-orange);}
+    .category-option.active {background: var(--gradient-1); color: white;}
+
+    /* Product Card */
     .product-card {
       background: var(--gradient-3);
       border-radius: 30px;
       overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.05);
+      flex: 0 0 260px;
+      scroll-snap-align: start;
     }
-    
-    .product-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4),
-                  0 0 0 1px rgba(255, 107, 53, 0.2);
-    }
-    
-    .product-image {
+    .product-card.hidden {display: none;}
+    .product-card:hover {transform: translateY(-8px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,107,53,0.2);}
+    .product-media {
       height: 200px;
       background: var(--secondary-bg);
       display: flex;
@@ -225,21 +205,21 @@
       position: relative;
       overflow: hidden;
     }
-    
-    .product-image::before {
+    .product-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .product-media::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(45deg, transparent 40%, rgba(255, 107, 53, 0.1) 50%, transparent 60%);
-      animation: shimmer 3s infinite;
+      background: linear-gradient(45deg, transparent 40%, rgba(255,107,53,0.1) 50%, transparent 60%);
+      animation: slideShine 3s infinite;
       z-index: 2;
     }
-    
-    @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-    
+    @keyframes slideShine {0% {transform: translateX(-100%);} 100% {transform: translateX(100%);}}
     .stock-badge {
       position: absolute;
       top: 12px;
@@ -252,24 +232,23 @@
       letter-spacing: 1px;
       z-index: 3;
     }
-    
-    .stock-high {
-      background: rgba(34, 197, 94, 0.2);
-      color: var(--success-green);
-      border: 1px solid rgba(34, 197, 94, 0.3);
+    .stock-high {background: rgba(34,197,94,0.2); color: var(--success-green); border: 1px solid rgba(34,197,94,0.3);}
+    .stock-low {background: rgba(239,68,68,0.2); color: var(--danger-red); border: 1px solid rgba(239,68,68,0.3);}
+    .product-details {padding: 20px;}
+    .product-name {font-weight: 600; font-size: 17px; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+    .product-price {
+      background: var(--gradient-2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+      font-size: 20px;
+      margin-bottom: 16px;
     }
-    
-    .stock-low {
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--danger-red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-    
-    /* Primary Add Button */
-    .add-btn {
+    .btn-add {
       background: var(--gradient-1);
       border: none;
-      padding: 14px 24px;
+      padding: 14px;
       border-radius: 30px;
       color: white;
       font-weight: 700;
@@ -283,25 +262,15 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+      box-shadow: 0 4px 20px rgba(255,107,53,0.3);
+      margin-bottom: 10px;
     }
-    
-    .add-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 30px rgba(255, 107, 53, 0.4);
-    }
-    
-    .add-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    /* Secondary Explore Button */
-    .explore-btn {
+    .btn-add:hover {transform: scale(1.02);}
+    .btn-add:disabled {opacity: 0.5; cursor: not-allowed; transform: none;}
+    .btn-explore {
       background: transparent;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      padding: 10px 20px;
+      border: 2px solid rgba(255,255,255,0.2);
+      padding: 10px;
       border-radius: 30px;
       color: var(--text-secondary);
       font-weight: 500;
@@ -310,23 +279,44 @@
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s ease;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
     }
-    
-    .explore-btn:hover {
-      border-color: var(--accent-purple);
-      color: var(--accent-purple);
-      background: rgba(124, 58, 237, 0.1);
+    .btn-explore:hover {border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(124,58,237,0.1);}
+
+    /* Category Sections */
+    .section-group {margin-bottom: 60px;}
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
     }
-    
-    /* Modal Styles */
-    .modal-overlay {
+    .products-scroll {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+    .products-scroll::-webkit-scrollbar {height: 6px;}
+    .products-scroll::-webkit-scrollbar-track {background: transparent;}
+    .products-scroll::-webkit-scrollbar-thumb {background: var(--accent-orange); border-radius: 3px;}
+
+    /* Modals */
+    .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0,0,0,0.8);
       backdrop-filter: blur(10px);
       z-index: 200;
       display: flex;
@@ -337,60 +327,28 @@
       visibility: hidden;
       transition: all 0.3s ease;
     }
-    
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .modal-content {
+    .overlay.active {opacity: 1; visibility: visible;}
+    .modal-product {
       background: var(--card-bg);
       border-radius: 30px;
       max-width: 500px;
       width: 100%;
-      max-height: 90%;
+      max-height: 90vh;
       overflow-y: auto;
       transform: scale(0.9) translateY(20px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
-      scroll-behavior: smooth;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.1);
       position: relative;
     }
-    
-    /* Custom Scrollbar for Modal */
-    .modal-content::-webkit-scrollbar {
-      width: 10px;
-    }
-    
-    .modal-content::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      margin: 10px 0;
-    }
-    
-    .modal-content::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, var(--accent-orange) 0%, var(--accent-purple) 100%);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
-      transition: all 0.3s ease;
-      border: 2px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    .modal-content::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, var(--accent-orange) 0%, var(--accent-blue) 100%);
-      box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
-    }
-    
-    .modal-overlay.active .modal-content {
-      transform: scale(1) translateY(0);
-    }
-    
+    .overlay.active .modal-product {transform: scale(1) translateY(0);}
+    .modal-product::-webkit-scrollbar {width: 10px;}
+    .modal-product::-webkit-scrollbar-track {background: rgba(255,255,255,0.05); border-radius: 10px; margin: 10px 0;}
+    .modal-product::-webkit-scrollbar-thumb {background: linear-gradient(180deg, var(--accent-orange), var(--accent-purple)); border-radius: 10px;}
     .modal-close {
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.1);
       border: none;
       width: 40px;
       height: 40px;
@@ -403,42 +361,21 @@
       transition: all 0.3s ease;
       z-index: 10;
     }
-    
-    .modal-close:hover {
-      background: var(--danger-red);
-      transform: rotate(90deg);
-    }
-    
-    /* Image dans la modale */
-    .modal-product-image {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 30px 30px 0 0;
-    }
-    
-    /* Color Options */
-    .color-option {
+    .modal-close:hover {background: var(--danger-red); transform: rotate(90deg);}
+    .modal-media {width: 100%; height: 300px; object-fit: cover; border-radius: 30px 30px 0 0;}
+    .modal-content {padding: 24px;}
+    .color-selector {
       width: 36px;
       height: 36px;
       border-radius: 50%;
       cursor: pointer;
       border: 3px solid transparent;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    
-    .color-option:hover {
-      transform: scale(1.15);
-    }
-    
-    .color-option.selected {
-      border-color: white;
-      box-shadow: 0 0 0 3px var(--accent-orange);
-    }
-    
-    /* Quantity Selector */
-    .qty-btn {
+    .color-selector:hover {transform: scale(1.15);}
+    .color-selector.selected {border-color: white; box-shadow: 0 0 0 3px var(--accent-orange);}
+    .qty-control {
       background: var(--secondary-bg);
       border: none;
       width: 40px;
@@ -451,11 +388,8 @@
       color: white;
       transition: all 0.3s ease;
     }
-    
-    .qty-btn:hover {
-      background: var(--accent-orange);
-    }
-    
+    .qty-control:hover {background: var(--accent-orange);}
+
     /* Cart Sidebar */
     .cart-sidebar {
       position: fixed;
@@ -463,52 +397,39 @@
       right: -100%;
       width: 100%;
       max-width: 420px;
-      height: 100%;
+      height: 100vh;
       background: var(--secondary-bg);
       z-index: 300;
-      transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: right 0.4s ease;
       display: flex;
       flex-direction: column;
-      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.5);
+      box-shadow: -10px 0 50px rgba(0,0,0,0.5);
     }
-    
-    .cart-sidebar.active {
-      right: 0;
-    }
-    
+    .cart-sidebar.open {right: 0;}
     .cart-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0,0,0,0.6);
       z-index: 250;
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
     }
-    
-    .cart-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .cart-item-image {
-      width: 60px;
-      height: 60px;
-      border-radius: 12px;
-      object-fit: cover;
-    }
-    
+    .cart-overlay.active {opacity: 1; visibility: visible;}
+    .cart-header {padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);}
+    .cart-items-wrapper {flex: 1; overflow-y: auto; padding: 24px;}
     .cart-item {
       background: var(--card-bg);
       border-radius: 20px;
       padding: 16px;
       display: flex;
       gap: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 16px;
     }
-    
-    .remove-item-btn {
-      background: rgba(239, 68, 68, 0.2);
+    .cart-item-media {width: 60px; height: 60px; border-radius: 12px; object-fit: cover;}
+    .btn-remove {
+      background: rgba(239,68,68,0.2);
       border: none;
       width: 32px;
       height: 32px;
@@ -520,17 +441,23 @@
       color: var(--danger-red);
       transition: all 0.3s ease;
     }
-    
-    .remove-item-btn:hover {
-      background: var(--danger-red);
-      color: white;
+    .btn-remove:hover {background: var(--danger-red); color: white;}
+    .cart-footer {
+      padding: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.2);
     }
-    
-    /* WhatsApp Order Button */
-    .whatsapp-btn {
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .total-price {font-size: 24px; font-weight: 800; background: var(--gradient-2); -webkit-background-clip: text; background-clip: text; color: transparent;}
+    .whatsapp-order {
       background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
       border: none;
-      padding: 18px 32px;
+      padding: 18px;
       border-radius: 30px;
       color: white;
       font-weight: 700;
@@ -542,96 +469,14 @@
       justify-content: center;
       gap: 12px;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(37,211,102,0.3);
     }
-    
-    .whatsapp-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
-    }
-    
-    .whatsapp-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    /* Category Dropdown */
-    .category-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 12px;
-      min-width: 220px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: all 0.3s ease;
-      z-index: 150;
-    }
-    
-    .category-dropdown.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(5px);
-    }
-    
-    .category-item {
-      padding: 12px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--text-secondary);
-    }
-    
-    .category-item:hover {
-      background: rgba(255, 107, 53, 0.1);
-      color: var(--accent-orange);
-    }
-    
-    .category-item.active {
-      background: var(--gradient-1);
-      color: white;
-    }
-    
-    /* Loading Spinner */
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-    }
-    
-    /* Price Tag */
-    .price-tag {
-      background: var(--gradient-2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-weight: 800;
-    }
-    
-    /* Toast Notification */
-    .toast {
+    .whatsapp-order:hover {transform: translateY(-3px);}
+    .whatsapp-order:disabled {opacity: 0.5; cursor: not-allowed; transform: none;}
+    .empty-cart {text-align: center; padding: 60px 20px;}
+    .empty-search {text-align: center; padding: 60px 20px;}
+    .toast-alert {
       position: fixed;
       bottom: 30px;
       left: 50%;
@@ -639,1880 +484,626 @@
       background: var(--card-bg);
       padding: 16px 28px;
       border-radius: 30px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
       z-index: 400;
       display: flex;
       align-items: center;
       gap: 12px;
       opacity: 0;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s ease;
     }
-    
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .toast.success {
-      border-color: var(--success-green);
-    }
-    
-    .toast.error {
-      border-color: var(--danger-red);
-    }
-    
-    /* Category Section */
-    .category-section {
-      margin-bottom: 60px;
-    }
-    
-    .category-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      background: var(--gradient-1);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
-    }
-    
-    .horizontal-scroll {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 12px;
-      scroll-behavior: smooth;
-      scroll-snap-type: x mandatory;
-    }
-    
-    .horizontal-scroll::-webkit-scrollbar {
-      height: 6px;
-    }
-    
-    .horizontal-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    
-    .horizontal-scroll::-webkit-scrollbar-thumb {
-      background: var(--accent-orange);
-      border-radius: 3px;
-    }
-    
-    .horizontal-scroll > .product-card {
-      flex: 0 0 260px;
-      scroll-snap-align: start;
-      min-width: 260px;
-    }
+    .toast-alert.show {opacity: 1; transform: translateX(-50%) translateY(0);}
+    .toast-alert.success {border-color: var(--success-green);}
+    .toast-alert.error {border-color: var(--danger-red);}
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .category-btn {
-        padding: 12px 20px;
-        font-size: 12px;
-      }
-      
-      .cart-btn span {
-        display: none;
-      }
-      
-      .product-image {
-        height: 160px;
-      }
+    @media (max-width:768px) {
+      .category-trigger {padding: 12px 20px; font-size: 12px;}
+      .cart-toggle span {display: none;}
+      .product-media {height: 160px;}
+      .modal-media {height: 200px;}
     }
-    
-    @media (max-width: 480px) {
-      .logo-text {
-        font-size: 18px;
-      }
-      
-      .category-btn {
-        padding: 10px 16px;
-        font-size: 11px;
-        letter-spacing: 1px;
-      }
-
-      .modal-product-image {
-        height: 200px;
-      }
+    @media (max-width:480px) {
+      .brand-text {font-size: 18px;}
+      .category-trigger {padding: 10px 16px; font-size: 11px; letter-spacing: 1px;}
     }
   </style>
- </head>
- <body class="h-full">
-  <div class="app-wrapper">
-   <!-- Header -->
-   <header class="header-fixed">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-     <!-- Top Row: Logo -->
-     <div class="flex items-center justify-between mb-4">
-      <h1 class="logo-text text-2xl md:text-3xl" id="store-name">PS Store Online</h1><!-- Cart Button --> <button class="cart-btn" id="cart-toggle"> <i data-lucide="shopping-cart" class="w-5 h-5"></i> <span>Mon Panier</span>
-       <div class="cart-badge" id="cart-badge" style="display: none;">
-        0
-       </div></button>
-     </div><!-- Bottom Row: Category & Search -->
-     <div class="flex flex-col sm:flex-row gap-3">
-      <!-- Category Button -->
-      <div class="relative">
-       <button class="category-btn" id="category-btn"> <i data-lucide="layout-grid" class="w-5 h-5"></i> CATÉGORIE <i data-lucide="chevron-down" class="w-4 h-4"></i> </button> <!-- Category Dropdown -->
-       <div class="category-dropdown" id="category-dropdown">
-        <div class="category-item active" data-category="all">
-         <i data-lucide="sparkles" class="w-4 h-4"></i> Tous les Produits
-        </div>
-        <div class="category-item" data-category="electronics">
-         <i data-lucide="smartphone" class="w-4 h-4"></i> Électronique
-        </div>
-        <div class="category-item" data-category="fashion">
-         <i data-lucide="shirt" class="w-4 h-4"></i> Mode
-        </div>
-        <div class="category-item" data-category="home">
-         <i data-lucide="home" class="w-4 h-4"></i> Maison
-        </div>
-        <div class="category-item" data-category="sports">
-         <i data-lucide="dumbbell" class="w-4 h-4"></i> Sports
-        </div>
-        <div class="category-item" data-category="beauty">
-         <i data-lucide="sparkle" class="w-4 h-4"></i> Beauté
-        </div>
-       </div>
-      </div><!-- Search Bar -->
-      <div class="search-container flex-1 flex items-center">
-       <i data-lucide="search" class="w-5 h-5 ml-4 text-gray-400"></i> <input type="text" class="search-input" placeholder="Rechercher un produit..." id="search-input">
-      </div>
-     </div>
-    </div>
-   </header><!-- Main Content -->
-   <main class="max-w-7xl mx-auto px-4 py-8">
-    <div id="categories-container">
-     <!-- Category sections will be rendered here -->
-    </div><!-- Empty State -->
-    <div class="empty-state hidden" id="empty-state">
-     <div class="text-6xl mb-4">
-      🔍
-     </div>
-     <h3 class="text-xl font-semibold mb-2">Aucun produit trouvé</h3>
-     <p class="text-gray-400">Essayez une autre recherche ou catégorie</p>
-    </div>
-   </main><!-- Product Detail Modal -->
-   <div class="modal-overlay" id="product-modal">
-    <div class="modal-content relative">
-     <button class="modal-close" id="modal-close"> <i data-lucide="x" class="w-5 h-5"></i> </button>
-     <div id="modal-body">
-      <!-- Modal content rendered dynamically -->
-     </div>
-    </div>
-   </div><!-- Cart Overlay -->
-   <div class="cart-overlay" id="cart-overlay"></div><!-- Cart Sidebar -->
-   <div class="cart-sidebar" id="cart-sidebar">
-    <div class="p-6 border-b border-white/10">
-     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-bold">Mon Panier</h2><button class="modal-close" id="cart-close" style="position: static;"> <i data-lucide="x" class="w-5 h-5"></i> </button>
-     </div>
-    </div>
-    <div class="flex-1 overflow-y-auto p-6" id="cart-items">
-     <!-- Cart items rendered here -->
-    </div>
-    <div class="p-6 border-t border-white/10 bg-black/20">
-     <div class="flex justify-between items-center mb-4">
-      <span class="text-gray-400">Total</span> <span class="text-2xl font-bold price-tag" id="cart-total">0 HTG</span>
-     </div><button class="whatsapp-btn w-full" id="whatsapp-order" disabled> <i data-lucide="message-circle" class="w-5 h-5"></i> Commander via WhatsApp </button> <button class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-full transition-all duration-300" id="clear-cart-btn" style="display: none;"> <i data-lucide="trash-2" class="w-4 h-4 inline mr-2"></i> Vider le Panier </button>
-    </div>
-   </div><!-- Toast Notification -->
-   <div class="toast" id="toast">
-    <i data-lucide="check-circle" class="w-5 h-5 text-green-500" id="toast-icon"></i> <span id="toast-message">Produit ajouté au panier</span>
-   </div>
-  </div>
-  <script>
-    // ==================== GUIDE POUR MODIFIER VOTRE SITE ====================
-    // Pour ajouter une image : dans la liste des produits ci-dessous, remplacez la chaîne vide du champ "image" par le chemin de votre fichier dans votre dossier "images"
-    // Exemple : image: 'images/iphone15pro.jpg'
-    // Tous les prix/noms/descriptions sont modifiables à tout moment, le site ne cassera pas
-    // ========================================================================
-
-    // ==================== CONFIG & STATE ====================
-    const defaultConfig = {
-      store_name: 'PS Store Online',
-      whatsapp_number: '+228 71610313',
-      currency_label: 'HTG',
-      background_color: '#0a0a0f',
-      card_color: '#1a1a2e',
-      text_color: '#ffffff',
-      accent_color: '#ff6b35',
-      secondary_accent: '#7c3aed'
-    };
-    
-    let config = { ...defaultConfig };
-    let cartItems = [];
-    let currentCategory = 'all';
-    let searchQuery = '';
-    
-    // ==================== CATALOGUE PRODUITS (91 PRODUITS CONFORMES À VOTRE DEMANDE) ====================
-    const products = [
-      // ------------------------------
-      // CATÉGORIE ÉLECTRONIQUE : 9 PRODUITS (prod-001 à prod-009)
-      // ------------------------------
-      {
-        id: 'prod-001',
-        name: 'JBL Bass',
-        price: 300 $,
-        image: 'image/JBL Bass.jpeg',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7', '#4a4a5a', '#ffd700'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-002',
-        name: 'MacBook Air M3',
-        price: 185000,
-        image: '',
-        category: 'electronics',
-        colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-003',
-        name: 'AirPods Pro 2',
-        price: 35000,
-        image: '',
-        category: 'electronics',
-        colors: ['#f5f5f7'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-004',
-        name: 'Montre Connectée Pro',
-        price: 45000,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-005',
-        name: 'Enceinte Bluetooth',
-        price: 7500,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#ff6b35', '#3b82f6'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-006',
-        name: 'Samsung S24 Ultra',
-        price: 142000,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
-        stock: 18,
-        description: ''
-      },
-      {
-        id: 'prod-007',
-        name: 'iPad Pro 12.9"',
-        price: 165000,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 15,
-        description: ''
-      },
-      {
-        id: 'prod-008',
-        name: 'PlayStation 5 Slim',
-        price: 85000,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 12,
-        description: ''
-      },
-      {
-        id: 'prod-009',
-        name: 'Casque Gaming Sans Fil',
-        price: 18500,
-        image: '',
-        category: 'electronics',
-        colors: ['#1a1a2e', '#ef4444', '#3b82f6'],
-        stock: 22,
-        description: ''
-      },
-      // ------------------------------
-      // CATÉGORIE MAISON : 23 PRODUITS (prod-010 à prod-032)
-      // ------------------------------
-      {
-        id: 'prod-010',
-        name: 'Lampe LED Design',
-        price: 4500,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-011',
-        name: 'Canapé Modulaire 3 Places',
-        price: 125000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#8b4513', '#f5f5f7'],
-        stock: 5,
-        description: ''
-      },
-      {
-        id: 'prod-012',
-        name: 'Table Basse Design',
-        price: 32000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 8,
-        description: ''
-      },
-      {
-        id: 'prod-013',
-        name: 'Rideau Occultant 140x260cm',
-        price: 8500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7', '#7c3aed'],
-        stock: 40,
-        description: ''
-      },
-      {
-        id: 'prod-014',
-        name: 'Coussin Déco 40x40cm',
-        price: 2500,
-        image: '',
-        category: 'home',
-        colors: ['#ec4899', '#3b82f6', '#22c55e', '#f5f5f7'],
-        stock: 50,
-        description: ''
-      },
-      {
-        id: 'prod-015',
-        name: 'Plante Artificielle Ficus',
-        price: 12000,
-        image: '',
-        category: 'home',
-        colors: ['#22c55e'],
-        stock: 15,
-        description: ''
-      },
-      {
-        id: 'prod-016',
-        name: 'Vase Céramique Design',
-        price: 6500,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-017',
-        name: 'Cadre Photo Mural 50x70cm',
-        price: 4500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-018',
-        name: 'Tapis Salon 200x300cm',
-        price: 28000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#4a5568', '#f5f5f7'],
-        stock: 10,
-        description: ''
-      },
-      {
-        id: 'prod-019',
-        name: 'Luminaire Suspension Industriel',
-        price: 18500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#ffd700'],
-        stock: 12,
-        description: ''
-      },
-      {
-        id: 'prod-020',
-        name: 'Organisateur de Cuisine',
-        price: 5500,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 45,
-        description: ''
-      },
-      {
-        id: 'prod-021',
-        name: 'Set de Table 6 Personnes',
-        price: 8500,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#ff6b35', '#3b82f6'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-022',
-        name: 'Micro-Ondes 20L',
-        price: 22000,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 14,
-        description: ''
-      },
-      {
-        id: 'prod-023',
-        name: 'Réfrigérateur Petit Format',
-        price: 75000,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 6,
-        description: ''
-      },
-      {
-        id: 'prod-024',
-        name: 'Lit Double 140x190cm',
-        price: 55000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#8b4513', '#f5f5f7'],
-        stock: 7,
-        description: ''
-      },
-      {
-        id: 'prod-025',
-        name: 'Armoire de Rangement',
-        price: 48000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 8,
-        description: ''
-      },
-      {
-        id: 'prod-026',
-        name: 'Parure de Lit 2 Personnes',
-        price: 12500,
-        image: '',
-        category: 'home',
-        colors: ['#ec4899', '#3b82f6', '#7c3aed', '#f5f5f7'],
-        stock: 32,
-        description: ''
-      },
-      {
-        id: 'prod-027',
-        name: 'Miroir Mural 60x120cm',
-        price: 9500,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7'],
-        stock: 18,
-        description: ''
-      },
-      {
-        id: 'prod-028',
-        name: 'Pouf Déco Rond',
-        price: 7500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#ff6b35', '#7c3aed'],
-        stock: 22,
-        description: ''
-      },
-      {
-        id: 'prod-029',
-        name: 'Cafetière Filtre Automatique',
-        price: 14500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-030',
-        name: 'Aspirateur Robot Connecté',
-        price: 65000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 9,
-        description: ''
-      },
-      {
-        id: 'prod-031',
-        name: 'Store Bateau 120cm',
-        price: 5500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-032',
-        name: 'Bouteille Isotherme 1L',
-        price: 3500,
-        image: '',
-        category: 'home',
-        colors: ['#ff6b35', '#3b82f6', '#22c55e', '#1a1a2e'],
-        stock: 50,
-        description: ''
-      },
-      // ------------------------------
-      // CATÉGORIE MODE : 49 PRODUITS (prod-033 à prod-081)
-      // ------------------------------
-      {
-        id: 'prod-033',
-        name: 'Sneakers Nike Air Max',
-        price: 18500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#000000', '#ff0000', '#00ff00'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-034',
-        name: 'Sac à Dos Premium',
-        price: 8500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513', '#4a5568'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-035',
-        name: 'Lunettes Soleil Design',
-        price: 6500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513', '#daa520'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-036',
-        name: 'Jean Slim Fit Homme',
-        price: 12500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568'],
-        stock: 40,
-        description: ''
-      },
-      {
-        id: 'prod-037',
-        name: 'T-shirt Coton Bio Homme',
-        price: 4500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e', '#3b82f6', '#ff6b35'],
-        stock: 55,
-        description: ''
-      },
-      {
-        id: 'prod-038',
-        name: 'Veste Cuir Véritable',
-        price: 45000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 12,
-        description: ''
-      },
-      {
-        id: 'prod-039',
-        name: 'Robe Midi Femme',
-        price: 14500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ec4899', '#7c3aed', '#f5f5f7'],
-        stock: 22,
-        description: ''
-      },
-      {
-        id: 'prod-040',
-        name: 'Blazer Classique Femme',
-        price: 22000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
-        stock: 15,
-        description: ''
-      },
-      {
-        id: 'prod-041',
-        name: 'Baskets Adidas Originals',
-        price: 17500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#000000', '#3b82f6'],
-        stock: 28,
-        description: ''
-      },
-      {
-        id: 'prod-042',
-        name: 'Sac à Main Cuir Femme',
-        price: 28000,
-        image: '',
-        category: 'fashion',
-        colors: ['#8b4513', '#1a1a2e', '#ec4899'],
-        stock: 18,
-        description: ''
-      },
-      {
-        id: 'prod-043',
-        name: 'Pull Laine Mélangée Homme',
-        price: 16500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-044',
-        name: 'Short de Bain Homme',
-        price: 5500,
-        image: '',
-        category: 'fashion',
-        colors: ['#3b82f6', '#ff6b35', '#7c3aed', '#1a1a2e'],
-        stock: 45,
-        description: ''
-      },
-      {
-        id: 'prod-045',
-        name: 'Combinaison Femme Été',
-        price: 12500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ec4899', '#22c55e', '#f5f5f7'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-046',
-        name: 'Manteau Hiver Homme',
-        price: 55000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568', '#8b4513'],
-        stock: 10,
-        description: ''
-      },
-      {
-        id: 'prod-047',
-        name: 'Doudoune Femme',
-        price: 48000,
-        image: '',
-        category: 'fashion',
-        colors: ['#ff6b35', '#7c3aed', '#1a1a2e', '#f5f5f7'],
-        stock: 12,
-        description: ''
-      },
-      {
-        id: 'prod-048',
-        name: 'Chaussures de Ville Homme',
-        price: 25000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-049',
-        name: 'Baskets Converse Classiques',
-        price: 12500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#000000'],
-        stock: 32,
-        description: ''
-      },
-      {
-        id: 'prod-050',
-        name: 'Pantalon Chino Homme',
-        price: 14500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#4a5568', '#1a1a2e'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-051',
-        name: 'Chemise Lin Homme Été',
-        price: 9500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#3b82f6', '#1a1a2e'],
-        stock: 40,
-        description: ''
-      },
-      {
-        id: 'prod-052',
-        name: 'Jupe Longue Femme',
-        price: 11500,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#ec4899', '#f5f5f7'],
-        stock: 28,
-        description: ''
-      },
-      {
-        id: 'prod-053',
-        name: 'T-shirt Oversize Femme',
-        price: 5500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e', '#ff6b35', '#3b82f6'],
-        stock: 50,
-        description: ''
-      },
-      {
-        id: 'prod-054',
-        name: 'Jean Mom Fit Femme',
-        price: 13500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568'],
-        stock: 38,
-        description: ''
-      },
-      {
-        id: 'prod-055',
-        name: 'Veste en Jean Homme',
-        price: 18500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568'],
-        stock: 22,
-        description: ''
-      },
-      {
-        id: 'prod-056',
-        name: 'Sandales Compensées Femme',
-        price: 14500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#ec4899'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-057',
-        name: 'Claquettes Summer',
-        price: 4500,
-        image: '',
-        category: 'fashion',
-        colors: ['#000000', '#ffffff', '#ff6b35'],
-        stock: 55,
-        description: ''
-      },
-      {
-        id: 'prod-058',
-        name: 'Ceinture Cuir Homme',
-        price: 6500,
-        image: '',
-        category: 'fashion',
-        colors: ['#8b4513', '#1a1a2e'],
-        stock: 42,
-        description: ''
-      },
-      {
-        id: 'prod-059',
-        name: 'Écharpe Laine Femme',
-        price: 5500,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#ec4899', '#3b82f6'],
-        stock: 48,
-        description: ''
-      },
-      {
-        id: 'prod-060',
-        name: 'Bonnet Laine Hiver',
-        price: 3500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
-        stock: 60,
-        description: ''
-      },
-      {
-        id: 'prod-061',
-        name: 'Gants Tactiles Hiver',
-        price: 2500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7'],
-        stock: 55,
-        description: ''
-      },
-      {
-        id: 'prod-062',
-        name: 'Sweat à Capuche Homme',
-        price: 11500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#3b82f6', '#ff6b35', '#f5f5f7'],
-        stock: 38,
-        description: ''
-      },
-      {
-        id: 'prod-063',
-        name: 'Legging Sport Femme',
-        price: 4500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#7c3aed', '#ec4899'],
-        stock: 52,
-        description: ''
-      },
-      {
-        id: 'prod-064',
-        name: 'Brassière Sport',
-        price: 3500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#ec4899'],
-        stock: 48,
-        description: ''
-      },
-      {
-        id: 'prod-065',
-        name: 'Short Jogging Homme',
-        price: 7500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
-        stock: 40,
-        description: ''
-      },
-      {
-        id: 'prod-066',
-        name: 'Robe de Soie Femme',
-        price: 25000,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#ec4899', '#7c3aed'],
-        stock: 15,
-        description: ''
-      },
-      {
-        id: 'prod-067',
-        name: 'Costume 2 Pièces Homme',
-        price: 65000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568', '#8b4513'],
-        stock: 8,
-        description: ''
-      },
-      {
-        id: 'prod-068',
-        name: 'Chemisier Soie Femme',
-        price: 18500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#7c3aed', '#ec4899'],
-        stock: 20,
-        description: ''
-      },
-      {
-        id: 'prod-069',
-        name: 'Montre Classique Homme',
-        price: 35000,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#ffd700', '#8b4513'],
-        stock: 12,
-        description: ''
-      },
-      {
-        id: 'prod-070',
-        name: 'Bijoux Collier Argent',
-        price: 8500,
-        image: '',
-        category: 'fashion',
-        colors: ['#c0c0c0'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-071',
-        name: 'Boucles d\'Oreilles Or',
-        price: 12500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffd700'],
-        stock: 28,
-        description: ''
-      },
-      {
-        id: 'prod-072',
-        name: 'Sac de Voyage 50L',
-        price: 14500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#4a5568'],
-        stock: 22,
-        description: ''
-      },
-      {
-        id: 'prod-073',
-        name: 'Porte-Monnaie Cuir',
-        price: 5500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 45,
-        description: ''
-      },
-      {
-        id: 'prod-074',
-        name: 'Parfum Homme Boisé',
-        price: 14500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-075',
-        name: 'Parfum Femme Floral',
-        price: 15500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffc0cb'],
-        stock: 28,
-        description: ''
-      },
-      {
-        id: 'prod-076',
-        name: 'Lunettes de Vue Anti-Lumière Bleue',
-        price: 7500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#8b4513'],
-        stock: 42,
-        description: ''
-      },
-      {
-        id: 'prod-077',
-        name: 'Ceinture Femme Large',
-        price: 4500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513', '#ff6b35'],
-        stock: 38,
-        description: ''
-      },
-      {
-        id: 'prod-078',
-        name: 'Écharpe de Soie',
-        price: 10500,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#ec4899', '#3b82f6'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-079',
-        name: 'Chaussons Maison Peluche',
-        price: 3500,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#ff6b35', '#1a1a2e'],
-        stock: 55,
-        description: ''
-      },
-      {
-        id: 'prod-080',
-        name: 'Pyjama Coton Homme',
-        price: 8500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-081',
-        name: 'Pyjama Satin Femme',
-        price: 10500,
-        image: '',
-        category: 'fashion',
-        colors: ['#ec4899', '#7c3aed', '#f5f5f7'],
-        stock: 32,
-        description: ''
-      },
-      // ------------------------------
-      // CATÉGORIE BEAUTÉ : 9 PRODUITS (prod-082 à prod-090)
-      // ------------------------------
-      {
-        id: 'prod-082',
-        name: 'Parfum Élégance',
-        price: 12000,
-        image: '',
-        category: 'beauty',
-        colors: ['#ffc0cb', '#ff69b4', '#daa520'],
-        stock: 25,
-        description: ''
-      },
-      {
-        id: 'prod-083',
-        name: 'Sérum Visage Hydratant',
-        price: 8500,
-        image: '',
-        category: 'beauty',
-        colors: ['#f5f5f7', '#3b82f6'],
-        stock: 35,
-        description: ''
-      },
-      {
-        id: 'prod-084',
-        name: 'Crème Anti-Âge',
-        price: 14500,
-        image: '',
-        category: 'beauty',
-        colors: ['#f5f5f7', '#ec4899'],
-        stock: 22,
-        description: ''
-      },
-      {
-        id: 'prod-085',
-        name: 'Mascara Volume Intense',
-        price: 4500,
-        image: '',
-        category: 'beauty',
-        colors: ['#1a1a2e'],
-        stock: 45,
-        description: ''
-      },
-      {
-        id: 'prod-086',
-        name: 'Rouge à Lèvres Mat',
-        price: 3500,
-        image: '',
-        category: 'beauty',
-        colors: ['#ef4444', '#ec4899', '#1a1a2e', '#f5f5f7'],
-        stock: 50,
-        description: ''
-      },
-      {
-        id: 'prod-087',
-        name: 'Gommage Corps Exfoliant',
-        price: 5500,
-        image: '',
-        category: 'beauty',
-        colors: ['#22c55e', '#f5f5f7'],
-        stock: 38,
-        description: ''
-      },
-      {
-        id: 'prod-088',
-        name: 'Huile de Argan Bio',
-        price: 7500,
-        image: '',
-        category: 'beauty',
-        colors: ['#ffd700'],
-        stock: 30,
-        description: ''
-      },
-      {
-        id: 'prod-089',
-        name: 'Shampoing Réparateur',
-        price: 4500,
-        image: '',
-        category: 'beauty',
-        colors: ['#3b82f6', '#f5f5f7'],
-        stock: 42,
-        description: ''
-      },
-      {
-        id: 'prod-090',
-        name: 'Parfum Mixte Boisé',
-        price: 13500,
-        image: '',
-        category: 'beauty',
-        colors: ['#1a1a2e'],
-        stock: 28,
-        description: ''
-      },
-      // ------------------------------
-      // CATÉGORIE SPORTS : 1 PRODUIT (prod-091)
-      // ------------------------------
-      {
-        id: 'prod-091',
-        name: 'Ballon de Foot Pro',
-        price: 5500,
-        image: '',
-        category: 'sports',
-        colors: ['#ffffff', '#ff6b35', '#1a1a2e'],
-        stock: 40,
-        description: ''
-      }
-    ];
-    
-
-    
-    // ==================== ELEMENT SDK ====================
-    async function initElementSdk() {
-      if (window.elementSdk) {
-        try {
-          window.elementSdk.init({
-            defaultConfig,
-            onConfigChange: async (newConfig) => {
-              config = { ...defaultConfig, ...newConfig };
-              applyConfig();
-            },
-            mapToCapabilities: (cfg) => ({
-              recolorables: [
-                {
-                  get: () => cfg.background_color || defaultConfig.background_color,
-                  set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
-                },
-                {
-                  get: () => cfg.card_color || defaultConfig.card_color,
-                  set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
-                },
-                {
-                  get: () => cfg.text_color || defaultConfig.text_color,
-                  set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-                },
-                {
-                  get: () => cfg.accent_color || defaultConfig.accent_color,
-                  set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
-                },
-                {
-                  get: () => cfg.secondary_accent || defaultConfig.secondary_accent,
-                  set: (v) => { cfg.secondary_accent = v; window.elementSdk.setConfig({ secondary_accent: v }); }
-                }
-              ],
-              borderables: [],
-              fontEditable: undefined,
-              fontSizeable: undefined
-            }),
-            mapToEditPanelValues: (cfg) => new Map([
-              ['store_name', cfg.store_name || defaultConfig.store_name],
-              ['whatsapp_number', cfg.whatsapp_number || defaultConfig.whatsapp_number],
-              ['currency_label', cfg.currency_label || defaultConfig.currency_label]
-            ])
-          });
-        } catch (e) {
-          console.log("SDK non chargé, le site fonctionne normalement");
-        }
-      }
-    }
-    
-    function applyConfig() {
-      const root = document.documentElement;
-      root.style.setProperty('--primary-bg', config.background_color || defaultConfig.background_color);
-      root.style.setProperty('--card-bg', config.card_color || defaultConfig.card_color);
-      root.style.setProperty('--text-primary', config.text_color || defaultConfig.text_color);
-      root.style.setProperty('--accent-orange', config.accent_color || defaultConfig.accent_color);
-      root.style.setProperty('--accent-purple', config.secondary_accent || defaultConfig.secondary_accent);
-      
-      const storeNameEl = document.getElementById('store-name');
-      if (storeNameEl) {
-        storeNameEl.textContent = config.store_name || defaultConfig.store_name;
-      }
-    }
-    
-    // ==================== RENDER FUNCTIONS ====================
-    function formatPrice(price) {
-      const currency = config.currency_label || defaultConfig.currency_label;
-      return `${price.toLocaleString('fr-FR')} ${currency}`;
-    }
-    
-    function renderProducts() {
-      const container = document.getElementById('categories-container');
-      const emptyState = document.getElementById('empty-state');
-      if (!container || !emptyState) return;
-
-      // Get all unique categories (excluding 'all')
-      const uniqueCategories = ['electronics', 'fashion', 'home', 'sports', 'beauty'];
-      
-      // Filter products based on search query
-      const getFilteredBySearch = (prods) => {
-        if (searchQuery === '') return prods;
-        return prods.filter(p => 
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.description.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      };
-      
-      // If searching, show only matching products in a single section
-      if (searchQuery !== '') {
-        const filtered = getFilteredBySearch(products);
-        
-        if (filtered.length === 0) {
-          container.innerHTML = '';
-          emptyState.classList.remove('hidden');
-          return;
-        }
-        
-        emptyState.classList.add('hidden');
-        container.innerHTML = `
-          <div class="category-section">
-            <h2 class="category-title">Résultats de recherche (${filtered.length})</h2>
-            <div class="horizontal-scroll">
-              ${filtered.map(product => createProductCardHTML(product)).join('')}
-            </div>
-          </div>
-        `;
-        lucide.createIcons();
-        return;
-      }
-      
-      // If category selected, show only that category
-      if (currentCategory !== 'all') {
-        const filtered = products.filter(p => p.category === currentCategory);
-        
-        if (filtered.length === 0) {
-          container.innerHTML = '';
-          emptyState.classList.remove('hidden');
-          return;
-        }
-        
-        emptyState.classList.add('hidden');
-        const categoryLabel = getCategoryLabel(currentCategory);
-        container.innerHTML = `
-          <div class="category-section">
-            <h2 class="category-title">${categoryLabel}</h2>
-            <div class="horizontal-scroll">
-              ${filtered.map(product => createProductCardHTML(product)).join('')}
-            </div>
-          </div>
-        `;
-        lucide.createIcons();
-        return;
-      }
-      
-      // Normal view: show all categories with horizontal scroll
-      emptyState.classList.add('hidden');
-      
-      container.innerHTML = uniqueCategories.map(category => {
-        const categoryProducts = products.filter(p => p.category === category);
-        if (categoryProducts.length === 0) return '';
-        
-        const categoryLabel = getCategoryLabel(category);
-        
-        return `
-          <div class="category-section">
-            <h2 class="category-title">${categoryLabel}</h2>
-            <div class="horizontal-scroll">
-              ${categoryProducts.map(product => createProductCardHTML(product)).join('')}
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      lucide.createIcons();
-    }
-    
-    function createProductCardHTML(product) {
-      const defaultImage = `https://via.placeholder.com/260x200/e2e8f0/1e293b?text=${encodeURIComponent(product.name.substring(0, 20))}`;
-      const productImage = product.image ? product.image : defaultImage;
-      
-      return `
-        <div class="product-card" data-id="${product.id}">
-          <div class="product-image">
-            <img src="${productImage}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/260x200/ef4444/ffffff?text=Image+manquante'">
-            <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
-              ${product.stock > 10 ? 'En Stock' : `${product.stock} restants`}
-            </span>
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg mb-1 truncate">${product.name}</h3>
-            <p class="price-tag text-xl font-bold mb-4">${formatPrice(product.price)}</p>
-            
-            <div class="space-y-3">
-              <button class="add-btn" onclick="addToCart('${product.id}')" ${product.stock === 0 ? 'disabled' : ''}>
-                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                Ajouter au Panier
-              </button>
-              <button class="explore-btn w-full" onclick="openProductModal('${product.id}')">
-                <i data-lucide="eye" class="w-4 h-4"></i>
-                Explorer
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-    
-    function getCategoryLabel(category) {
-      const labels = {
-        'electronics': '📱 Électronique',
-        'fashion': '👗 Mode',
-        'home': '🏠 Maison',
-        'sports': '⚽ Sports',
-        'beauty': '💄 Beauté'
-      };
-      return labels[category] || category;
-    }
-    
-    function renderCart() {
-      const cartItemsEl = document.getElementById('cart-items');
-      const cartTotalEl = document.getElementById('cart-total');
-      const whatsappBtn = document.getElementById('whatsapp-order');
-      const clearCartBtn = document.getElementById('clear-cart-btn');
-      if (!cartItemsEl || !cartTotalEl || !whatsappBtn || !clearCartBtn) return;
-
-      if (cartItems.length === 0) {
-        cartItemsEl.innerHTML = `
-          <div class="empty-state">
-            <div class="text-5xl mb-4">🛒</div>
-            <h3 class="text-lg font-semibold mb-2">Panier vide</h3>
-            <p class="text-gray-400 text-sm">Ajoutez des produits pour commencer</p>
-          </div>
-        `;
-        cartTotalEl.textContent = formatPrice(0);
-        whatsappBtn.disabled = true;
-        clearCartBtn.style.display = 'none';
-        return;
-      }
-      
-      let total = 0;
-      
-      cartItemsEl.innerHTML = cartItems.map(item => {
-        const product = products.find(p => p.id === item.product_id);
-        if (!product) return '';
-        
-        const itemTotal = product.price * item.quantity;
-        total += itemTotal;
-        const defaultImage = `https://via.placeholder.com/60x60/e2e8f0/1e293b?text=Produit`;
-        const productImage = product.image ? product.image : defaultImage;
-        
-        return `
-          <div class="cart-item mb-4">
-            <img src="${productImage}" alt="${product.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/ef4444/ffffff?text=Erreur'">
-            <div class="flex-1 min-w-0">
-              <h4 class="font-semibold truncate">${product.name}</h4>
-              <p class="text-sm text-gray-400">
-                Couleur: <span class="inline-block w-3 h-3 rounded-full align-middle" style="background: ${item.color}"></span>
-              </p>
-              <p class="text-sm text-gray-400">Qté: ${item.quantity}</p>
-              <p class="price-tag font-bold">${formatPrice(itemTotal)}</p>
-            </div>
-            <div class="flex flex-col gap-2">
-              <button class="qty-btn" onclick="decrementItem('${item.__backendId}')" title="Diminuer la quantité">
-                <i data-lucide="minus" class="w-4 h-4"></i>
-              </button>
-              <button class="remove-item-btn" onclick="removeFromCart('${item.__backendId}')" title="Supprimer">
-                <i data-lucide="trash-2" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      cartTotalEl.textContent = formatPrice(total);
-      whatsappBtn.disabled = false;
-      clearCartBtn.style.display = 'block';
-      
-      lucide.createIcons();
-    }
-    
-    function updateCartBadge() {
-      const badge = document.getElementById('cart-badge');
-      if (!badge) return;
-      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-      
-      if (totalItems > 0) {
-        badge.style.display = 'flex';
-        badge.textContent = totalItems;
-      } else {
-        badge.style.display = 'none';
-      }
-    }
-    
-    // ==================== MODAL FUNCTIONS ====================
-    function openProductModal(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product) return;
-      
-      const modal = document.getElementById('product-modal');
-      const modalBody = document.getElementById('modal-body');
-      if (!modal || !modalBody) return;
-
-      const defaultImage = `https://via.placeholder.com/500x300/e2e8f0/1e293b?text=${encodeURIComponent(product.name)}`;
-      const productImage = product.image ? product.image : defaultImage;
-      
-      const stockStatus = product.stock > 10 ? 'En Stock' : product.stock > 0 ? `${product.stock} restants` : 'Rupture de stock';
-      const stockColor = product.stock > 10 ? '#22c55e' : product.stock > 0 ? '#f97316' : '#ef4444';
-      
-      modalBody.innerHTML = `
-        <img src="${productImage}" alt="${product.name}" class="modal-product-image" onerror="this.src='https://via.placeholder.com/500x300/ef4444/ffffff?text=Image+manquante'">
-        <div class="p-6">
-          <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
-          <p class="price-tag text-3xl font-bold mb-4">${formatPrice(product.price)}</p>
-          
-          <!-- Stock & Availability Info -->
-          <div class="mb-6 p-4 rounded-xl" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-gray-400 text-sm">État du Stock</span>
-              <span class="font-semibold px-3 py-1 rounded-full" style="color: ${stockColor}; background: rgba(255, 255, 255, 0.05);">
-                ${stockStatus}
-              </span>
-            </div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-gray-400 text-sm">Quantité Disponible</span>
-              <span class="font-bold text-lg">${product.stock} unité${product.stock > 1 ? 's' : ''}</span>
-            </div>
-            <div class="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
-              <div style="width: ${Math.min((product.stock / 50) * 100, 100)}%; height: 100%; background: ${stockColor}; transition: width 0.3s ease;"></div>
-            </div>
-          </div>
-          
-          <div class="mb-6">
-            <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Couleurs Disponibles</h4>
-            <div class="flex gap-3" id="modal-colors">
-              ${product.colors.map((color, i) => `
-                <button class="color-option ${i === 0 ? 'selected' : ''}" 
-                        style="background: ${color}" 
-                        data-color="${color}"
-                        onclick="selectColor(this)"></button>
-              `).join('')}
-            </div>
-          </div>
-          
-          <div class="mb-6">
-            <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Quantité à Commander</h4>
-            <div class="flex items-center gap-4">
-              <button class="qty-btn" onclick="updateModalQty(-1)">
-                <i data-lucide="minus" class="w-4 h-4"></i>
-              </button>
-              <span class="text-xl font-bold w-12 text-center" id="modal-qty">1</span>
-              <button class="qty-btn" onclick="updateModalQty(1)">
-                <i data-lucide="plus" class="w-4 h-4"></i>
-              </button>
-            </div>
-            <p class="text-xs text-gray-500 mt-2">Max. ${product.stock} unités disponibles</p>
-          </div>
-          
-          <!-- Product Info Details -->
-          <div class="mb-6 grid grid-cols-2 gap-3">
-            <div class="p-3 rounded-lg" style="background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.2);">
-              <p class="text-xs text-gray-400 mb-1">Catégorie</p>
-              <p class="font-semibold text-sm capitalize">${product.category}</p>
-            </div>
-            <div class="p-3 rounded-lg" style="background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.2);">
-              <p class="text-xs text-gray-400 mb-1">ID Produit</p>
-              <p class="font-semibold text-sm">${product.id}</p>
-            </div>
-          </div>
-          
-          <div class="mb-6">
-            <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Description</h4>
-            <p class="text-gray-300 leading-relaxed">${product.description || 'Aucune description pour ce produit'}</p>
-          </div>
-          
-          <button class="add-btn" onclick="addFromModal('${product.id}')" ${product.stock === 0 ? 'disabled' : ''}>
+</head>
+<body>
+  <div class="app-container">
+    <header class="site-header">
+      <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="brand-text text-2xl md:text-3xl">PS Store Online</h1>
+          <button class="cart-toggle" id="cart-open-btn">
             <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-            ${product.stock === 0 ? 'Rupture de Stock' : 'Ajouter au Panier'}
+            <span>Mon Panier</span>
+            <span class="cart-counter" id="cart-counter">0</span>
           </button>
         </div>
-      `;
-      
-      modal.classList.add('active');
-      lucide.createIcons();
-    }
-    
-    function closeProductModal() {
-      const modal = document.getElementById('product-modal');
-      if (modal) modal.classList.remove('active');
-    }
-    
-    function selectColor(el) {
-      document.querySelectorAll('#modal-colors .color-option').forEach(opt => opt.classList.remove('selected'));
-      el.classList.add('selected');
-    }
-    
-    function updateModalQty(delta) {
-      const qtyEl = document.getElementById('modal-qty');
-      if (!qtyEl) return;
-      let qty = parseInt(qtyEl.textContent) + delta;
-      if (qty < 1) qty = 1;
-      if (qty > 10) qty = 10;
-      qtyEl.textContent = qty;
-    }
-    
-    // ==================== CART FUNCTIONS ====================
-    async function addToCart(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product || product.stock === 0) return;
-      
-      const color = product.colors[0];
-      
-      // Verify stock is available
-      if (product.stock < 1) {
-        showToast('Stock insuffisant', 'error');
-        return;
+        <div class="flex flex-col sm:flex-row gap-3">
+          <div class="relative">
+            <button class="category-trigger" id="category-open-btn">
+              <i data-lucide="layout-grid" class="w-5 h-5"></i>
+              CATÉGORIE
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+            <div class="category-menu" id="category-dropdown">
+              <div class="category-option active" data-filter="all">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Tous les Produits
+              </div>
+              <div class="category-option" data-filter="electronics">
+                <i data-lucide="smartphone" class="w-4 h-4"></i> Électronique
+              </div>
+              <div class="category-option" data-filter="fashion">
+                <i data-lucide="shirt" class="w-4 h-4"></i> Mode
+              </div>
+              <div class="category-option" data-filter="home">
+                <i data-lucide="home" class="w-4 h-4"></i> Maison
+              </div>
+              <div class="category-option" data-filter="sports">
+                <i data-lucide="dumbbell" class="w-4 h-4"></i> Sports
+              </div>
+              <div class="category-option" data-filter="beauty">
+                <i data-lucide="sparkle" class="w-4 h-4"></i> Beauté
+              </div>
+            </div>
+          </div>
+          <div class="search-wrapper">
+            <i data-lucide="search" class="w-5 h-5 ml-4 text-gray-400"></i>
+            <input type="text" class="search-input" placeholder="Rechercher un produit..." id="search-input">
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <div id="products-container"></div>
+      <div class="empty-search hidden" id="empty-search-state">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-semibold mb-2">Aucun produit trouvé</h3>
+        <p class="text-gray-400">Essayez une autre recherche ou catégorie</p>
+      </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="overlay" id="product-modal-overlay">
+      <div class="modal-product">
+        <button class="modal-close" id="close-modal-btn"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <div id="modal-inner-content"></div>
+      </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+      <div class="cart-header">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-bold">Mon Panier</h2>
+          <button class="modal-close" id="close-cart-btn"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+      </div>
+      <div class="cart-items-wrapper" id="cart-items-container"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span class="text-gray-400">Total</span>
+          <span class="total-price" id="cart-total-price">0 HTG</span>
+        </div>
+        <button class="whatsapp-order" id="whatsapp-order-btn" disabled>
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Commander via WhatsApp
+        </button>
+        <button class="w-full mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-full transition-all" id="clear-cart-btn">
+          <i data-lucide="trash-2" class="w-4 h-4 inline mr-2"></i> Vider le Panier
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-alert" id="site-toast">
+      <i data-lucide="check-circle" class="w-5 h-5 text-green-500" id="toast-icon"></i>
+      <span id="toast-text">Produit ajouté au panier</span>
+    </div>
+  </div>
+
+  <script>
+    class PSStore {
+      constructor() {
+        this.config = {
+          storeName: 'PS Store Online',
+          whatsappNumber: '+22871610313',
+          currency: 'HTG',
+          baseImagePath: 'images/'
+        };
+        this.activeFilter = 'all';
+        this.searchTerm = '';
+        this.cart = new Map();
+        this.modalQty = 1;
+        this.selectedColor = null;
+        this.products = this.loadCatalog();
+        this.categories = new Map([
+          ['electronics', {label: '📱 Électronique', element: null}],
+          ['fashion', {label: '👗 Mode', element: null}],
+          ['home', {label: '🏠 Maison', element: null}],
+          ['sports', {label: '⚽ Sports', element: null}],
+          ['beauty', {label: '💄 Beauté', element: null}]
+        ]);
+        this.init();
       }
-      
-      // Check if item already exists in cart
-      const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
-      
-      if (existingItem) {
-        // Check if we can add more
-        if (product.stock > 0) {
-          existingItem.quantity += 1;
-          product.stock -= 1;
-        } else {
-          showToast('Stock insuffisant pour cette quantité', 'error');
+
+      loadCatalog() {
+        return [
+          // ÉLECTRONIQUE : 9 PRODUITS
+          {id:'prod-001',name:'JBL Bass',price:350 $,image:'image/JBL Bass.jpeg',category:'electronics',colors:['#1a1a2e','#f5f5f7','#4a4a5a','#ffd700'],stock:20,description:''},
+          {id:'prod-002',name:'MacBook Air M3',price:185000,image:'',category:'electronics',colors:['#c0c0c0','#2e2e2e','#ffd700'],stock:20,description:''},
+          {id:'prod-003',name:'AirPods Pro 2',price:35000,image:'',category:'electronics',colors:['#f5f5f7'],stock:20,description:''},
+          {id:'prod-004',name:'Montre Connectée Pro',price:45000,image:'',category:'electronics',colors:['#1a1a2e','#f5f5f7','#ff6b35'],stock:20,description:''},
+          {id:'prod-005',name:'Enceinte Bluetooth',price:7500,image:'',category:'electronics',colors:['#1a1a2e','#ff6b35','#3b82f6'],stock:20,description:''},
+          {id:'prod-006',name:'Samsung S24 Ultra',price:142000,image:'',category:'electronics',colors:['#1a1a2e','#f5f5f7','#3b82f6'],stock:18,description:''},
+          {id:'prod-007',name:'iPad Pro 12.9"',price:165000,image:'',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:15,description:''},
+          {id:'prod-008',name:'PlayStation 5 Slim',price:85000,image:'',category:'electronics',colors:['#1a1a2e','#f5f5f7'],stock:12,description:''},
+          {id:'prod-009',name:'Casque Gaming Sans Fil',price:18500,image:'',category:'electronics',colors:['#1a1a2e','#ef4444','#3b82f6'],stock:22,description:''},
+          // MAISON : 23 PRODUITS
+          {id:'prod-010',name:'Lampe LED Design',price:4500,image:'',category:'home',colors:['#f5f5f7','#1a1a2e','#ffd700'],stock:30,description:''},
+          {id:'prod-011',name:'Canapé Modulaire 3 Places',price:125000,image:'',category:'home',colors:['#1a1a2e','#8b4513','#f5f5f7'],stock:5,description:''},
+          {id:'prod-012',name:'Table Basse Design',price:32000,image:'',category:'home',colors:['#1a1a2e','#8b4513'],stock:8,description:''},
+          {id:'prod-013',name:'Rideau Occultant 140x260cm',price:8500,image:'',category:'home',colors:['#1a1a2e','#f5f5f7','#7c3aed'],stock:40,description:''},
+          {id:'prod-014',name:'Coussin Déco 40x40cm',price:2500,image:'',category:'home',colors:['#ec4899','#3b82f6','#22c55e','#f5f5f7'],stock:50,description:''},
+          {id:'prod-015',name:'Plante Artificielle Ficus',price:12000,image:'',category:'home',colors:['#22c55e'],stock:15,description:''},
+          {id:'prod-016',name:'Vase Céramique Design',price:6500,image:'',category:'home',colors:['#f5f5f7','#1a1a2e','#ffd700'],stock:25,description:''},
+          {id:'prod-017',name:'Cadre Photo Mural 50x70cm',price:4500,image:'',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:35,description:''},
+          {id:'prod-018',name:'Tapis Salon 200x300cm',price:28000,image:'',category:'home',colors:['#1a1a2e','#4a5568','#f5f5f7'],stock:10,description:''},
+          {id:'prod-019',name:'Luminaire Suspension Industriel',price:18500,image:'',category:'home',colors:['#1a1a2e','#ffd700'],stock:12,description:''},
+          {id:'prod-020',name:'Organisateur de Cuisine',price:5500,image:'',category:'home',colors:['#f5f5f7','#1a1a2e'],stock:45,description:''},
+          {id:'prod-021',name:'Set de Table 6 Personnes',price:8500,image:'',category:'home',colors:['#f5f5f7','#ff6b35','#3b82f6'],stock:30,description:''},
+          {id:'prod-022',name:'Micro-Ondes 20L',price:22000,image:'',category:'home',colors:['#f5f5f7','#1a1a2e'],stock:14,description:''},
+          {id:'prod-023',name:'Réfrigérateur Petit Format',price:75000,image:'',category:'home',colors:['#f5f5f7','#1a1a2e'],stock:6,description:''},
+          {id:'prod-024',name:'Lit Double 140x190cm',price:55000,image:'',category:'home',colors:['#1a1a2e','#8b4513','#f5f5f7'],stock:7,description:''},
+          {id:'prod-025',name:'Armoire de Rangement',price:48000,image:'',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:8,description:''},
+          {id:'prod-026',name:'Parure de Lit 2 Personnes',price:12500,image:'',category:'home',colors:['#ec4899','#3b82f6','#7c3aed','#f5f5f7'],stock:32,description:''},
+          {id:'prod-027',name:'Miroir Mural 60x120cm',price:9500,image:'',category:'home',colors:['#f5f5f7'],stock:18,description:''},
+          {id:'prod-028',name:'Pouf Déco Rond',price:7500,image:'',category:'home',colors:['#1a1a2e','#ff6b35','#7c3aed'],stock:22,description:''},
+          {id:'prod-029',name:'Cafetière Filtre Automatique',price:14500,image:'',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:20,description:''},
+          {id:'prod-030',name:'Aspirateur Robot Connecté',price:65000,image:'',category:'home',colors:['#1a1a2e','#f5f5f7'],stock:9,description:''},
+          {id:'prod-031',name:'Store Bateau 120cm',price:5500,image:'',category:'home',colors:['#1a1a2e','#f5f5f7','#4a5568'],stock:35,description:''},
+          {id:'prod-032',name:'Bouteille Isotherme 1L',price:3500,image:'',category:'home',colors:['#ff6b35','#3b82f6','#22c55e','#1a1a2e'],stock:50,description:''},
+          // MODE : 49 PRODUITS
+          {id:'prod-033',name:'Sneakers Nike Air Max',price:18500,image:'',category:'fashion',colors:['#ffffff','#000000','#ff0000','#00ff00'],stock:25,description:''},
+          {id:'prod-034',name:'Sac à Dos Premium',price:8500,image:'',category:'fashion',colors:['#1a1a2e','#8b4513','#4a5568'],stock:30,description:''},
+          {id:'prod-035',name:'Lunettes Soleil Design',price:6500,image:'',category:'fashion',colors:['#1a1a2e','#8b4513','#daa520'],stock:35,description:''},
+          {id:'prod-036',name:'Jean Slim Fit Homme',price:12500,image:'',category:'fashion',colors:['#1a1a2e','#4a5568'],stock:40,description:''},
+          {id:'prod-037',name:'T-shirt Coton Bio Homme',price:4500,image:'',category:'fashion',colors:['#f5f5f7','#1a1a2e','#3b82f6','#ff6b35'],stock:55,description:''},
+          {id:'prod-038',name:'Veste Cuir Véritable',price:45000,image:'',category:'fashion',colors:['#1a1a2e','#8b4513'],stock:12,description:''},
+          {id:'prod-039',name:'Robe Midi Femme',price:14500,image:'',category:'fashion',colors:['#ec4899','#7c3aed','#f5f5f7'],stock:22,description:''},
+          {id:'prod-040',name:'Blazer Classique Femme',price:22000,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#4a5568'],stock:15,description:''},
+          {id:'prod-041',name:'Baskets Adidas Originals',price:17500,image:'',category:'fashion',colors:['#ffffff','#000000','#3b82f6'],stock:28,description:''},
+          {id:'prod-042',name:'Sac à Main Cuir Femme',price:28000,image:'',category:'fashion',colors:['#8b4513','#1a1a2e','#ec4899'],stock:18,description:''},
+          {id:'prod-043',name:'Pull Laine Mélangée Homme',price:16500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#4a5568'],stock:30,description:''},
+          {id:'prod-044',name:'Short de Bain Homme',price:5500,image:'',category:'fashion',colors:['#3b82f6','#ff6b35','#7c3aed','#1a1a2e'],stock:45,description:''},
+          {id:'prod-045',name:'Combinaison Femme Été',price:12500,image:'',category:'fashion',colors:['#ec4899','#22c55e','#f5f5f7'],stock:25,description:''},
+          {id:'prod-046',name:'Manteau Hiver Homme',price:55000,image:'',category:'fashion',colors:['#1a1a2e','#4a5568','#8b4513'],stock:10,description:''},
+          {id:'prod-047',name:'Doudoune Femme',price:48000,image:'',category:'fashion',colors:['#ff6b35','#7c3aed','#1a1a2e','#f5f5f7'],stock:12,description:''},
+          {id:'prod-048',name:'Chaussures de Ville Homme',price:25000,image:'',category:'fashion',colors:['#1a1a2e','#8b4513'],stock:20,description:''},
+          {id:'prod-049',name:'Baskets Converse Classiques',price:12500,image:'',category:'fashion',colors:['#ffffff','#000000'],stock:32,description:''},
+          {id:'prod-050',name:'Pantalon Chino Homme',price:14500,image:'',category:'fashion',colors:['#f5f5f7','#4a5568','#1a1a2e'],stock:35,description:''},
+          {id:'prod-051',name:'Chemise Lin Homme Été',price:9500,image:'',category:'fashion',colors:['#f5f5f7','#3b82f6','#1a1a2e'],stock:40,description:''},
+          {id:'prod-052',name:'Jupe Longue Femme',price:11500,image:'',category:'fashion',colors:['#7c3aed','#ec4899','#f5f5f7'],stock:28,description:''},
+          {id:'prod-053',name:'T-shirt Oversize Femme',price:5500,image:'',category:'fashion',colors:['#f5f5f7','#1a1a2e','#ff6b35','#3b82f6'],stock:50,description:''},
+          {id:'prod-054',name:'Jean Mom Fit Femme',price:13500,image:'',category:'fashion',colors:['#1a1a2e','#4a5568'],stock:38,description:''},
+          {id:'prod-055',name:'Veste en Jean Homme',price:18500,image:'',category:'fashion',colors:['#1a1a2e','#4a5568'],stock:22,description:''},
+          {id:'prod-056',name:'Sandales Compensées Femme',price:14500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#ec4899'],stock:25,description:''},
+          {id:'prod-057',name:'Claquettes Summer',price:4500,image:'',category:'fashion',colors:['#000000','#ffffff','#ff6b35'],stock:55,description:''},
+          {id:'prod-058',name:'Ceinture Cuir Homme',price:6500,image:'',category:'fashion',colors:['#8b4513','#1a1a2e'],stock:42,description:''},
+          {id:'prod-059',name:'Écharpe Laine Femme',price:5500,image:'',category:'fashion',colors:['#7c3aed','#ec4899','#3b82f6'],stock:48,description:''},
+          {id:'prod-060',name:'Bonnet Laine Hiver',price:3500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#ff6b35'],stock:60,description:''},
+          {id:'prod-061',name:'Gants Tactiles Hiver',price:2500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7'],stock:55,description:''},
+          {id:'prod-062',name:'Sweat à Capuche Homme',price:11500,image:'',category:'fashion',colors:['#1a1a2e','#3b82f6','#ff6b35','#f5f5f7'],stock:38,description:''},
+          {id:'prod-063',name:'Legging Sport Femme',price:4500,image:'',category:'fashion',colors:['#1a1a2e','#7c3aed','#ec4899'],stock:52,description:''},
+          {id:'prod-064',name:'Brassière Sport',price:3500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#ec4899'],stock:48,description:''},
+          {id:'prod-065',name:'Short Jogging Homme',price:7500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#3b82f6'],stock:40,description:''},
+          {id:'prod-066',name:'Robe de Soie Femme',price:25000,image:'',category:'fashion',colors:['#f5f5f7','#ec4899','#7c3aed'],stock:15,description:''},
+          {id:'prod-067',name:'Costume 2 Pièces Homme',price:65000,image:'',category:'fashion',colors:['#1a1a2e','#4a5568','#8b4513'],stock:8,description:''},
+          {id:'prod-068',name:'Chemisier Soie Femme',price:18500,image:'',category:'fashion',colors:['#f5f5f7','#7c3aed','#ec4899'],stock:20,description:''},
+          {id:'prod-069',name:'Montre Classique Homme',price:35000,image:'',category:'fashion',colors:['#1a1a2e','#ffd700','#8b4513'],stock:12,description:''},
+          {id:'prod-070',name:'Bijoux Collier Argent',price:8500,image:'',category:'fashion',colors:['#c0c0c0'],stock:35,description:''},
+          {id:'prod-071',name:'Boucles d\'Oreilles Or',price:12500,image:'',category:'fashion',colors:['#ffd700'],stock:28,description:''},
+          {id:'prod-072',name:'Sac de Voyage 50L',price:14500,image:'',category:'fashion',colors:['#1a1a2e','#4a5568'],stock:22,description:''},
+          {id:'prod-073',name:'Porte-Monnaie Cuir',price:5500,image:'',category:'fashion',colors:['#1a1a2e','#8b4513'],stock:45,description:''},
+          {id:'prod-074',name:'Parfum Homme Boisé',price:14500,image:'',category:'fashion',colors:['#1a1a2e'],stock:30,description:''},
+          {id:'prod-075',name:'Parfum Femme Floral',price:15500,image:'',category:'fashion',colors:['#ffc0cb'],stock:28,description:''},
+          {id:'prod-076',name:'Lunettes de Vue Anti-Lumière Bleue',price:7500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#8b4513'],stock:42,description:''},
+          {id:'prod-077',name:'Ceinture Femme Large',price:4500,image:'',category:'fashion',colors:['#1a1a2e','#8b4513','#ff6b35'],stock:38,description:''},
+          {id:'prod-078',name:'Écharpe de Soie',price:10500,image:'',category:'fashion',colors:['#7c3aed','#ec4899','#3b82f6'],stock:25,description:''},
+          {id:'prod-079',name:'Chaussons Maison Peluche',price:3500,image:'',category:'fashion',colors:['#f5f5f7','#ff6b35','#1a1a2e'],stock:55,description:''},
+          {id:'prod-080',name:'Pyjama Coton Homme',price:8500,image:'',category:'fashion',colors:['#1a1a2e','#f5f5f7','#3b82f6'],stock:35,description:''},
+          {id:'prod-081',name:'Pyjama Satin Femme',price:10500,image:'',category:'fashion',colors:['#ec4899','#7c3aed','#f5f5f7'],stock:32,description:''},
+          // BEAUTÉ : 9 PRODUITS
+          {id:'prod-082',name:'Parfum Élégance',price:12000,image:'',category:'beauty',colors:['#ffc0cb','#ff69b4','#daa520'],stock:25,description:''},
+          {id:'prod-083',name:'Sérum Visage Hydratant',price:8500,image:'',category:'beauty',colors:['#f5f5f7','#3b82f6'],stock:35,description:''},
+          {id:'prod-084',name:'Crème Anti-Âge',price:14500,image:'',category:'beauty',colors:['#f5f5f7','#ec4899'],stock:22,description:''},
+          {id:'prod-085',name:'Mascara Volume Intense',price:4500,image:'',category:'beauty',colors:['#1a1a2e'],stock:45,description:''},
+          {id:'prod-086',name:'Rouge à Lèvres Mat',price:3500,image:'',category:'beauty',colors:['#ef4444','#ec4899','#1a1a2e','#f5f5f7'],stock:50,description:''},
+          {id:'prod-087',name:'Gommage Corps Exfoliant',price:5500,image:'',category:'beauty',colors:['#22c55e','#f5f5f7'],stock:38,description:''},
+          {id:'prod-088',name:'Huile de Argan Bio',price:7500,image:'',category:'beauty',colors:['#ffd700'],stock:30,description:''},
+          {id:'prod-089',name:'Shampoing Réparateur',price:4500,image:'',category:'beauty',colors:['#3b82f6','#f5f5f7'],stock:42,description:''},
+          {id:'prod-090',name:'Parfum Mixte Boisé',price:13500,image:'',category:'beauty',colors:['#1a1a2e'],stock:28,description:''},
+          // SPORTS : 1 PRODUIT
+          {id:'prod-091',name:'Ballon de Foot Pro',price:5500,image:'',category:'sports',colors:['#ffffff','#ff6b35','#1a1a2e'],stock:40,description:''}
+        ];
+      }
+
+      async init() {
+        this.loadCartFromStorage();
+        this.initDOMStructure();
+        this.attachGlobalListeners();
+        this.applyFilters();
+        this.updateCartUI();
+        lucide.createIcons();
+        this.debounce = this.createDebounce(() => this.applyFilters(), 300);
+      }
+
+      initDOMStructure() {
+        const container = document.getElementById('products-container');
+        this.categories.forEach((cat, key) => {
+          const section = document.createElement('div');
+          section.className = 'section-group';
+          section.innerHTML = `
+            <h2 class="section-title">${cat.label}</h2>
+            <div class="products-scroll" data-category="${key}"></div>
+          `;
+          container.appendChild(section);
+          cat.element = section.querySelector('.products-scroll');
+        });
+        this.products.forEach(product => this.renderProductCard(product));
+      }
+
+      renderProductCard(product) {
+        const section = this.categories.get(product.category).element;
+        const placeholder = `https://via.placeholder.com/260x200/e2e8f0/1e293b?text=${encodeURIComponent(product.name.substring(0,20))}`;
+        const imageUrl = product.image ? `${this.config.baseImagePath}${product.image}` : placeholder;
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.id = product.id;
+        card.dataset.category = product.category;
+        card.dataset.name = product.name.toLowerCase();
+        card.innerHTML = `
+          <div class="product-media">
+            <img src="${imageUrl}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/260x200/ef4444/ffffff?text=Image+manquante'">
+            <span class="stock-badge ${product.stock>10?'stock-high':'stock-low'}">
+              ${product.stock>10?'En Stock':`${product.stock} restants`}
+            </span>
+          </div>
+          <div class="product-details">
+            <h3 class="product-name">${product.name}</h3>
+            <p class="product-price">${product.price.toLocaleString('fr-FR')} ${this.config.currency}</p>
+            <button class="btn-add" data-action="add" data-id="${product.id}" ${product.stock===0?'disabled':''}>
+              <i data-lucide="shopping-cart" class="w-4 h-4"></i> Ajouter
+            </button>
+            <button class="btn-explore" data-action="open-modal" data-id="${product.id}">
+              <i data-lucide="eye" class="w-4 h-4"></i> Explorer
+            </button>
+          </div>
+        `;
+        section.appendChild(card);
+      }
+
+      attachGlobalListeners() {
+        document.addEventListener('click', (e) => {
+          const action = e.target.closest('[data-action]');
+          if (!action) return;
+          switch(action.dataset.action) {
+            case 'add': this.addProductToCart(action.dataset.id); break;
+            case 'open-modal': this.openProductModal(action.dataset.id); break;
+            case 'modal-add': this.addFromModal(); break;
+            case 'qty-plus': this.updateModalQty(1); break;
+            case 'qty-minus': this.updateModalQty(-1); break;
+            case 'remove-item': this.removeCartItem(action.dataset.id); break;
+            case 'decrement-item': this.decrementCartItem(action.dataset.id); break;
+          }
+        });
+
+        document.getElementById('category-open-btn').addEventListener('click', () => {
+          document.getElementById('category-dropdown').classList.toggle('open');
+        });
+
+        document.querySelectorAll('.category-option').forEach(option => {
+          option.addEventListener('click', () => {
+            this.activeFilter = option.dataset.filter;
+            document.querySelectorAll('.category-option').forEach(o => o.classList.toggle('active', o === option));
+            document.getElementById('category-dropdown').classList.remove('open');
+            this.applyFilters();
+          });
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+          this.searchTerm = e.target.value.toLowerCase();
+          this.debounce();
+        });
+
+        document.getElementById('cart-open-btn').addEventListener('click', () => this.openCart());
+        document.getElementById('close-cart-btn').addEventListener('click', () => this.closeCart());
+        document.getElementById('cart-overlay').addEventListener('click', () => this.closeCart());
+        document.getElementById('close-modal-btn').addEventListener('click', () => this.closeProductModal());
+        document.getElementById('product-modal-overlay').addEventListener('click', (e) => e.target.id === 'product-modal-overlay' && this.closeProductModal());
+        document.getElementById('whatsapp-order-btn').addEventListener('click', () => this.sendWhatsAppOrder());
+        document.getElementById('clear-cart-btn').addEventListener('click', () => this.clearCart());
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('#category-open-btn') && !e.target.closest('#category-dropdown')) {
+            document.getElementById('category-dropdown').classList.remove('open');
+          }
+        });
+      }
+
+      applyFilters() {
+        const cards = document.querySelectorAll('.product-card');
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const matchCategory = this.activeFilter === 'all' || card.dataset.category === this.activeFilter;
+          const matchSearch = this.searchTerm === '' || card.dataset.name.includes(this.searchTerm);
+          const isVisible = matchCategory && matchSearch;
+          card.classList.toggle('hidden', !isVisible);
+          if(isVisible) visibleCount++;
+        });
+        document.getElementById('empty-search-state').classList.toggle('hidden', visibleCount > 0);
+      }
+
+      openProductModal(productId) {
+        const product = this.products.find(p => p.id === productId);
+        if(!product) return;
+        this.modalQty = 1;
+        this.selectedColor = product.colors[0];
+        const placeholder = `https://via.placeholder.com/500x300/e2e8f0/1e293b?text=${encodeURIComponent(product.name)}`;
+        const imageUrl = product.image ? `${this.config.baseImagePath}${product.image}` : placeholder;
+        const stockColor = product.stock>10?'#22c55e':product.stock>0?'#f97316':'#ef4444';
+        document.getElementById('modal-inner-content').innerHTML = `
+          <img src="${imageUrl}" alt="${product.name}" class="modal-media" onerror="this.src='https://via.placeholder.com/500x300/ef4444/ffffff?text=Image+manquante'">
+          <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
+            <p class="text-3xl font-bold price-tag mb-4">${product.price.toLocaleString('fr-FR')} ${this.config.currency}</p>
+            <div class="mb-6 p-4 rounded-xl" style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);">
+              <div class="flex justify-between mb-3">
+                <span class="text-gray-400 text-sm">Stock</span>
+                <span class="font-semibold px-3 py-1 rounded-full" style="color:${stockColor}">${product.stock>10?'En Stock':`${product.stock} restants`}</span>
+              </div>
+              <div class="w-full bg-gray-700 rounded-full h-2">
+                <div style="width:${Math.min((product.stock/50)*100,100)}%; height:100%; background:${stockColor};"></div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Couleur</h4>
+              <div class="flex gap-3">
+                ${product.colors.map((color,i)=>`
+                  <button class="color-selector ${i===0?'selected':''}" style="background:${color}" data-color="${color}" onclick="this.closest('.psstore-instance')?.selectColor(this)">
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+            <div class="mb-6">
+              <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Quantité</h4>
+              <div class="flex items-center gap-4">
+                <button class="qty-control" data-action="qty-minus"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                <span class="text-xl font-bold w-12 text-center" id="modal-qty-display">1</span>
+                <button class="qty-control" data-action="qty-plus"><i data-lucide="plus" class="w-4 h-4"></i></button>
+              </div>
+            </div>
+            <button class="btn-add" data-action="modal-add" data-id="${product.id}" ${product.stock===0?'disabled':''}>
+              <i data-lucide="shopping-cart" class="w-5 h-5"></i> Ajouter au Panier
+            </button>
+          </div>
+        `;
+        document.getElementById('product-modal-overlay').classList.add('active');
+        lucide.createIcons();
+      }
+
+      closeProductModal() {
+        document.getElementById('product-modal-overlay').classList.remove('active');
+      }
+
+      updateModalQty(delta) {
+        this.modalQty = Math.max(1, Math.min(10, this.modalQty + delta));
+        document.getElementById('modal-qty-display').textContent = this.modalQty;
+      }
+
+      selectColor(el) {
+        document.querySelectorAll('.color-selector').forEach(opt => opt.classList.remove('selected'));
+        el.classList.add('selected');
+        this.selectedColor = el.dataset.color;
+      }
+
+      addFromModal() {
+        const productId = document.querySelector('[data-action="modal-add"]').dataset.id;
+        const product = this.products.find(p => p.id === productId);
+        if(product.stock < this.modalQty) {
+          this.showToast('Stock insuffisant', 'error');
           return;
         }
-      } else {
-        // Add new item
-        cartItems.push({
-          product_id: productId,
-          product_name: product.name,
-          quantity: 1,
-          price: product.price,
-          color: color,
-          added_at: new Date().toISOString(),
-          __backendId: 'local-' + Date.now() + Math.random()
-        });
-        product.stock -= 1;
-      }
-      
-      renderProducts();
-      renderCart();
-      updateCartBadge();
-      showToast('Produit ajouté au panier!', 'success');
-    }
-    
-    async function addFromModal(productId) {
-      const product = products.find(p => p.id === productId);
-      if (!product || product.stock === 0) return;
-      
-      if (cartItems.length >= 999) {
-        showToast('Limite du panier atteinte (999 articles)', 'error');
-        return;
-      }
-      
-      const selectedColor = document.querySelector('#modal-colors .color-option.selected');
-      const color = selectedColor ? selectedColor.dataset.color : product.colors[0];
-      const qty = parseInt(document.getElementById('modal-qty').textContent);
-      
-      // Check if stock is available for requested quantity
-      if (product.stock < qty) {
-        showToast(`Stock insuffisant! ${product.stock} article(s) disponible(s)`, 'error');
-        return;
-      }
-      
-      const existingItem = cartItems.find(i => i.product_id === productId && i.color === color);
-      
-      if (existingItem) {
-        existingItem.quantity += qty;
-      } else {
-        cartItems.push({
-          product_id: productId,
-          product_name: product.name,
-          quantity: qty,
-          price: product.price,
-          color: color,
-          added_at: new Date().toISOString(),
-          __backendId: 'local-' + Date.now() + Math.random()
-        });
-      }
-      
-      // Update stock
-      product.stock -= qty;
-      
-      renderProducts();
-      renderCart();
-      updateCartBadge();
-      showToast(`${qty}x ${product.name} ajouté!`, 'success');
-      closeProductModal();
-    }
-    
-    async function removeFromCart(backendId) {
-      const item = cartItems.find(i => i.__backendId === backendId);
-      if (!item) return;
-      
-      const product = products.find(p => p.id === item.product_id);
-      if (product) {
-        // Return stock to inventory
-        product.stock += item.quantity;
-      }
-      
-      cartItems = cartItems.filter(i => i.__backendId !== backendId);
-      renderProducts();
-      renderCart();
-      updateCartBadge();
-      showToast('Article retiré du panier', 'success');
-    }
-    
-    async function decrementItem(backendId) {
-      const item = cartItems.find(i => i.__backendId === backendId);
-      if (!item) return;
-      
-      const product = products.find(p => p.id === item.product_id);
-      
-      if (item.quantity > 1) {
-        item.quantity -= 1;
-        if (product) {
-          product.stock += 1;
+        const cartKey = `${productId}-${this.selectedColor}`;
+        if(this.cart.has(cartKey)) {
+          const item = this.cart.get(cartKey);
+          item.quantity += this.modalQty;
+        } else {
+          this.cart.set(cartKey, {
+            productId, name:product.name, price:product.price, color:this.selectedColor, quantity:this.modalQty
+          });
         }
-        renderProducts();
-        renderCart();
-        updateCartBadge();
-        showToast('Quantité mise à jour', 'success');
-      } else {
-        removeFromCart(backendId);
+        product.stock -= this.modalQty;
+        this.saveCartToStorage();
+        this.updateProductStockUI(productId);
+        this.updateCartUI();
+        this.closeProductModal();
+        this.showToast(`${this.modalQty}x ${product.name} ajouté au panier`, 'success');
       }
-    }
-    
-    async function clearCart() {
-      if (cartItems.length === 0) return;
-      
-      // Return all items to stock
-      cartItems.forEach(item => {
-        const product = products.find(p => p.id === item.product_id);
-        if (product) {
-          product.stock += item.quantity;
-        }
-      });
-      
-      cartItems = [];
-      renderProducts();
-      renderCart();
-      updateCartBadge();
-      showToast('Panier vidé avec succès', 'success');
-    }
-    
-    // ==================== WHATSAPP ORDER ====================
-    function sendWhatsAppOrder() {
-      if (cartItems.length === 0) return;
-      
-      const storeName = config.store_name || defaultConfig.store_name;
-      let whatsappNumber = (config.whatsapp_number || defaultConfig.whatsapp_number).replace(/\D/g, '');
-      
-      // Assurez-vous que le numéro commence par le code pays
-      if (!whatsappNumber.startsWith('+')) {
-        whatsappNumber = '+' + whatsappNumber;
-      }
-      
-      const currency = config.currency_label || defaultConfig.currency_label;
-      
-      let message = `*🛍️ COMMANDE ${storeName.toUpperCase()}*%0A%0A`;
-      let total = 0;
-      let totalItems = 0;
-      
-      cartItems.forEach((item) => {
-        const product = products.find(p => p.id === item.product_id);
-        if (product) {
-          const itemTotal = product.price * item.quantity;
-          total += itemTotal;
-          totalItems += item.quantity;
-          
-          const colorName = getColorName(item.color);
-          
-          message += `${product.name} *${product.name}*%0A`;
-          message += `   Quantité: ${item.quantity}%0A`;
-          message += `   Couleur: ${colorName} (${item.color})%0A`;
-          message += `   Prix unitaire: ${product.price.toLocaleString('fr-FR')} ${currency}%0A`;
-          message += `   Sous-total: ${itemTotal.toLocaleString('fr-FR')} ${currency}%0A%0A`;
-        }
-      });
-      
-      message += `━━━━━━━━━━━━━━━━━━%0A`;
-      message += `*💰 TOTAL: ${total.toLocaleString('fr-FR')} ${currency}*%0A`;
-      message += `📱 Nombre d'articles: ${totalItems}%0A`;
-      message += `📅 Date: ${new Date().toLocaleDateString('fr-FR')}%0A`;
-      message += `⏰ Heure: ${new Date().toLocaleTimeString('fr-FR')}`;
-      
-      // Enlever le + pour wa.me
-      const numberWithoutPlus = whatsappNumber.replace('+', '');
-      const whatsappUrl = `https://wa.me/${numberWithoutPlus}?text=${encodeURIComponent(message)}`;
-      
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
-    
-    // Helper function to get color name from hex code
-    function getColorName(hexColor) {
-      const colorMap = {
-        '#1a1a2e': 'Noir',
-        '#f5f5f7': 'Blanc',
-        '#4a4a5a': 'Gris Foncé',
-        '#ffd700': 'Or',
-        '#c0c0c0': 'Argent',
-        '#2e2e2e': 'Noir Profond',
-        '#ffffff': 'Blanc Pur',
-        '#000000': 'Noir Total',
-        '#ff0000': 'Rouge',
-        '#00ff00': 'Vert',
-        '#ff6b35': 'Orange',
-        '#8b4513': 'Marron',
-        '#4a5568': 'Gris Bleu',
-        '#ffc0cb': 'Rose Clair',
-        '#ff69b4': 'Rose Chaud',
-        '#daa520': 'Or Foncé',
-        '#7c3aed': 'Violet',
-        '#22c55e': 'Vert',
-        '#3b82f6': 'Bleu',
-        '#ec4899': 'Rose'
-      };
-      
-      return colorMap[hexColor] || hexColor;
-    }
-    
-    // ==================== CART SIDEBAR ====================
-    function openCart() {
-      document.getElementById('cart-sidebar').classList.add('active');
-      document.getElementById('cart-overlay').classList.add('active');
-    }
-    
-    function closeCart() {
-      document.getElementById('cart-sidebar').classList.remove('active');
-      document.getElementById('cart-overlay').classList.remove('active');
-    }
-    
-    // ==================== CATEGORY DROPDOWN ====================
-    function toggleCategoryDropdown() {
-      document.getElementById('category-dropdown').classList.toggle('active');
-    }
-    
-    function selectCategory(category) {
-      currentCategory = category;
-      
-      document.querySelectorAll('.category-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.category === category);
-      });
-      
-      document.getElementById('category-dropdown').classList.remove('active');
-      renderProducts();
-    }
-    
-    // ==================== TOAST NOTIFICATION ====================
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      const toastIcon = document.getElementById('toast-icon');
-      if (!toast || !toastMessage || !toastIcon) return;
 
-      toastMessage.textContent = message;
-      toast.className = 'toast';
-      toast.classList.add(type);
-      
-      if (type === 'success') {
-        toastIcon.setAttribute('data-lucide', 'check-circle');
-        toastIcon.className = 'w-5 h-5 text-green-500';
-      } else {
-        toastIcon.setAttribute('data-lucide', 'alert-circle');
-        toastIcon.className = 'w-5 h-5 text-red-500';
-      }
-      
-      lucide.createIcons();
-      toast.classList.add('show');
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-    
-    // ==================== EVENT LISTENERS ====================
-    function initEventListeners() {
-      // Cart toggle
-      const cartToggle = document.getElementById('cart-toggle');
-      const cartClose = document.getElementById('cart-close');
-      const cartOverlay = document.getElementById('cart-overlay');
-      if (cartToggle) cartToggle.addEventListener('click', openCart);
-      if (cartClose) cartClose.addEventListener('click', closeCart);
-      if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
-      
-      // Modal close
-      const modalClose = document.getElementById('modal-close');
-      const productModal = document.getElementById('product-modal');
-      if (modalClose) modalClose.addEventListener('click', closeProductModal);
-      if (productModal) productModal.addEventListener('click', (e) => {
-        if (e.target.id === 'product-modal') closeProductModal();
-      });
-      
-      // Category dropdown
-      const categoryBtn = document.getElementById('category-btn');
-      if (categoryBtn) categoryBtn.addEventListener('click', toggleCategoryDropdown);
-      document.querySelectorAll('.category-item').forEach(item => {
-        item.addEventListener('click', () => selectCategory(item.dataset.category));
-      });
-      
-      // Close dropdown on outside click
-      document.addEventListener('click', (e) => {
-        const dropdown = document.getElementById('category-dropdown');
-        const btn = document.getElementById('category-btn');
-        if (!e.target.closest('#category-btn') && !e.target.closest('#category-dropdown') && dropdown) {
-          dropdown.classList.remove('active');
+      addProductToCart(productId) {
+        const product = this.products.find(p => p.id === productId);
+        if(product.stock < 1) {
+          this.showToast('Stock épuisé', 'error');
+          return;
         }
-      });
-      
-      // Search
-      const searchInput = document.getElementById('search-input');
-      if (searchInput) searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value;
-        renderProducts();
-      });
-      
-      // WhatsApp order
-      const whatsappOrder = document.getElementById('whatsapp-order');
-      if (whatsappOrder) whatsappOrder.addEventListener('click', sendWhatsAppOrder);
-      
-      // Clear cart
-      const clearCartBtn = document.getElementById('clear-cart-btn');
-      if (clearCartBtn) clearCartBtn.addEventListener('click', clearCart);
+        const cartKey = `${productId}-${product.colors[0]}`;
+        if(this.cart.has(cartKey)) {
+          this.cart.get(cartKey).quantity +=1;
+        } else {
+          this.cart.set(cartKey, {
+            productId, name:product.name, price:product.price, color:product.colors[0], quantity:1
+          });
+        }
+        product.stock -=1;
+        this.saveCartToStorage();
+        this.updateProductStockUI(productId);
+        this.updateCartUI();
+        this.showToast(`${product.name} ajouté au panier`, 'success');
+      }
+
+      removeCartItem(cartKey) {
+        const item = this.cart.get(cartKey);
+        const product = this.products.find(p => p.id === item.productId);
+        product.stock += item.quantity;
+        this.cart.delete(cartKey);
+        this.saveCartToStorage();
+        this.updateProductStockUI(item.productId);
+        this.updateCartUI();
+        this.showToast('Article retiré du panier', 'success');
+      }
+
+      decrementCartItem(cartKey) {
+        const item = this.cart.get(cartKey);
+        const product = this.products.find(p => p.id === item.productId);
+        if(item.quantity >1) {
+          item.quantity -=1;
+          product.stock +=1;
+          this.saveCartToStorage();
+          this.updateProductStockUI(item.productId);
+          this.updateCartUI();
+        } else {
+          this.removeCartItem(cartKey);
+        }
+      }
+
+      updateProductStockUI(productId) {
+        const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+        const product = this.products.find(p => p.id === productId);
+        const badge = card.querySelector('.stock-badge');
+        badge.className = `stock-badge ${product.stock>10?'stock-high':'stock-low'}`;
+        badge.textContent = product.stock>10?'En Stock':`${product.stock} restants`;
+        const addBtn = card.querySelector('.btn-add');
+        addBtn.disabled = product.stock ===0;
+      }
+
+      openCart() {
+        document.getElementById('cart-sidebar').classList.add('open');
+        document.getElementById('cart-overlay').classList.add('active');
+      }
+
+      closeCart() {
+        document.getElementById('cart-sidebar').classList.remove('open');
+        document.getElementById('cart-overlay').classList.remove('active');
+      }
+
+      updateCartUI() {
+        const container = document.getElementById('cart-items-container');
+        const counter = document.getElementById('cart-counter');
+        const totalEl = document.getElementById('cart-total-price');
+        const whatsappBtn = document.getElementById('whatsapp-order-btn');
+        if(this.cart.size ===0) {
+          container.innerHTML = `<div class="empty-cart"><div class="text-5xl mb-4">🛒</div><h3 class="text-lg font-semibold mb-2">Panier vide</h3><p class="text-gray-400 text-sm">Ajoutez des produits pour commencer</p></div>`;
+          counter.style.display = 'none';
+          totalEl.textContent = `0 ${this.config.currency}`;
+          whatsappBtn.disabled = true;
+          return;
+        }
+        counter.style.display = 'flex';
+        let total = 0;
+        let itemCount = 0;
+        container.innerHTML = Array.from(this.cart.entries()).map(([key, item]) => {
+          total += item.price * item.quantity;
+          itemCount += item.quantity;
+          const product = this.products.find(p => p.id === item.productId);
+          const placeholder = `https://via.placeholder.com/60x60/e2e8f0/1e293b?text=Produit`;
+          const imageUrl = product?.image ? `${this.config.baseImagePath}${product.image}` : placeholder;
+          return `
+            <div class="cart-item">
+              <img src="${imageUrl}" alt="${item.name}" class="cart-item-media" onerror="this.src='https://via.placeholder.com/60x60/ef4444/ffffff?text=Erreur'">
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold truncate">${item.name}</h4>
+                <p class="text-sm text-gray-400">Couleur: <span class="inline-block w-3 h-3 rounded-full align-middle" style="background:${item.color}"></span></p>
+                <p class="text-sm text-gray-400">Qté: ${item.quantity}</p>
+                <p class="price-tag font-bold">${(item.price * item.quantity).toLocaleString('fr-FR')} ${this.config.currency}</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <button class="qty-control" data-action="decrement-item" data-id="${key}"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                <button class="btn-remove" data-action="remove-item" data-id="${key}"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+              </div>
+            </div>
+          `;
+        }).join('');
+        counter.textContent = itemCount;
+        totalEl.textContent = `${total.toLocaleString('fr-FR')} ${this.config.currency}`;
+        whatsappBtn.disabled = false;
+        lucide.createIcons();
+      }
+
+      clearCart() {
+        this.cart.forEach(item => {
+          const product = this.products.find(p => p.id === item.productId);
+          product.stock += item.quantity;
+          this.updateProductStockUI(item.productId);
+        });
+        this.cart.clear();
+        this.saveCartToStorage();
+        this.updateCartUI();
+        this.showToast('Panier vidé', 'success');
+      }
+
+      loadCartFromStorage() {
+        try {
+          const saved = localStorage.getItem('psstore-cart');
+          if(saved) this.cart = new Map(JSON.parse(saved));
+        } catch(e) {this.cart = new Map();}
+      }
+
+      saveCartToStorage() {
+        localStorage.setItem('psstore-cart', JSON.stringify(Array.from(this.cart.entries())));
+      }
+
+      sendWhatsAppOrder() {
+        if(this.cart.size ===0) return;
+        const number = this.config.whatsappNumber.replace(/\D/g,'');
+        let message = `*🛍️ COMMANDE ${this.config.storeName.toUpperCase()}*%0A%0A`;
+        let total = 0;
+        this.cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          message += `${item.emoji||''} *${item.name}*%0A`;
+          message += `   Quantité: ${item.quantity}%0A`;
+          message += `   Couleur: ${item.color}%0A`;
+          message += `   Total: ${itemTotal.toLocaleString('fr-FR')} ${this.config.currency}%0A%0A`;
+        });
+        message += `━━━━━━━━━━━━━━━━━━%0A*TOTAL: ${total.toLocaleString('fr-FR')} ${this.config.currency}*`;
+        window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, '_blank');
+      }
+
+      showToast(text, type='success') {
+        const toast = document.getElementById('site-toast');
+        const toastText = document.getElementById('toast-text');
+        const toastIcon = document.getElementById('toast-icon');
+        toastText.textContent = text;
+        toast.className = `toast-alert ${type} show`;
+        toastIcon.setAttribute('data-lucide', type==='success'?'check-circle':'alert-circle');
+        lucide.createIcons();
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      }
+
+      createDebounce(func, delay) {
+        let timer;
+        return (...args) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => func.apply(this, args), delay);
+        };
+      }
     }
-    
-    // ==================== INITIALIZATION ====================
-    async function init() {
-      // Initialize Element SDK (fonctionne même si non chargé)
-      await initElementSdk();
-      
-      // Apply initial config
-      applyConfig();
-      
-      // Render products toujours, même si SDK a un problème
-      renderProducts();
-      
-      // Initialize event listeners
-      initEventListeners();
-      
-      // Initialize Lucide icons
-      lucide.createIcons();
-      
-      console.log("Site initialisé avec succès, 91 produits chargés");
-    }
-    
-    // Start the app - pas d'erreur qui casse tout
-    init().catch(e => {
-      console.log("Initialisation secondaire lancée après erreur: ", e);
-      renderProducts();
-      initEventListeners();
-      lucide.createIcons();
-    });
+
+    window.storeInstance = new PSStore();
+    lucide.createIcons();
   </script>
- </body>
+</body>
 </html>
