@@ -191,6 +191,15 @@
       100% { transform: scale(1); }
     }
     
+    /* Gestion des images produits */
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      position: relative;
+    }
+    
     /* Product Cards */
     .product-card {
       background: var(--gradient-3);
@@ -223,14 +232,7 @@
       inset: 0;
       background: linear-gradient(45deg, transparent 40%, rgba(255, 107, 53, 0.1) 50%, transparent 60%);
       animation: shimmer 3s infinite;
-    }
-    
-    /* Classe pour les images produits */
-    .product-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
+      z-index: 2;
     }
     
     @keyframes shimmer {
@@ -248,7 +250,7 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
-      z-index: 2;
+      z-index: 3;
     }
     
     .stock-high {
@@ -407,6 +409,14 @@
       transform: rotate(90deg);
     }
     
+    /* Image dans la modale */
+    .modal-product-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 30px 30px 0 0;
+    }
+    
     /* Color Options */
     .color-option {
       width: 36px;
@@ -479,6 +489,13 @@
     .cart-overlay.active {
       opacity: 1;
       visibility: visible;
+    }
+    
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      object-fit: cover;
     }
     
     .cart-item {
@@ -716,10 +733,12 @@
         font-size: 11px;
         letter-spacing: 1px;
       }
+
+      .modal-product-image {
+        height: 200px;
+      }
     }
   </style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
   <div class="app-wrapper">
@@ -805,6 +824,12 @@
    </div>
   </div>
   <script>
+    // ==================== GUIDE POUR MODIFIER VOTRE SITE ====================
+    // Pour ajouter une image : dans la liste des produits ci-dessous, remplacez la chaîne vide du champ "image" par le chemin de votre fichier dans votre dossier "images"
+    // Exemple : image: 'images/iphone15pro.jpg'
+    // Tous les prix/noms/descriptions sont modifiables à tout moment, le site ne cassera pas
+    // ========================================================================
+
     // ==================== CONFIG & STATE ====================
     const defaultConfig = {
       store_name: 'PS Store Online',
@@ -822,922 +847,932 @@
     let currentCategory = 'all';
     let searchQuery = '';
     
-    // ==================== PRODUCT CATALOG (91 produits, conformes à ta demande) ====================
+    // ==================== CATALOGUE PRODUITS (91 PRODUITS CONFORMES À VOTRE DEMANDE) ====================
     const products = [
-      // CATEGORIE ELECTRONICS (9 produits : prod-001 à prod-009)
+      // ------------------------------
+      // CATÉGORIE ÉLECTRONIQUE : 9 PRODUITS (prod-001 à prod-009)
+      // ------------------------------
       {
         id: 'prod-001',
         name: 'JBL Bass',
         price: 300 $,
-        image: 'image/JBJ Bass.jpeg',
+        image: 'image/JBL Bass.jpeg',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#4a4a5a', '#ffd700'],
         stock: 20,
-        description: ' entendre le meilleurs son avec un bass bouster et un son de meilleur qualité'
+        description: ''
       },
       {
         id: 'prod-002',
-        name: 'À compléter',
+        name: 'MacBook Air M3',
         price: 185000,
         image: '',
         category: 'electronics',
         colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
         stock: 20,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-003',
-        name: 'À compléter',
+        name: 'AirPods Pro 2',
         price: 35000,
         image: '',
         category: 'electronics',
         colors: ['#f5f5f7'],
         stock: 20,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-004',
-        name: 'À compléter',
+        name: 'Montre Connectée Pro',
         price: 45000,
         image: '',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
         stock: 20,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-005',
-        name: 'À compléter',
+        name: 'Enceinte Bluetooth',
         price: 7500,
         image: '',
         category: 'electronics',
         colors: ['#1a1a2e', '#ff6b35', '#3b82f6'],
         stock: 20,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-006',
-        name: 'À compléter',
-        price: 95000,
+        name: 'Samsung S24 Ultra',
+        price: 142000,
+        image: '',
+        category: 'electronics',
+        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
+        stock: 18,
+        description: ''
+      },
+      {
+        id: 'prod-007',
+        name: 'iPad Pro 12.9"',
+        price: 165000,
         image: '',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7'],
         stock: 15,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-007',
-        name: 'À compléter',
-        price: 62000,
-        image: '',
-        category: 'electronics',
-        colors: ['#000000', '#ffffff'],
-        stock: 18,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-008',
-        name: 'À compléter',
-        price: 142000,
+        name: 'PlayStation 5 Slim',
+        price: 85000,
         image: '',
         category: 'electronics',
-        colors: ['#1a1a2e', '#c0c0c0'],
+        colors: ['#1a1a2e', '#f5f5f7'],
         stock: 12,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-009',
-        name: 'À compléter',
-        price: 28000,
+        name: 'Casque Gaming Sans Fil',
+        price: 18500,
         image: '',
         category: 'electronics',
-        colors: ['#ff6b35', '#3b82f6', '#7c3aed'],
+        colors: ['#1a1a2e', '#ef4444', '#3b82f6'],
         stock: 22,
-        description: 'À compléter'
+        description: ''
       },
-      // CATEGORIE HOME / MAISON (23 produits : prod-010 à prod-032)
+      // ------------------------------
+      // CATÉGORIE MAISON : 23 PRODUITS (prod-010 à prod-032)
+      // ------------------------------
       {
         id: 'prod-010',
-        name: 'À compléter',
+        name: 'Lampe LED Design',
         price: 4500,
         image: '',
         category: 'home',
         colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 30,
+        description: ''
       },
       {
         id: 'prod-011',
-        name: 'À compléter',
-        price: 12500,
+        name: 'Canapé Modulaire 3 Places',
+        price: 125000,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 17,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#8b4513', '#f5f5f7'],
+        stock: 5,
+        description: ''
       },
       {
         id: 'prod-012',
-        name: 'À compléter',
-        price: 8900,
+        name: 'Table Basse Design',
+        price: 32000,
         image: '',
         category: 'home',
-        colors: ['#f5f5f7', '#ff6b35'],
-        stock: 24,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#8b4513'],
+        stock: 8,
+        description: ''
       },
       {
         id: 'prod-013',
-        name: 'À compléter',
-        price: 15600,
+        name: 'Rideau Occultant 140x260cm',
+        price: 8500,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#c0c0c0'],
-        stock: 15,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7', '#7c3aed'],
+        stock: 40,
+        description: ''
       },
       {
         id: 'prod-014',
-        name: 'À compléter',
-        price: 3200,
+        name: 'Coussin Déco 40x40cm',
+        price: 2500,
         image: '',
         category: 'home',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 30,
-        description: 'À compléter'
+        colors: ['#ec4899', '#3b82f6', '#22c55e', '#f5f5f7'],
+        stock: 50,
+        description: ''
       },
       {
         id: 'prod-015',
-        name: 'À compléter',
-        price: 7800,
+        name: 'Plante Artificielle Ficus',
+        price: 12000,
         image: '',
         category: 'home',
-        colors: ['#8b4513', '#1a1a2e'],
-        stock: 19,
-        description: 'À compléter'
+        colors: ['#22c55e'],
+        stock: 15,
+        description: ''
       },
       {
         id: 'prod-016',
-        name: 'À compléter',
+        name: 'Vase Céramique Design',
+        price: 6500,
+        image: '',
+        category: 'home',
+        colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
+        stock: 25,
+        description: ''
+      },
+      {
+        id: 'prod-017',
+        name: 'Cadre Photo Mural 50x70cm',
+        price: 4500,
+        image: '',
+        category: 'home',
+        colors: ['#1a1a2e', '#f5f5f7'],
+        stock: 35,
+        description: ''
+      },
+      {
+        id: 'prod-018',
+        name: 'Tapis Salon 200x300cm',
+        price: 28000,
+        image: '',
+        category: 'home',
+        colors: ['#1a1a2e', '#4a5568', '#f5f5f7'],
+        stock: 10,
+        description: ''
+      },
+      {
+        id: 'prod-019',
+        name: 'Luminaire Suspension Industriel',
+        price: 18500,
+        image: '',
+        category: 'home',
+        colors: ['#1a1a2e', '#ffd700'],
+        stock: 12,
+        description: ''
+      },
+      {
+        id: 'prod-020',
+        name: 'Organisateur de Cuisine',
+        price: 5500,
+        image: '',
+        category: 'home',
+        colors: ['#f5f5f7', '#1a1a2e'],
+        stock: 45,
+        description: ''
+      },
+      {
+        id: 'prod-021',
+        name: 'Set de Table 6 Personnes',
+        price: 8500,
+        image: '',
+        category: 'home',
+        colors: ['#f5f5f7', '#ff6b35', '#3b82f6'],
+        stock: 30,
+        description: ''
+      },
+      {
+        id: 'prod-022',
+        name: 'Micro-Ondes 20L',
         price: 22000,
         image: '',
         category: 'home',
         colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 11,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-017',
-        name: 'À compléter',
-        price: 4700,
-        image: '',
-        category: 'home',
-        colors: ['#ffd700', '#c0c0c0'],
-        stock: 27,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-018',
-        name: 'À compléter',
-        price: 18500,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#7c3aed'],
         stock: 14,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-019',
-        name: 'À compléter',
-        price: 6300,
-        image: '',
-        category: 'home',
-        colors: ['#ffffff', '#ff6b35'],
-        stock: 22,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-020',
-        name: 'À compléter',
-        price: 35000,
-        image: '',
-        category: 'home',
-        colors: ['#1a1a2e', '#c0c0c0'],
-        stock: 9,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-021',
-        name: 'À compléter',
-        price: 5200,
-        image: '',
-        category: 'home',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 25,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-022',
-        name: 'À compléter',
-        price: 9700,
-        image: '',
-        category: 'home',
-        colors: ['#8b4513', '#1a1a2e'],
-        stock: 18,
-        description: 'À compléter'
+        description: ''
       },
       {
         id: 'prod-023',
-        name: 'À compléter',
-        price: 14300,
+        name: 'Réfrigérateur Petit Format',
+        price: 75000,
         image: '',
         category: 'home',
-        colors: ['#ffd700', '#ffffff'],
-        stock: 16,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#1a1a2e'],
+        stock: 6,
+        description: ''
       },
       {
         id: 'prod-024',
-        name: 'À compléter',
-        price: 2700,
+        name: 'Lit Double 140x190cm',
+        price: 55000,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#3b82f6'],
-        stock: 32,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#8b4513', '#f5f5f7'],
+        stock: 7,
+        description: ''
       },
       {
         id: 'prod-025',
-        name: 'À compléter',
-        price: 7100,
+        name: 'Armoire de Rangement',
+        price: 48000,
         image: '',
         category: 'home',
-        colors: ['#f5f5f7', '#ec4899'],
-        stock: 21,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7'],
+        stock: 8,
+        description: ''
       },
       {
         id: 'prod-026',
-        name: 'À compléter',
-        price: 19800,
+        name: 'Parure de Lit 2 Personnes',
+        price: 12500,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#22c55e'],
-        stock: 13,
-        description: 'À compléter'
+        colors: ['#ec4899', '#3b82f6', '#7c3aed', '#f5f5f7'],
+        stock: 32,
+        description: ''
       },
       {
         id: 'prod-027',
-        name: 'À compléter',
-        price: 4100,
+        name: 'Miroir Mural 60x120cm',
+        price: 9500,
         image: '',
         category: 'home',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 28,
-        description: 'À compléter'
+        colors: ['#f5f5f7'],
+        stock: 18,
+        description: ''
       },
       {
         id: 'prod-028',
-        name: 'À compléter',
-        price: 8400,
+        name: 'Pouf Déco Rond',
+        price: 7500,
         image: '',
         category: 'home',
-        colors: ['#c0c0c0', '#ffd700'],
-        stock: 19,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#ff6b35', '#7c3aed'],
+        stock: 22,
+        description: ''
       },
       {
         id: 'prod-029',
-        name: 'À compléter',
-        price: 11200,
+        name: 'Cafetière Filtre Automatique',
+        price: 14500,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#7c3aed'],
-        stock: 17,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7'],
+        stock: 20,
+        description: ''
       },
       {
         id: 'prod-030',
-        name: 'À compléter',
-        price: 5900,
+        name: 'Aspirateur Robot Connecté',
+        price: 65000,
         image: '',
         category: 'home',
-        colors: ['#f5f5f7', '#ff6b35'],
-        stock: 23,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7'],
+        stock: 9,
+        description: ''
       },
       {
         id: 'prod-031',
-        name: 'À compléter',
-        price: 16700,
+        name: 'Store Bateau 120cm',
+        price: 5500,
         image: '',
         category: 'home',
-        colors: ['#1a1a2e', '#3b82f6'],
-        stock: 12,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
+        stock: 35,
+        description: ''
       },
       {
         id: 'prod-032',
-        name: 'À compléter',
-        price: 3800,
+        name: 'Bouteille Isotherme 1L',
+        price: 3500,
         image: '',
         category: 'home',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 26,
-        description: 'À compléter'
+        colors: ['#ff6b35', '#3b82f6', '#22c55e', '#1a1a2e'],
+        stock: 50,
+        description: ''
       },
-      // CATEGORIE FASHION / MODE (49 produits : prod-033 à prod-081)
+      // ------------------------------
+      // CATÉGORIE MODE : 49 PRODUITS (prod-033 à prod-081)
+      // ------------------------------
       {
         id: 'prod-033',
-        name: 'À compléter',
+        name: 'Sneakers Nike Air Max',
         price: 18500,
         image: '',
         category: 'fashion',
         colors: ['#ffffff', '#000000', '#ff0000', '#00ff00'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 25,
+        description: ''
       },
       {
         id: 'prod-034',
-        name: 'À compléter',
+        name: 'Sac à Dos Premium',
         price: 8500,
         image: '',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#4a5568'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 30,
+        description: ''
       },
       {
         id: 'prod-035',
-        name: 'À compléter',
+        name: 'Lunettes Soleil Design',
         price: 6500,
         image: '',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#daa520'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 35,
+        description: ''
       },
       {
         id: 'prod-036',
-        name: 'À compléter',
-        price: 12200,
-        image: '',
-        category: 'fashion',
-        colors: ['#000000', '#ffffff'],
-        stock: 22,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-037',
-        name: 'À compléter',
-        price: 7800,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#ff6b35'],
-        stock: 25,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-038',
-        name: 'À compléter',
-        price: 19500,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#3b82f6'],
-        stock: 16,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-039',
-        name: 'À compléter',
-        price: 4300,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 30,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-040',
-        name: 'À compléter',
-        price: 15700,
-        image: '',
-        category: 'fashion',
-        colors: ['#22c55e', '#ec4899'],
-        stock: 14,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-041',
-        name: 'À compléter',
-        price: 9200,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#c0c0c0'],
-        stock: 21,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-042',
-        name: 'À compléter',
-        price: 22300,
-        image: '',
-        category: 'fashion',
-        colors: ['#000000', '#ffd700'],
-        stock: 11,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-043',
-        name: 'À compléter',
-        price: 5600,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#ff6b35'],
-        stock: 27,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-044',
-        name: 'À compléter',
-        price: 13400,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#7c3aed'],
-        stock: 18,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-045',
-        name: 'À compléter',
-        price: 3100,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 33,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-046',
-        name: 'À compléter',
-        price: 17800,
-        image: '',
-        category: 'fashion',
-        colors: ['#3b82f6', '#ec4899'],
-        stock: 13,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-047',
-        name: 'À compléter',
-        price: 8900,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#8b4513'],
-        stock: 20,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-048',
-        name: 'À compléter',
-        price: 24500,
-        image: '',
-        category: 'fashion',
-        colors: ['#000000', '#ffffff'],
-        stock: 10,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-049',
-        name: 'À compléter',
-        price: 6700,
-        image: '',
-        category: 'fashion',
-        colors: ['#ff6b35', '#22c55e'],
-        stock: 24,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-050',
-        name: 'À compléter',
-        price: 11500,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#c0c0c0'],
-        stock: 19,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-051',
-        name: 'À compléter',
-        price: 20100,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#3b82f6'],
-        stock: 12,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-052',
-        name: 'À compléter',
-        price: 4900,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 28,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-053',
-        name: 'À compléter',
-        price: 14600,
-        image: '',
-        category: 'fashion',
-        colors: ['#ec4899', '#ffd700'],
-        stock: 16,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-054',
-        name: 'À compléter',
-        price: 7300,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#daa520'],
-        stock: 22,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-055',
-        name: 'À compléter',
-        price: 18200,
-        image: '',
-        category: 'fashion',
-        colors: ['#000000', '#ff0000'],
-        stock: 15,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-056',
-        name: 'À compléter',
-        price: 5200,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#00ff00'],
-        stock: 26,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-057',
-        name: 'À compléter',
-        price: 10800,
+        name: 'Jean Slim Fit Homme',
+        price: 12500,
         image: '',
         category: 'fashion',
         colors: ['#1a1a2e', '#4a5568'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 40,
+        description: ''
       },
       {
-        id: 'prod-058',
-        name: 'À compléter',
-        price: 23700,
+        id: 'prod-037',
+        name: 'T-shirt Coton Bio Homme',
+        price: 4500,
         image: '',
         category: 'fashion',
-        colors: ['#c0c0c0', '#ffd700'],
-        stock: 9,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#1a1a2e', '#3b82f6', '#ff6b35'],
+        stock: 55,
+        description: ''
       },
       {
-        id: 'prod-059',
-        name: 'À compléter',
-        price: 6100,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 29,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-060',
-        name: 'À compléter',
-        price: 15100,
-        image: '',
-        category: 'fashion',
-        colors: ['#7c3aed', '#ff6b35'],
-        stock: 17,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-061',
-        name: 'À compléter',
-        price: 8400,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#2e2e2e'],
-        stock: 23,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-062',
-        name: 'À compléter',
-        price: 19300,
-        image: '',
-        category: 'fashion',
-        colors: ['#3b82f6', '#22c55e'],
-        stock: 14,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-063',
-        name: 'À compléter',
-        price: 3800,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 31,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-064',
-        name: 'À compléter',
-        price: 12900,
-        image: '',
-        category: 'fashion',
-        colors: ['#ec4899', '#ff6b35'],
-        stock: 18,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-065',
-        name: 'À compléter',
-        price: 7600,
+        id: 'prod-038',
+        name: 'Veste Cuir Véritable',
+        price: 45000,
         image: '',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513'],
-        stock: 21,
-        description: 'À compléter'
+        stock: 12,
+        description: ''
       },
       {
-        id: 'prod-066',
-        name: 'À compléter',
-        price: 21400,
+        id: 'prod-039',
+        name: 'Robe Midi Femme',
+        price: 14500,
         image: '',
         category: 'fashion',
-        colors: ['#000000', '#ffffff'],
-        stock: 11,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-067',
-        name: 'À compléter',
-        price: 5400,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffd700', '#c0c0c0'],
-        stock: 25,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-068',
-        name: 'À compléter',
-        price: 16300,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#7c3aed'],
-        stock: 15,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-069',
-        name: 'À compléter',
-        price: 9700,
-        image: '',
-        category: 'fashion',
-        colors: ['#ffffff', '#ff0000'],
-        stock: 20,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-070',
-        name: 'À compléter',
-        price: 25100,
-        image: '',
-        category: 'fashion',
-        colors: ['#2e2e2e', '#ffd700'],
-        stock: 8,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-071',
-        name: 'À compléter',
-        price: 4600,
-        image: '',
-        category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 27,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-072',
-        name: 'À compléter',
-        price: 13800,
-        image: '',
-        category: 'fashion',
-        colors: ['#00ff00', '#3b82f6'],
-        stock: 17,
-        description: 'À compléter'
-      },
-      {
-        id: 'prod-073',
-        name: 'À compléter',
-        price: 8100,
-        image: '',
-        category: 'fashion',
-        colors: ['#1a1a2e', '#daa520'],
+        colors: ['#ec4899', '#7c3aed', '#f5f5f7'],
         stock: 22,
-        description: 'À compléter'
+        description: ''
       },
       {
-        id: 'prod-074',
-        name: 'À compléter',
-        price: 18700,
+        id: 'prod-040',
+        name: 'Blazer Classique Femme',
+        price: 22000,
         image: '',
         category: 'fashion',
-        colors: ['#ec4899', '#7c3aed'],
-        stock: 13,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
+        stock: 15,
+        description: ''
       },
       {
-        id: 'prod-075',
-        name: 'À compléter',
-        price: 5900,
+        id: 'prod-041',
+        name: 'Baskets Adidas Originals',
+        price: 17500,
+        image: '',
+        category: 'fashion',
+        colors: ['#ffffff', '#000000', '#3b82f6'],
+        stock: 28,
+        description: ''
+      },
+      {
+        id: 'prod-042',
+        name: 'Sac à Main Cuir Femme',
+        price: 28000,
+        image: '',
+        category: 'fashion',
+        colors: ['#8b4513', '#1a1a2e', '#ec4899'],
+        stock: 18,
+        description: ''
+      },
+      {
+        id: 'prod-043',
+        name: 'Pull Laine Mélangée Homme',
+        price: 16500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#4a5568'],
+        stock: 30,
+        description: ''
+      },
+      {
+        id: 'prod-044',
+        name: 'Short de Bain Homme',
+        price: 5500,
+        image: '',
+        category: 'fashion',
+        colors: ['#3b82f6', '#ff6b35', '#7c3aed', '#1a1a2e'],
+        stock: 45,
+        description: ''
+      },
+      {
+        id: 'prod-045',
+        name: 'Combinaison Femme Été',
+        price: 12500,
+        image: '',
+        category: 'fashion',
+        colors: ['#ec4899', '#22c55e', '#f5f5f7'],
+        stock: 25,
+        description: ''
+      },
+      {
+        id: 'prod-046',
+        name: 'Manteau Hiver Homme',
+        price: 55000,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#4a5568', '#8b4513'],
+        stock: 10,
+        description: ''
+      },
+      {
+        id: 'prod-047',
+        name: 'Doudoune Femme',
+        price: 48000,
+        image: '',
+        category: 'fashion',
+        colors: ['#ff6b35', '#7c3aed', '#1a1a2e', '#f5f5f7'],
+        stock: 12,
+        description: ''
+      },
+      {
+        id: 'prod-048',
+        name: 'Chaussures de Ville Homme',
+        price: 25000,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#8b4513'],
+        stock: 20,
+        description: ''
+      },
+      {
+        id: 'prod-049',
+        name: 'Baskets Converse Classiques',
+        price: 12500,
         image: '',
         category: 'fashion',
         colors: ['#ffffff', '#000000'],
-        stock: 24,
-        description: 'À compléter'
+        stock: 32,
+        description: ''
       },
       {
-        id: 'prod-076',
-        name: 'À compléter',
-        price: 11900,
+        id: 'prod-050',
+        name: 'Pantalon Chino Homme',
+        price: 14500,
         image: '',
         category: 'fashion',
-        colors: ['#1a1a2e', '#ff6b35'],
-        stock: 19,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#4a5568', '#1a1a2e'],
+        stock: 35,
+        description: ''
       },
       {
-        id: 'prod-077',
-        name: 'À compléter',
-        price: 22800,
+        id: 'prod-051',
+        name: 'Chemise Lin Homme Été',
+        price: 9500,
         image: '',
         category: 'fashion',
-        colors: ['#c0c0c0', '#ffd700'],
-        stock: 10,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#3b82f6', '#1a1a2e'],
+        stock: 40,
+        description: ''
       },
       {
-        id: 'prod-078',
-        name: 'À compléter',
+        id: 'prod-052',
+        name: 'Jupe Longue Femme',
+        price: 11500,
+        image: '',
+        category: 'fashion',
+        colors: ['#7c3aed', '#ec4899', '#f5f5f7'],
+        stock: 28,
+        description: ''
+      },
+      {
+        id: 'prod-053',
+        name: 'T-shirt Oversize Femme',
+        price: 5500,
+        image: '',
+        category: 'fashion',
+        colors: ['#f5f5f7', '#1a1a2e', '#ff6b35', '#3b82f6'],
+        stock: 50,
+        description: ''
+      },
+      {
+        id: 'prod-054',
+        name: 'Jean Mom Fit Femme',
+        price: 13500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#4a5568'],
+        stock: 38,
+        description: ''
+      },
+      {
+        id: 'prod-055',
+        name: 'Veste en Jean Homme',
+        price: 18500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#4a5568'],
+        stock: 22,
+        description: ''
+      },
+      {
+        id: 'prod-056',
+        name: 'Sandales Compensées Femme',
+        price: 14500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#ec4899'],
+        stock: 25,
+        description: ''
+      },
+      {
+        id: 'prod-057',
+        name: 'Claquettes Summer',
+        price: 4500,
+        image: '',
+        category: 'fashion',
+        colors: ['#000000', '#ffffff', '#ff6b35'],
+        stock: 55,
+        description: ''
+      },
+      {
+        id: 'prod-058',
+        name: 'Ceinture Cuir Homme',
+        price: 6500,
+        image: '',
+        category: 'fashion',
+        colors: ['#8b4513', '#1a1a2e'],
+        stock: 42,
+        description: ''
+      },
+      {
+        id: 'prod-059',
+        name: 'Écharpe Laine Femme',
+        price: 5500,
+        image: '',
+        category: 'fashion',
+        colors: ['#7c3aed', '#ec4899', '#3b82f6'],
+        stock: 48,
+        description: ''
+      },
+      {
+        id: 'prod-060',
+        name: 'Bonnet Laine Hiver',
         price: 3500,
         image: '',
         category: 'fashion',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 30,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
+        stock: 60,
+        description: ''
       },
       {
-        id: 'prod-079',
-        name: 'À compléter',
-        price: 14900,
+        id: 'prod-061',
+        name: 'Gants Tactiles Hiver',
+        price: 2500,
         image: '',
         category: 'fashion',
-        colors: ['#22c55e', '#3b82f6'],
-        stock: 16,
-        description: 'À compléter'
+        colors: ['#1a1a2e', '#f5f5f7'],
+        stock: 55,
+        description: ''
       },
       {
-        id: 'prod-080',
-        name: 'À compléter',
-        price: 9300,
+        id: 'prod-062',
+        name: 'Sweat à Capuche Homme',
+        price: 11500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#3b82f6', '#ff6b35', '#f5f5f7'],
+        stock: 38,
+        description: ''
+      },
+      {
+        id: 'prod-063',
+        name: 'Legging Sport Femme',
+        price: 4500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#7c3aed', '#ec4899'],
+        stock: 52,
+        description: ''
+      },
+      {
+        id: 'prod-064',
+        name: 'Brassière Sport',
+        price: 3500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#ec4899'],
+        stock: 48,
+        description: ''
+      },
+      {
+        id: 'prod-065',
+        name: 'Short Jogging Homme',
+        price: 7500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
+        stock: 40,
+        description: ''
+      },
+      {
+        id: 'prod-066',
+        name: 'Robe de Soie Femme',
+        price: 25000,
+        image: '',
+        category: 'fashion',
+        colors: ['#f5f5f7', '#ec4899', '#7c3aed'],
+        stock: 15,
+        description: ''
+      },
+      {
+        id: 'prod-067',
+        name: 'Costume 2 Pièces Homme',
+        price: 65000,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#4a5568', '#8b4513'],
+        stock: 8,
+        description: ''
+      },
+      {
+        id: 'prod-068',
+        name: 'Chemisier Soie Femme',
+        price: 18500,
+        image: '',
+        category: 'fashion',
+        colors: ['#f5f5f7', '#7c3aed', '#ec4899'],
+        stock: 20,
+        description: ''
+      },
+      {
+        id: 'prod-069',
+        name: 'Montre Classique Homme',
+        price: 35000,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#ffd700', '#8b4513'],
+        stock: 12,
+        description: ''
+      },
+      {
+        id: 'prod-070',
+        name: 'Bijoux Collier Argent',
+        price: 8500,
+        image: '',
+        category: 'fashion',
+        colors: ['#c0c0c0'],
+        stock: 35,
+        description: ''
+      },
+      {
+        id: 'prod-071',
+        name: 'Boucles d\'Oreilles Or',
+        price: 12500,
+        image: '',
+        category: 'fashion',
+        colors: ['#ffd700'],
+        stock: 28,
+        description: ''
+      },
+      {
+        id: 'prod-072',
+        name: 'Sac de Voyage 50L',
+        price: 14500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#4a5568'],
+        stock: 22,
+        description: ''
+      },
+      {
+        id: 'prod-073',
+        name: 'Porte-Monnaie Cuir',
+        price: 5500,
         image: '',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513'],
-        stock: 21,
-        description: 'À compléter'
+        stock: 45,
+        description: ''
+      },
+      {
+        id: 'prod-074',
+        name: 'Parfum Homme Boisé',
+        price: 14500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e'],
+        stock: 30,
+        description: ''
+      },
+      {
+        id: 'prod-075',
+        name: 'Parfum Femme Floral',
+        price: 15500,
+        image: '',
+        category: 'fashion',
+        colors: ['#ffc0cb'],
+        stock: 28,
+        description: ''
+      },
+      {
+        id: 'prod-076',
+        name: 'Lunettes de Vue Anti-Lumière Bleue',
+        price: 7500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#8b4513'],
+        stock: 42,
+        description: ''
+      },
+      {
+        id: 'prod-077',
+        name: 'Ceinture Femme Large',
+        price: 4500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#8b4513', '#ff6b35'],
+        stock: 38,
+        description: ''
+      },
+      {
+        id: 'prod-078',
+        name: 'Écharpe de Soie',
+        price: 10500,
+        image: '',
+        category: 'fashion',
+        colors: ['#7c3aed', '#ec4899', '#3b82f6'],
+        stock: 25,
+        description: ''
+      },
+      {
+        id: 'prod-079',
+        name: 'Chaussons Maison Peluche',
+        price: 3500,
+        image: '',
+        category: 'fashion',
+        colors: ['#f5f5f7', '#ff6b35', '#1a1a2e'],
+        stock: 55,
+        description: ''
+      },
+      {
+        id: 'prod-080',
+        name: 'Pyjama Coton Homme',
+        price: 8500,
+        image: '',
+        category: 'fashion',
+        colors: ['#1a1a2e', '#f5f5f7', '#3b82f6'],
+        stock: 35,
+        description: ''
       },
       {
         id: 'prod-081',
-        name: 'À compléter',
-        price: 20600,
+        name: 'Pyjama Satin Femme',
+        price: 10500,
         image: '',
         category: 'fashion',
-        colors: ['#000000', '#ffffff'],
-        stock: 12,
-        description: 'À compléter'
+        colors: ['#ec4899', '#7c3aed', '#f5f5f7'],
+        stock: 32,
+        description: ''
       },
-      // CATEGORIE BEAUTY / BEAUTE (9 produits : prod-082 à prod-090)
+      // ------------------------------
+      // CATÉGORIE BEAUTÉ : 9 PRODUITS (prod-082 à prod-090)
+      // ------------------------------
       {
         id: 'prod-082',
-        name: 'À compléter',
+        name: 'Parfum Élégance',
         price: 12000,
         image: '',
         category: 'beauty',
         colors: ['#ffc0cb', '#ff69b4', '#daa520'],
-        stock: 20,
-        description: 'À compléter'
+        stock: 25,
+        description: ''
       },
       {
         id: 'prod-083',
-        name: 'À compléter',
+        name: 'Sérum Visage Hydratant',
         price: 8500,
         image: '',
         category: 'beauty',
-        colors: ['#ffc0cb', '#f5f5f7'],
-        stock: 23,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#3b82f6'],
+        stock: 35,
+        description: ''
       },
       {
         id: 'prod-084',
-        name: 'À compléter',
-        price: 15700,
+        name: 'Crème Anti-Âge',
+        price: 14500,
         image: '',
         category: 'beauty',
-        colors: ['#ff69b4', '#daa520'],
-        stock: 17,
-        description: 'À compléter'
+        colors: ['#f5f5f7', '#ec4899'],
+        stock: 22,
+        description: ''
       },
       {
         id: 'prod-085',
-        name: 'À compléter',
-        price: 6300,
+        name: 'Mascara Volume Intense',
+        price: 4500,
         image: '',
         category: 'beauty',
-        colors: ['#f5f5f7', '#1a1a2e'],
-        stock: 28,
-        description: 'À compléter'
+        colors: ['#1a1a2e'],
+        stock: 45,
+        description: ''
       },
       {
         id: 'prod-086',
-        name: 'À compléter',
-        price: 19200,
+        name: 'Rouge à Lèvres Mat',
+        price: 3500,
         image: '',
         category: 'beauty',
-        colors: ['#ec4899', '#ffc0cb'],
-        stock: 14,
-        description: 'À compléter'
+        colors: ['#ef4444', '#ec4899', '#1a1a2e', '#f5f5f7'],
+        stock: 50,
+        description: ''
       },
       {
         id: 'prod-087',
-        name: 'À compléter',
-        price: 4700,
+        name: 'Gommage Corps Exfoliant',
+        price: 5500,
         image: '',
         category: 'beauty',
-        colors: ['#ffffff', '#1a1a2e'],
-        stock: 31,
-        description: 'À compléter'
+        colors: ['#22c55e', '#f5f5f7'],
+        stock: 38,
+        description: ''
       },
       {
         id: 'prod-088',
-        name: 'À compléter',
-        price: 11400,
+        name: 'Huile de Argan Bio',
+        price: 7500,
         image: '',
         category: 'beauty',
-        colors: ['#ff69b4', '#ffd700'],
-        stock: 19,
-        description: 'À compléter'
+        colors: ['#ffd700'],
+        stock: 30,
+        description: ''
       },
       {
         id: 'prod-089',
-        name: 'À compléter',
-        price: 7800,
+        name: 'Shampoing Réparateur',
+        price: 4500,
         image: '',
         category: 'beauty',
-        colors: ['#f5f5f7', '#daa520'],
-        stock: 22,
-        description: 'À compléter'
+        colors: ['#3b82f6', '#f5f5f7'],
+        stock: 42,
+        description: ''
       },
       {
         id: 'prod-090',
-        name: 'À compléter',
-        price: 16500,
+        name: 'Parfum Mixte Boisé',
+        price: 13500,
         image: '',
         category: 'beauty',
-        colors: ['#ffc0cb', '#ec4899'],
-        stock: 15,
-        description: 'À compléter'
+        colors: ['#1a1a2e'],
+        stock: 28,
+        description: ''
       },
-      // CATEGORIE SPORTS / SPORT (1 produit : prod-091)
+      // ------------------------------
+      // CATÉGORIE SPORTS : 1 PRODUIT (prod-091)
+      // ------------------------------
       {
         id: 'prod-091',
-        name: 'À compléter',
-        price: 3500,
+        name: 'Ballon de Foot Pro',
+        price: 5500,
         image: '',
         category: 'sports',
-        colors: ['#7c3aed', '#22c55e', '#3b82f6', '#ec4899'],
-        stock: 20,
-        description: 'À compléter'
+        colors: ['#ffffff', '#ff6b35', '#1a1a2e'],
+        stock: 40,
+        description: ''
       }
     ];
     
@@ -1746,45 +1781,49 @@
     // ==================== ELEMENT SDK ====================
     async function initElementSdk() {
       if (window.elementSdk) {
-        window.elementSdk.init({
-          defaultConfig,
-          onConfigChange: async (newConfig) => {
-            config = { ...defaultConfig, ...newConfig };
-            applyConfig();
-          },
-          mapToCapabilities: (cfg) => ({
-            recolorables: [
-              {
-                get: () => cfg.background_color || defaultConfig.background_color,
-                set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
-              },
-              {
-                get: () => cfg.card_color || defaultConfig.card_color,
-                set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
-              },
-              {
-                get: () => cfg.text_color || defaultConfig.text_color,
-                set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-              },
-              {
-                get: () => cfg.accent_color || defaultConfig.accent_color,
-                set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
-              },
-              {
-                get: () => cfg.secondary_accent || defaultConfig.secondary_accent,
-                set: (v) => { cfg.secondary_accent = v; window.elementSdk.setConfig({ secondary_accent: v }); }
-              }
-            ],
-            borderables: [],
-            fontEditable: undefined,
-            fontSizeable: undefined
-          }),
-          mapToEditPanelValues: (cfg) => new Map([
-            ['store_name', cfg.store_name || defaultConfig.store_name],
-            ['whatsapp_number', cfg.whatsapp_number || defaultConfig.whatsapp_number],
-            ['currency_label', cfg.currency_label || defaultConfig.currency_label]
-          ])
-        });
+        try {
+          window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: async (newConfig) => {
+              config = { ...defaultConfig, ...newConfig };
+              applyConfig();
+            },
+            mapToCapabilities: (cfg) => ({
+              recolorables: [
+                {
+                  get: () => cfg.background_color || defaultConfig.background_color,
+                  set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+                },
+                {
+                  get: () => cfg.card_color || defaultConfig.card_color,
+                  set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
+                },
+                {
+                  get: () => cfg.text_color || defaultConfig.text_color,
+                  set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+                },
+                {
+                  get: () => cfg.accent_color || defaultConfig.accent_color,
+                  set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+                },
+                {
+                  get: () => cfg.secondary_accent || defaultConfig.secondary_accent,
+                  set: (v) => { cfg.secondary_accent = v; window.elementSdk.setConfig({ secondary_accent: v }); }
+                }
+              ],
+              borderables: [],
+              fontEditable: undefined,
+              fontSizeable: undefined
+            }),
+            mapToEditPanelValues: (cfg) => new Map([
+              ['store_name', cfg.store_name || defaultConfig.store_name],
+              ['whatsapp_number', cfg.whatsapp_number || defaultConfig.whatsapp_number],
+              ['currency_label', cfg.currency_label || defaultConfig.currency_label]
+            ])
+          });
+        } catch (e) {
+          console.log("SDK non chargé, le site fonctionne normalement");
+        }
       }
     }
     
@@ -1811,7 +1850,8 @@
     function renderProducts() {
       const container = document.getElementById('categories-container');
       const emptyState = document.getElementById('empty-state');
-      
+      if (!container || !emptyState) return;
+
       // Get all unique categories (excluding 'all')
       const uniqueCategories = ['electronics', 'fashion', 'home', 'sports', 'beauty'];
       
@@ -1894,10 +1934,13 @@
     }
     
     function createProductCardHTML(product) {
+      const defaultImage = `https://via.placeholder.com/260x200/e2e8f0/1e293b?text=${encodeURIComponent(product.name.substring(0, 20))}`;
+      const productImage = product.image ? product.image : defaultImage;
+      
       return `
         <div class="product-card" data-id="${product.id}">
           <div class="product-image">
-            <img src="${product.image}" alt="${product.name}" class="product-img" onerror="this.style.display='none'">
+            <img src="${productImage}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/260x200/ef4444/ffffff?text=Image+manquante'">
             <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
               ${product.stock > 10 ? 'En Stock' : `${product.stock} restants`}
             </span>
@@ -1937,7 +1980,8 @@
       const cartTotalEl = document.getElementById('cart-total');
       const whatsappBtn = document.getElementById('whatsapp-order');
       const clearCartBtn = document.getElementById('clear-cart-btn');
-      
+      if (!cartItemsEl || !cartTotalEl || !whatsappBtn || !clearCartBtn) return;
+
       if (cartItems.length === 0) {
         cartItemsEl.innerHTML = `
           <div class="empty-state">
@@ -1960,10 +2004,12 @@
         
         const itemTotal = product.price * item.quantity;
         total += itemTotal;
+        const defaultImage = `https://via.placeholder.com/60x60/e2e8f0/1e293b?text=Produit`;
+        const productImage = product.image ? product.image : defaultImage;
         
         return `
           <div class="cart-item mb-4">
-            <img src="${product.image}" alt="${product.name}" class="w-16 h-16 object-cover rounded-lg" onerror="this.style.display='none'">
+            <img src="${productImage}" alt="${product.name}" class="cart-item-image" onerror="this.src='https://via.placeholder.com/60x60/ef4444/ffffff?text=Erreur'">
             <div class="flex-1 min-w-0">
               <h4 class="font-semibold truncate">${product.name}</h4>
               <p class="text-sm text-gray-400">
@@ -1993,6 +2039,7 @@
     
     function updateCartBadge() {
       const badge = document.getElementById('cart-badge');
+      if (!badge) return;
       const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
       
       if (totalItems > 0) {
@@ -2010,17 +2057,16 @@
       
       const modal = document.getElementById('product-modal');
       const modalBody = document.getElementById('modal-body');
+      if (!modal || !modalBody) return;
+
+      const defaultImage = `https://via.placeholder.com/500x300/e2e8f0/1e293b?text=${encodeURIComponent(product.name)}`;
+      const productImage = product.image ? product.image : defaultImage;
       
       const stockStatus = product.stock > 10 ? 'En Stock' : product.stock > 0 ? `${product.stock} restants` : 'Rupture de stock';
       const stockColor = product.stock > 10 ? '#22c55e' : product.stock > 0 ? '#f97316' : '#ef4444';
       
       modalBody.innerHTML = `
-        <div class="product-image" style="border-radius: 30px 30px 0 0;">
-          <img src="${product.image}" alt="${product.name}" class="product-img" onerror="this.style.display='none'">
-          <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
-            ${product.stock} en stock
-          </span>
-        </div>
+        <img src="${productImage}" alt="${product.name}" class="modal-product-image" onerror="this.src='https://via.placeholder.com/500x300/ef4444/ffffff?text=Image+manquante'">
         <div class="p-6">
           <h2 class="text-2xl font-bold mb-2">${product.name}</h2>
           <p class="price-tag text-3xl font-bold mb-4">${formatPrice(product.price)}</p>
@@ -2082,7 +2128,7 @@
           
           <div class="mb-6">
             <h4 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Description</h4>
-            <p class="text-gray-300 leading-relaxed">${product.description}</p>
+            <p class="text-gray-300 leading-relaxed">${product.description || 'Aucune description pour ce produit'}</p>
           </div>
           
           <button class="add-btn" onclick="addFromModal('${product.id}')" ${product.stock === 0 ? 'disabled' : ''}>
@@ -2097,7 +2143,8 @@
     }
     
     function closeProductModal() {
-      document.getElementById('product-modal').classList.remove('active');
+      const modal = document.getElementById('product-modal');
+      if (modal) modal.classList.remove('active');
     }
     
     function selectColor(el) {
@@ -2107,6 +2154,7 @@
     
     function updateModalQty(delta) {
       const qtyEl = document.getElementById('modal-qty');
+      if (!qtyEl) return;
       let qty = parseInt(qtyEl.textContent) + delta;
       if (qty < 1) qty = 1;
       if (qty > 10) qty = 10;
@@ -2285,7 +2333,7 @@
           
           const colorName = getColorName(item.color);
           
-          message += `${product.emoji ? product.emoji : '📦'} *${product.name}*%0A`;
+          message += `${product.name} *${product.name}*%0A`;
           message += `   Quantité: ${item.quantity}%0A`;
           message += `   Couleur: ${colorName} (${item.color})%0A`;
           message += `   Prix unitaire: ${product.price.toLocaleString('fr-FR')} ${currency}%0A`;
@@ -2366,7 +2414,8 @@
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
       const toastIcon = document.getElementById('toast-icon');
-      
+      if (!toast || !toastMessage || !toastIcon) return;
+
       toastMessage.textContent = message;
       toast.className = 'toast';
       toast.classList.add(type);
@@ -2390,51 +2439,62 @@
     // ==================== EVENT LISTENERS ====================
     function initEventListeners() {
       // Cart toggle
-      document.getElementById('cart-toggle').addEventListener('click', openCart);
-      document.getElementById('cart-close').addEventListener('click', closeCart);
-      document.getElementById('cart-overlay').addEventListener('click', closeCart);
+      const cartToggle = document.getElementById('cart-toggle');
+      const cartClose = document.getElementById('cart-close');
+      const cartOverlay = document.getElementById('cart-overlay');
+      if (cartToggle) cartToggle.addEventListener('click', openCart);
+      if (cartClose) cartClose.addEventListener('click', closeCart);
+      if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
       
       // Modal close
-      document.getElementById('modal-close').addEventListener('click', closeProductModal);
-      document.getElementById('product-modal').addEventListener('click', (e) => {
+      const modalClose = document.getElementById('modal-close');
+      const productModal = document.getElementById('product-modal');
+      if (modalClose) modalClose.addEventListener('click', closeProductModal);
+      if (productModal) productModal.addEventListener('click', (e) => {
         if (e.target.id === 'product-modal') closeProductModal();
       });
       
       // Category dropdown
-      document.getElementById('category-btn').addEventListener('click', toggleCategoryDropdown);
+      const categoryBtn = document.getElementById('category-btn');
+      if (categoryBtn) categoryBtn.addEventListener('click', toggleCategoryDropdown);
       document.querySelectorAll('.category-item').forEach(item => {
         item.addEventListener('click', () => selectCategory(item.dataset.category));
       });
       
       // Close dropdown on outside click
       document.addEventListener('click', (e) => {
-        if (!e.target.closest('#category-btn') && !e.target.closest('#category-dropdown')) {
-          document.getElementById('category-dropdown').classList.remove('active');
+        const dropdown = document.getElementById('category-dropdown');
+        const btn = document.getElementById('category-btn');
+        if (!e.target.closest('#category-btn') && !e.target.closest('#category-dropdown') && dropdown) {
+          dropdown.classList.remove('active');
         }
       });
       
       // Search
-      document.getElementById('search-input').addEventListener('input', (e) => {
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) searchInput.addEventListener('input', (e) => {
         searchQuery = e.target.value;
         renderProducts();
       });
       
       // WhatsApp order
-      document.getElementById('whatsapp-order').addEventListener('click', sendWhatsAppOrder);
+      const whatsappOrder = document.getElementById('whatsapp-order');
+      if (whatsappOrder) whatsappOrder.addEventListener('click', sendWhatsAppOrder);
       
       // Clear cart
-      document.getElementById('clear-cart-btn').addEventListener('click', clearCart);
+      const clearCartBtn = document.getElementById('clear-cart-btn');
+      if (clearCartBtn) clearCartBtn.addEventListener('click', clearCart);
     }
     
     // ==================== INITIALIZATION ====================
     async function init() {
-      // Initialize Element SDK
+      // Initialize Element SDK (fonctionne même si non chargé)
       await initElementSdk();
       
       // Apply initial config
       applyConfig();
       
-      // Render products
+      // Render products toujours, même si SDK a un problème
       renderProducts();
       
       // Initialize event listeners
@@ -2442,10 +2502,17 @@
       
       // Initialize Lucide icons
       lucide.createIcons();
+      
+      console.log("Site initialisé avec succès, 91 produits chargés");
     }
     
-    // Start the app
-    init();
+    // Start the app - pas d'erreur qui casse tout
+    init().catch(e => {
+      console.log("Initialisation secondaire lancée après erreur: ", e);
+      renderProducts();
+      initEventListeners();
+      lucide.createIcons();
+    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9db6dd4f95ba4243',t:'MTc3MzM2MTEzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </body>
 </html>
