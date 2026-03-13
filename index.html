@@ -191,6 +191,24 @@
       100% { transform: scale(1); }
     }
     
+    /* CSS ajouté pour les images des produits */
+    .product-image img, .cart-item-image {
+      position: relative;
+      z-index: 1; /* Place l'image au dessus de l'animation de shimmer */
+      object-fit: contain; /* Conserve les proportions de l'image */
+    }
+    .product-image img {
+      width: 90%;
+      height: 90%;
+      border-radius: 12px;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
     /* Product Cards */
     .product-card {
       background: var(--gradient-3);
@@ -233,6 +251,8 @@
     .product-emoji {
       font-size: 80px;
       filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+      position: relative;
+      z-index: 1;
     }
     
     .stock-badge {
@@ -821,13 +841,16 @@
     let currentCategory = 'all';
     let searchQuery = '';
     
-    // ==================== PRODUCT CATALOG ====================
+    // ==================== PRODUCT CATALOG AVEC VOS IMAGES ====================
+    // Adaptez les chemins et noms de fichiers ci-dessous à vos propres images
     const products = [
       {
         id: 'prod-001',
-        name: 'iPhone 15 Pro Max',
+        name: 'JBL Bass',
         price: 125000,
-        emoji: '📱',
+        // Chemin vers votre image
+        image: 'images/JBL Bass.jpeg',
+        emoji: '📱', // Emoji de fallback si l'image ne se charge pas
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#4a4a5a', '#ffd700'],
         stock: 20,
@@ -837,6 +860,7 @@
         id: 'prod-002',
         name: 'MacBook Air M3',
         price: 185000,
+        image: '/images/produits/macbook-air-m3.jpg',
         emoji: '💻',
         category: 'electronics',
         colors: ['#c0c0c0', '#2e2e2e', '#ffd700'],
@@ -847,6 +871,7 @@
         id: 'prod-003',
         name: 'AirPods Pro 2',
         price: 35000,
+        image: '/images/produits/airpods-pro2.jpg',
         emoji: '🎧',
         category: 'electronics',
         colors: ['#f5f5f7'],
@@ -857,6 +882,7 @@
         id: 'prod-004',
         name: 'Sneakers Nike Air Max',
         price: 18500,
+        image: '/images/produits/nike-air-max.jpg',
         emoji: '👟',
         category: 'fashion',
         colors: ['#ffffff', '#000000', '#ff0000', '#00ff00'],
@@ -867,6 +893,7 @@
         id: 'prod-005',
         name: 'Montre Connectée Pro',
         price: 45000,
+        image: '/images/produits/montre-connectee.jpg',
         emoji: '⌚',
         category: 'electronics',
         colors: ['#1a1a2e', '#f5f5f7', '#ff6b35'],
@@ -877,6 +904,7 @@
         id: 'prod-006',
         name: 'Sac à Dos Premium',
         price: 8500,
+        image: '/images/produits/sac-a-dos.jpg',
         emoji: '🎒',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#4a5568'],
@@ -887,6 +915,7 @@
         id: 'prod-007',
         name: 'Lampe LED Design',
         price: 4500,
+        image: '/images/produits/lampe-led.jpg',
         emoji: '💡',
         category: 'home',
         colors: ['#f5f5f7', '#1a1a2e', '#ffd700'],
@@ -897,6 +926,7 @@
         id: 'prod-008',
         name: 'Ballon de Foot Pro',
         price: 5500,
+        image: '/images/produits/ballon-foot.jpg',
         emoji: '⚽',
         category: 'sports',
         colors: ['#ffffff', '#ff6b35', '#1a1a2e'],
@@ -907,6 +937,7 @@
         id: 'prod-009',
         name: 'Parfum Élégance',
         price: 12000,
+        image: '/images/produits/parfum.jpg',
         emoji: '🌸',
         category: 'beauty',
         colors: ['#ffc0cb', '#ff69b4', '#daa520'],
@@ -917,6 +948,7 @@
         id: 'prod-010',
         name: 'Tapis de Yoga Premium',
         price: 3500,
+        image: '/images/produits/tapis-yoga.jpg',
         emoji: '🧘',
         category: 'sports',
         colors: ['#7c3aed', '#22c55e', '#3b82f6', '#ec4899'],
@@ -927,6 +959,7 @@
         id: 'prod-011',
         name: 'Enceinte Bluetooth',
         price: 7500,
+        image: '/images/produits/enceinte-bluetooth.jpg',
         emoji: '🔊',
         category: 'electronics',
         colors: ['#1a1a2e', '#ff6b35', '#3b82f6'],
@@ -937,6 +970,7 @@
         id: 'prod-012',
         name: 'Lunettes Soleil Design',
         price: 6500,
+        image: '/images/produits/lunettes-soleil.jpg',
         emoji: '🕶️',
         category: 'fashion',
         colors: ['#1a1a2e', '#8b4513', '#daa520'],
@@ -944,8 +978,6 @@
         description: 'Protection UV400, verres polarisés et monture légère en acétate italien.'
       }
     ];
-    
-
     
     // ==================== ELEMENT SDK ====================
     async function initElementSdk() {
@@ -1097,11 +1129,17 @@
       lucide.createIcons();
     }
     
+    // Fonction des cartes produits mise à jour pour afficher vos images
     function createProductCardHTML(product) {
       return `
         <div class="product-card" data-id="${product.id}">
           <div class="product-image">
-            <span class="product-emoji">${product.emoji}</span>
+            <img 
+              src="${product.image}" 
+              alt="${product.name}"
+              loading="lazy"
+              onerror="this.outerHTML='<span class=\\'product-emoji\\'>${product.emoji}</span>'"
+            >
             <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
               ${product.stock > 10 ? 'En Stock' : `${product.stock} restants`}
             </span>
@@ -1167,7 +1205,12 @@
         
         return `
           <div class="cart-item mb-4">
-            <div class="text-4xl">${product.emoji}</div>
+            <img 
+              src="${product.image}" 
+              alt="${product.name}"
+              class="cart-item-image"
+              onerror="this.outerHTML='<span class=\\'text-4xl\\'>${product.emoji}</span>'"
+            >
             <div class="flex-1 min-w-0">
               <h4 class="font-semibold truncate">${product.name}</h4>
               <p class="text-sm text-gray-400">
@@ -1207,7 +1250,7 @@
       }
     }
     
-    // ==================== MODAL FUNCTIONS ====================
+    // ==================== MODAL FUNCTIONS mise à jour pour afficher vos images ====================
     function openProductModal(productId) {
       const product = products.find(p => p.id === productId);
       if (!product) return;
@@ -1220,7 +1263,11 @@
       
       modalBody.innerHTML = `
         <div class="product-image" style="border-radius: 30px 30px 0 0;">
-          <span class="product-emoji">${product.emoji}</span>
+          <img 
+            src="${product.image}" 
+            alt="${product.name}"
+            onerror="this.outerHTML='<span class=\\'product-emoji\\'>${product.emoji}</span>'"
+          >
           <span class="stock-badge ${product.stock > 10 ? 'stock-high' : 'stock-low'}">
             ${product.stock} en stock
           </span>
