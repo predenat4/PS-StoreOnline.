@@ -1953,18 +1953,18 @@
           
           const colorName = getColorName(item.color);
           
-          message += `${product.emoji} *${product.name}*%0A`;
-          message += `   Quantité: ${item.quantity}%0A`;
-          message += `   Couleur: ${colorName} (${item.color})%0A`;
-          message += `   Prix unitaire: ${product.price.toLocaleString('fr-FR')} ${currency}%0A`;
-          message += `   Sous-total: ${itemTotal.toLocaleString('fr-FR')} ${currency}%0A%0A`;
+          message += `${product.emoji} *${product.name}*`;
+          message += `   Quantité: ${item.quantity}`;
+          message += `   Couleur: ${colorName} (${item.color})`;
+          message += `   Prix unitaire: ${product.price.toLocaleString('fr-FR')} ${currency}`;
+          message += `   Sous-total: ${itemTotal.toLocaleString('fr-FR')} ${currency}`;
         }
       });
       
       message += `━━━━━━━━━━━━━━━━━━%0A`;
-      message += `*💰 TOTAL: ${total.toLocaleString('fr-FR')} ${currency}*%0A`;
-      message += `📱 Nombre d'articles: ${totalItems}%0A`;
-      message += `📅 Date: ${new Date().toLocaleDateString('fr-FR')}%0A`;
+      message += `*💰 TOTAL: ${total.toLocaleString('fr-FR')} ${currency}*`;
+      message += `📱 Nombre d'articles: ${totalItems}`;
+      message += `📅 Date: ${new Date().toLocaleDateString('fr-FR')}`;
       message += `⏰ Heure: ${new Date().toLocaleTimeString('fr-FR')}`;
       
       // Enlever le + pour wa.me
